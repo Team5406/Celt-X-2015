@@ -16,13 +16,14 @@ public class Stacker {
 	}
 	
 	public void setElevatorUp(boolean up){
-		elevatorUpSolenoid.set(true);
-		elevatorDownSolenoid.set(false);
+		System.out.println("Switching");
+		elevatorDownSolenoid.set(!up);
+		elevatorUpSolenoid.set(up);
 	}
 	
 	public void setGripperExpansion(boolean expanded){
-		grabberExpansion.set(true);
-		grabberExpansion.set(false);
+		grabberExpansion.set(expanded);
+		grabberContraction.set(!expanded);
 	}
 	
 	public int doAutoStack(){

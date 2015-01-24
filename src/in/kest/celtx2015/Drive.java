@@ -27,18 +27,27 @@ public class Drive {
 		gyro = new Gyro(0);
 	}
 	
-	public void doArcadeDrive(double x, double y){
-		double leftPower = y + x;
-		double rightPower = y - x;
+	public void doArcadeDrive(XboxController gamepad){
+		double forward = Functions.applyJoystickFilter(gamepad.getLeftY());
+		double turn = Functions.applyJoystickFilter(gamepad.getLeftX());
+		double leftPower = forward + turn;
+		double rightPower = forward - turn;
 		
 		setPowerLeftRight(leftPower, rightPower);
 	}
 	
-	public void doTankDrive(double leftY, double rightY){
-		double leftPower = leftY;
-		double rightPower = rightY;
+	public void doTankDrive(XboxController gamepad){
+		double leftPower = Functions.applyJoystickFilter(gamepad.getLeftY());
+		double rightPower = Functions.applyJoystickFilter(gamepad.getRightY());
 		
-		setPowerLeftRight(leftY, rightY);
+		setPowerLeftRight(leftPower, rightPower);
+	}
+	
+	public void doTriggerDrive(XboxController gamepad){
+		double leftPower = gamepad.getRightTrigger() - gamepad.getLeftTrigger() + gamepad.getLeftX();
+		double rightPower = gamepad.getRightTrigger() + gamepad.getLeftTrigger() + gamepad.getLeftX();
+		
+		setPowerLeftRight(leftPower, rightPower);
 	}
 	
 	private void setPowerLeftRight(double left, double right){

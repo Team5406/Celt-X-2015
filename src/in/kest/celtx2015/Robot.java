@@ -1,6 +1,7 @@
 
 package in.kest.celtx2015;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -12,6 +13,9 @@ public class Robot extends IterativeRobot {
 	
 	//Subsystems
 	private Drive drive;
+	private Stacker stacker;
+	
+	private Compressor compressor = new Compressor();
 	
 	//Autonomous
 	double autonDelay = 0.0;
@@ -21,7 +25,10 @@ public class Robot extends IterativeRobot {
 		System.out.println("Initializing Robot...");
     	
     	drive = new Drive();
-
+    	stacker = new Stacker();
+    	
+    	compressor.setClosedLoopControl(false);
+    	
 		System.out.println("Done.");
     }
 	
@@ -55,16 +62,25 @@ public class Robot extends IterativeRobot {
     //Called once each time the robot enters tele-op mode.
     public void teleopInit(){
 		System.out.println("Tele-op Enabled");
+		
+		if(!compressor.getPressureSwitchValue()){
+			compressor.start();
+		}
     	
     }
 
 	//Called at ~50Hz while the robot is enabled.
     public void teleopPeriodic(){
-    	//Driver
-    	double driveJoyY = Functions.applyJoystickFilter(driverGamepad.getLeftY());
-    	double driveJoyX = Functions.applyJoystickFilter(driverGamepad.getLeftX());
     	
-    	drive.doArcadeDrive(driveJoyX, driveJoyY);
+    	if(compressor.getPressureSwitchValue() || driverGamepad.getButtonOnce(driverGamepad.BACK_BUTTON)){
+    		compressor.stop();
+    	}
+    	if(driverGamepad.getButtonOnce(XboxController.START_BUTTON)){
+    		compressor.start();
+    	}
+    	
+    	//Driver    	
+    	drive.doArcadeDrive(driverGamepad);
     	
     	//if button held
     	//	do backup sequence
@@ -79,7 +95,12 @@ public class Robot extends IterativeRobot {
     	
     	
     	//Operator
-    	
+    	if(operatorGamepad.getButtonOnce(1)){
+    		stacker.setElevatorUp(false);
+    	}
+    	else if(operatorGamepad.getButtonOnce(4)){
+    		stacker.setElevatorUp(true);
+    	}
     	
     	//Other
     	drive.sendDataToSmartDash();
