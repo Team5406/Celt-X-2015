@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	//Operator
-    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(driverGamepad.BACK_BUTTON)){
+    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(operatorGamepad.BACK_BUTTON)){
     		compressor.stop();
     	}
     	if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){

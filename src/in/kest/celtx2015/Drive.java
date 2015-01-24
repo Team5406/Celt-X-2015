@@ -29,7 +29,7 @@ public class Drive {
 	
 	public void doArcadeDrive(XboxController gamepad){
 		double forward = Functions.applyJoystickFilter(gamepad.getLeftY());
-		double turn = Functions.applyJoystickFilter(gamepad.getLeftX());
+		double turn = Functions.applyJoystickFilter(gamepad.getRightX());
 		double leftPower = forward + turn;
 		double rightPower = forward - turn;
 		
