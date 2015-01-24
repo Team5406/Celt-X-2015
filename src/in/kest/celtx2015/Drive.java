@@ -8,11 +8,17 @@ public class Drive {
 	private Talon rightDriveA;
 	private Talon rightDriveB;
 	
+	private ReletiveEncoder leftEncoder;
+	private ReletiveEncoder rightEncoder;
+	
 	public Drive(){
 		leftDriveA = new Talon(0);
 		leftDriveB = new Talon(1);
 		rightDriveA = new Talon(2);
 		rightDriveB = new Talon(3);
+		
+		leftEncoder = new ReletiveEncoder(0, 1, true);
+		rightEncoder = new ReletiveEncoder(2, 3, false);
 	}
 	
 	public void doArcadeDrive(double x, double y){
