@@ -12,6 +12,7 @@ public class Drive {
 	
 	private ReletiveEncoder leftEncoder;
 	private ReletiveEncoder rightEncoder;
+	
 	private Gyro gyro;
 	
 	public Drive(){
@@ -22,6 +23,7 @@ public class Drive {
 		
 		leftEncoder = new ReletiveEncoder(0, 1, true);
 		rightEncoder = new ReletiveEncoder(2, 3, false);
+		
 		gyro = new Gyro(0);
 	}
 	
