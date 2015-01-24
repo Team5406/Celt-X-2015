@@ -71,16 +71,12 @@ public class Robot extends IterativeRobot {
 
 	//Called at ~50Hz while the robot is enabled.
     public void teleopPeriodic(){
-    	
-    	if(compressor.getPressureSwitchValue() || driverGamepad.getButtonOnce(driverGamepad.BACK_BUTTON)){
-    		compressor.stop();
-    	}
-    	if(driverGamepad.getButtonOnce(XboxController.START_BUTTON)){
-    		compressor.start();
-    	}
-    	
-    	//Driver    	
+
+    	//Driver 
     	drive.doArcadeDrive(driverGamepad);
+    	if(driverGamepad.getRawButton(3)){
+    		drive.applySlow();
+    	}
     	
     	//if button held
     	//	do backup sequence
@@ -95,6 +91,13 @@ public class Robot extends IterativeRobot {
     	
     	
     	//Operator
+    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(driverGamepad.BACK_BUTTON)){
+    		compressor.stop();
+    	}
+    	if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
+    		compressor.start();
+    	}
+    	
     	if(operatorGamepad.getButtonOnce(1)){
     		stacker.setElevatorUp(false);
     	}

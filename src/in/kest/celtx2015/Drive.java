@@ -50,6 +50,14 @@ public class Drive {
 		setPowerLeftRight(leftPower, rightPower);
 	}
 	
+	//Needs to be called after setting motor speeds for the iteration.
+	public void applySlow(){
+		leftDriveA.set(leftDriveA.get() * 0.7);
+		rightDriveB.set(leftDriveB.get() * 0.7);
+		leftDriveA.set(rightDriveA.get() * 0.7);
+		rightDriveB.set(rightDriveB.get() * 0.7);
+	}
+	
 	private void setPowerLeftRight(double left, double right){
 		leftDriveA.set(left);
 		leftDriveB.set(left);
