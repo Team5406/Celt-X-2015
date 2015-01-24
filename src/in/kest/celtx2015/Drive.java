@@ -29,17 +29,17 @@ public class Drive {
 		double leftPower = y + x;
 		double rightPower = y - x;
 		
-		setPowerLR(leftPower, rightPower);
+		setPowerLeftRight(leftPower, rightPower);
 	}
 	
 	public void doTankDrive(double leftY, double rightY){
 		double leftPower = leftY;
 		double rightPower = rightY;
 		
-		setPowerLR(leftY, rightY);
+		setPowerLeftRight(leftY, rightY);
 	}
 	
-	private void setPowerLR(double left, double right){
+	private void setPowerLeftRight(double left, double right){
 		leftDriveA.set(left);
 		leftDriveB.set(left);
 		rightDriveA.set(-right);
