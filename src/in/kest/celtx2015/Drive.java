@@ -1,6 +1,8 @@
 package in.kest.celtx2015;
 
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 	private Talon leftDriveA;
@@ -10,6 +12,7 @@ public class Drive {
 	
 	private ReletiveEncoder leftEncoder;
 	private ReletiveEncoder rightEncoder;
+	private Gyro gyro;
 	
 	public Drive(){
 		leftDriveA = new Talon(0);
@@ -19,6 +22,7 @@ public class Drive {
 		
 		leftEncoder = new ReletiveEncoder(0, 1, true);
 		rightEncoder = new ReletiveEncoder(2, 3, false);
+		gyro = new Gyro(0);
 	}
 	
 	public void doArcadeDrive(double x, double y){
@@ -40,5 +44,32 @@ public class Drive {
 		leftDriveB.set(-left);
 		rightDriveA.set(right);
 		rightDriveB.set(right);
+	}
+	
+	public int getLeftEncoder(){
+		return leftEncoder.get();
+	}
+	
+	public int getRightEncoder(){
+		return rightEncoder.get();
+	}
+	
+	public void resetEncoders(){
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
+	
+	public double getGyroAngle(){
+		return gyro.getAngle();
+	}
+	
+	public void resetGyro(){
+		gyro.reset();
+	}
+	
+	public void sendDataToSmartDash(){
+		SmartDashboard.putNumber("Left Drive Enc", getLeftEncoder());
+		SmartDashboard.putNumber("Right Drive Enc", getRightEncoder());
+		SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
 	}
 }
