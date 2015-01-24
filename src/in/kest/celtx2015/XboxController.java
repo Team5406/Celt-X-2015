@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class XboxController extends Joystick {
 	
-	int numButtons = super.getButtonCount();
+	int numButtons = 10;
 	boolean[] previousButtonState = new boolean[numButtons];
 
 	public static final int A_BUTTON = 1;
@@ -24,7 +24,7 @@ public class XboxController extends Joystick {
 	}
 	
 	public void updateButtons(){
-		for(int i = 0; i < numButtons; i++){
+		for(int i = 1; i < numButtons; i++){
 			previousButtonState[i] = getRawButton(i);
 		}
 	}
@@ -46,27 +46,27 @@ public class XboxController extends Joystick {
 	}
 	
 	public double getLeftX(){
-		return super.getRawAxis(1);
+		return super.getRawAxis(0);
 	}
 	
 	public double getLeftY(){
-		return -super.getRawAxis(2);
+		return -super.getRawAxis(1);
 	}
 	
 	public double getRightX(){
-		return super.getRawAxis(5);
+		return super.getRawAxis(4);
 	}
 	
 	public double getRightY(){
-		return -super.getRawAxis(6);
+		return -super.getRawAxis(5);
 	}
 	
 	public double getLeftTrigger(){
-		return super.getRawAxis(3);
+		return super.getRawAxis(2);
 	}
 	
 	public double getRightTrigger(){
-		return -super.getRawAxis(4);
+		return super.getRawAxis(3);
 	}
 
 }

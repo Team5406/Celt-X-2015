@@ -26,10 +26,10 @@ public class Drive {
 	}
 	
 	public void doArcadeDrive(double x, double y){
-		double leftPower = y - x;
-		double rightPower = y + x;
+		double leftPower = y + x;
+		double rightPower = y - x;
 		
-		setPowerLR(x, y);
+		setPowerLR(leftPower, rightPower);
 	}
 	
 	public void doTankDrive(double leftY, double rightY){
@@ -40,10 +40,10 @@ public class Drive {
 	}
 	
 	private void setPowerLR(double left, double right){
-		leftDriveA.set(-left);
-		leftDriveB.set(-left);
-		rightDriveA.set(right);
-		rightDriveB.set(right);
+		leftDriveA.set(left);
+		leftDriveB.set(left);
+		rightDriveA.set(-right);
+		rightDriveB.set(-right);
 	}
 	
 	public int getLeftEncoder(){
