@@ -1,4 +1,4 @@
-package in.kest.celtx2015;
+package in.kest.celtx2015.controlers;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -29,7 +29,7 @@ public class XboxController extends Joystick {
 		}
 	}
 	
-	public boolean getRawButton(int button){
+	public boolean getButtonHeld(int button){
 		return super.getRawButton(button);
 	}
 	

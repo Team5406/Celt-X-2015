@@ -1,5 +1,6 @@
 package in.kest.celtx2015;
 
+import in.kest.celtx2015.controlers.XboxController;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +16,8 @@ public class Drive {
 	
 	private Gyro gyro;
 	
+	private double speedMultiplier = 1.0;
+	
 	public Drive(){
 		leftDriveA = new Talon(0);
 		leftDriveB = new Talon(1);
@@ -29,7 +32,7 @@ public class Drive {
 	
 	public void doArcadeDrive(XboxController gamepad){
 		double forward = Functions.applyJoystickFilter(gamepad.getLeftY());
-		double turn = Functions.applyJoystickFilter(gamepad.getRightX());
+		double turn = Functions.applyJoystickFilter(gamepad.getLeftX());
 		double leftPower = forward + turn;
 		double rightPower = forward - turn;
 		
@@ -50,19 +53,15 @@ public class Drive {
 		setPowerLeftRight(leftPower, rightPower);
 	}
 	
-	//Needs to be called after setting motor speeds for the iteration.
-	public void applySlow(){
-		leftDriveA.set(leftDriveA.get() * 0.7);
-		rightDriveB.set(leftDriveB.get() * 0.7);
-		leftDriveA.set(rightDriveA.get() * 0.7);
-		rightDriveB.set(rightDriveB.get() * 0.7);
+	public void setSpeedMultiplier(double val){
+		speedMultiplier = val;
 	}
 	
 	private void setPowerLeftRight(double left, double right){
-		leftDriveA.set(left);
-		leftDriveB.set(left);
-		rightDriveA.set(-right);
-		rightDriveB.set(-right);
+		leftDriveA.set(left * speedMultiplier);
+		leftDriveB.set(left * speedMultiplier);
+		rightDriveA.set(-right * speedMultiplier);
+		rightDriveB.set(-right * speedMultiplier);
 	}
 	
 	public int getLeftEncoder(){
@@ -84,6 +83,22 @@ public class Drive {
 	
 	public void resetGyro(){
 		gyro.reset();
+	}
+	
+	public void resetDriveTo(){
+		
+	}
+	
+	public boolean driveToPosition(int position){
+		return false;
+	}
+	
+	public void resetTurnTo(){
+		
+	}
+	
+	public boolean turnToAngle(double angle){
+		return false;
 	}
 	
 	public void sendDataToSmartDash(){

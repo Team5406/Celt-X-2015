@@ -1,6 +1,7 @@
 
 package in.kest.celtx2015;
 
+import in.kest.celtx2015.controlers.XboxController;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -73,21 +74,24 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic(){
 
     	//Driver 
-    	drive.doArcadeDrive(driverGamepad);
     	if(driverGamepad.getRawButton(3)){
-    		drive.applySlow();
+    		drive.setSpeedMultiplier(0.7);
+    	}
+    	else{
+    		drive.setSpeedMultiplier(1.0);
     	}
     	
-    	//if button held
-    	//	do backup sequence
-    	//else
-    	//	reset backup sequence
-    	
-    	//if button pressed
-    	// set lift stack flag true
-    	//do lift stack
-    	
-    	//if b
+    	//Move away from stack when button held
+    	if(driverGamepad.getButtonHeld(1)){
+        	if(driverGamepad.getButtonOnce(1)){
+        		drive.resetDriveTo();
+        	}
+    		drive.driveToPosition(-1000);
+    	}
+    	//Otherwise do normal arcade drive
+    	else{
+        	drive.doArcadeDrive(driverGamepad);
+    	}
     	
     	
     	//Operator
