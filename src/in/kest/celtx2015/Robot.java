@@ -1,7 +1,7 @@
 
 package in.kest.celtx2015;
 
-import in.kest.celtx2015.controlers.XboxController;
+import in.kest.celtx2015.controllers.XboxController;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;

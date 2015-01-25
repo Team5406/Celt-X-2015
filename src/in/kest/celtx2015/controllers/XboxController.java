@@ -1,4 +1,4 @@
-package in.kest.celtx2015.controlers;
+package in.kest.celtx2015.controllers;
 
 public class XboxController extends Controller {
 	
