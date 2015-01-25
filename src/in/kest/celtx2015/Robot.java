@@ -7,6 +7,7 @@ import in.kest.celtx2015.util.ConstantsBase;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -44,7 +45,18 @@ public class Robot extends IterativeRobot {
 	
 	//Called at ~50Hz while the robot is in autonomous.
 	public void disabledPeriodic(){
+		if(driverGamepad.getButtonOnce(1)){
+			ConstantsBase.updateConstantsFromFile();
+		}
 		
+		if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+			if(autonDelay < 10) autonDelay += 0.1;
+		}
+		else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
+			if(autonDelay > 0) autonDelay -= 0.1;
+		}
+		
+		SmartDashboard.putNumber("Auton Delay", autonDelay);
 	}
 	
 	//Called each time the robot enters autonomous.
@@ -55,7 +67,9 @@ public class Robot extends IterativeRobot {
 		Timer delayTimer = new Timer();
 		delayTimer.start();
     	
-		while(delayTimer.get() < autonDelay);
+		while(delayTimer.get() < autonDelay){
+			SmartDashboard.putNumber("Auton Delay", (autonDelay - delayTimer.get()));
+		}
 		
     }
 
