@@ -16,7 +16,6 @@ public class Stacker {
 	}
 	
 	public void setElevatorUp(boolean up){
-		System.out.println("Switching");
 		elevatorDownSolenoid.set(!up);
 		elevatorUpSolenoid.set(up);
 	}
