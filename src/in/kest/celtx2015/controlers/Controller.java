@@ -2,12 +2,12 @@ package in.kest.celtx2015.controlers;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Gamepad extends Joystick {
+public class Controller extends Joystick {
 
 	int numButtons = 10;
 	boolean[] previousButtonState = new boolean[numButtons];
 	
-	public Gamepad(int port) {
+	public Controller(int port) {
 		super(port);
 	}
 	

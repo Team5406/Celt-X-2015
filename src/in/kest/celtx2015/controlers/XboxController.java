@@ -1,6 +1,6 @@
 package in.kest.celtx2015.controlers;
 
-public class XboxController extends Gamepad {
+public class XboxController extends Controller {
 	
 
 	public static final int A_BUTTON = 1;
@@ -41,6 +41,10 @@ public class XboxController extends Gamepad {
 	
 	public double getRightTrigger(){
 		return super.getRawAxis(3);
+	}
+	
+	public int getDirectionPad(){
+		return super.getPOV();
 	}
 
 }
