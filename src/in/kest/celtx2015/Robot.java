@@ -95,17 +95,17 @@ public class Robot extends IterativeRobot {
     	
     	
     	//Operator
-    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(operatorGamepad.BACK_BUTTON)){
+    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
     		compressor.stop();
     	}
     	if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
     		compressor.start();
     	}
     	
-    	if(operatorGamepad.getButtonOnce(1)){
+    	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
     		stacker.setElevatorUp(false);
     	}
-    	else if(operatorGamepad.getButtonOnce(4)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
     		stacker.setElevatorUp(true);
     	}
     	

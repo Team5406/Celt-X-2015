@@ -1,4 +1,4 @@
-package in.kest.celtx2015;
+package in.kest.celtx2015.sensors;
 
 import edu.wpi.first.wpilibj.Encoder;
 
