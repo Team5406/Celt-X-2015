@@ -1,7 +1,9 @@
 
 package in.kest.celtx2015;
 
+import in.kest.celtx2015.controllers.AttackStick;
 import in.kest.celtx2015.controllers.XboxController;
+import in.kest.celtx2015.util.ConstantsBase;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -9,7 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class Robot extends IterativeRobot {
 
 	//Controllers
-	private XboxController driverGamepad = new XboxController(0);
+	private AttackStick driverGamepad = new AttackStick(0);
 	private XboxController operatorGamepad = new XboxController(1);
 	
 	//Subsystems
@@ -24,6 +26,8 @@ public class Robot extends IterativeRobot {
 	//Called once when the robot boots up.
     public void robotInit() {
 		System.out.println("Initializing Robot...");
+		
+		ConstantsBase.updateConstantsFromFile();
     	
     	drive = new Drive();
     	stacker = new Stacker();

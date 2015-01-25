@@ -2,7 +2,9 @@ package in.kest.celtx2015;
 
 import in.kest.celtx2015.controllers.XboxController;
 import in.kest.celtx2015.sensors.ReletiveEncoder;
+import in.kest.celtx2015.util.Functions;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,10 +32,9 @@ public class Drive {
 		
 		gyro = new Gyro(0);
 	}
-	
-	public void doArcadeDrive(XboxController gamepad){
-		double forward = Functions.applyJoystickFilter(gamepad.getLeftY());
-		double turn = Functions.applyJoystickFilter(gamepad.getLeftX());
+	public void doArcadeDrive(Joystick gamepad){
+		double forward = Functions.applyJoystickFilter(-gamepad.getRawAxis(1));
+		double turn = Functions.applyJoystickFilter(gamepad.getRawAxis(0));
 		double leftPower = forward + turn;
 		double rightPower = forward - turn;
 		
