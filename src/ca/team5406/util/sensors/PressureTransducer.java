@@ -1,4 +1,4 @@
-package in.kest.celtx2015.sensors;
+package ca.team5406.util.sensors;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 

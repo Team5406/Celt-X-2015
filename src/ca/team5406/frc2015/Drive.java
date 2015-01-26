@@ -1,8 +1,8 @@
-package in.kest.celtx2015;
+package ca.team5406.frc2015;
 
-import in.kest.celtx2015.controllers.XboxController;
-import in.kest.celtx2015.sensors.ReletiveEncoder;
-import in.kest.celtx2015.util.Functions;
+import ca.team5406.util.controllers.XboxController;
+import ca.team5406.util.sensors.ReletiveEncoder;
+import ca.team5496.util.Functions;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
