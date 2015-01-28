@@ -34,6 +34,10 @@ public class Stacker {
 		grabberContraction.set(!expanded);
 	}
 	
+	public int getAutoStackState(){
+		return autoAddToStackState;
+	}
+	
 	public int doAutoAddToStack(boolean manualButton){
 		System.out.println("Timer: " + autoAddToStackTimer.get());
 		System.out.println("Stste: " + autoAddToStackState);

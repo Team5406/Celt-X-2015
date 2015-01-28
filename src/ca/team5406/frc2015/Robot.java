@@ -167,4 +167,12 @@ public class Robot extends IterativeRobot {
     	operatorGamepad.updateButtons();
     }
     
+    public void printSensorInfo(){
+    	streamPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
+    						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
+    						"Gyro:             " + drive.getGyroAngle() + "\n" + 
+    						"Elevator Down:    " + stacker.getElevatorDown() + "\n" + 
+    						"Auto Stack State: " + stacker.getAutoStackState() + "\n");
+    }
+    
 }
