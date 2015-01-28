@@ -1,8 +1,8 @@
 package ca.team5406.frc2015;
 
+import ca.team5406.util.Functions;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.ReletiveEncoder;
-import ca.team5496.util.Functions;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;

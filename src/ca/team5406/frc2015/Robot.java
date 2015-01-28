@@ -1,9 +1,10 @@
 
 package ca.team5406.frc2015;
 
+import ca.team5406.util.ConstantsBase;
+import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.AttackStick;
 import ca.team5406.util.controllers.XboxController;
-import ca.team5496.util.ConstantsBase;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -23,6 +24,8 @@ public class Robot extends IterativeRobot {
 	private CameraServer cameraServer;
 	
 	private Compressor compressor = new Compressor();
+	
+	private RegulatedPrinter streamPrinter = new RegulatedPrinter(2.0);
 	
 	//Autonomous
 	double autonDelay = 0.0;

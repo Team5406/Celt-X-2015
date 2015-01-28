@@ -1,6 +1,6 @@
 package ca.team5406.frc2015;
 
-import ca.team5496.util.ConstantsBase.Constant;
+import ca.team5406.util.ConstantsBase.Constant;
 
 public class Constants {
 	
