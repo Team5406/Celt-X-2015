@@ -4,10 +4,12 @@ package ca.team5406.frc2015;
 import ca.team5406.util.controllers.AttackStick;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5496.util.ConstantsBase;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class Robot extends IterativeRobot {
 
@@ -18,6 +20,8 @@ public class Robot extends IterativeRobot {
 	//Subsystems
 	private Drive drive;
 	private Stacker stacker;
+	
+	private CameraServer cameraServer;
 	
 	private Compressor compressor = new Compressor();
 	
@@ -34,6 +38,15 @@ public class Robot extends IterativeRobot {
     	stacker = new Stacker();
     	
     	compressor.setClosedLoopControl(false);
+    	
+    	//Default solenoids positions
+    	stacker.setElevatorUp(true);
+    	stacker.setGripperExpansion(false);
+    	
+    	//Start sending camera to DS
+		cameraServer = CameraServer.getInstance();
+		cameraServer.setQuality(50);
+		cameraServer.startAutomaticCapture("cam0");
     	
 		System.out.println("Done.");
     }
@@ -100,10 +113,11 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Move away from stack when button held
-    	if(driverGamepad.getButtonHeld(1)){
+    	if(driverGamepad.getButtonHeld(1) && stacker.getElevatorDown()){
         	if(driverGamepad.getButtonOnce(1)){
         		drive.resetDriveTo();
         	}
+        	stacker.setGripperExpansion(true);
     		drive.driveToPosition(-1000);
     	}
     	//Otherwise do normal arcade drive
@@ -113,6 +127,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	//Operator
+    	//Manual compressor control
     	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
     		compressor.stop();
     	}
@@ -120,11 +135,28 @@ public class Robot extends IterativeRobot {
     		compressor.start();
     	}
     	
+    	//Manual Gripper control
+    	if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
+    		stacker.setGripperExpansion(true);
+    	}
+    	else if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
+    		stacker.setGripperExpansion(false);
+    	}
+    	
+    	//Manual Elevator control
     	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
     		stacker.setElevatorUp(false);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
     		stacker.setElevatorUp(true);
+    	}
+    	//Elevator presets
+    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
+    		stacker.setElevatorUp(false);
+    		stacker.setGripperExpansion(true);
+    	}
+    	else{
+    		stacker.doAutoAddToStack(operatorGamepad.getButtonOnce(XboxController.X_BUTTON));
     	}
     	
     	//Other

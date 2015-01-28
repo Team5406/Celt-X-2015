@@ -8,4 +8,6 @@ public class Constants {
 	
 	//public static Constant *name* = new Constant("*key*", *defaultValue*);
 	
+	public static Constant autoAddToStackRaiseDelay = new Constant("raiseStackDelay", 2.0);
+	
 }
