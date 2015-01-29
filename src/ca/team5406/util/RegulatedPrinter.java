@@ -24,4 +24,8 @@ public class RegulatedPrinter {
 		System.out.println(text);
 	}
 	
+	public void stopTimer(){
+		printTimer.reset();
+	}
+	
 }
