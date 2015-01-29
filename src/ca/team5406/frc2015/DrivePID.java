@@ -2,10 +2,13 @@ package ca.team5406.frc2015;
 
 public class DrivePID {
 	
+	private Drive drive;
 	//Declare DriveTo, TurnTo PIDs
 
-	public DrivePID(){
-		//Init PIDs
+	public DrivePID(Drive drive){
+		this.drive = drive;
+		
+		//Init PIDs with constants
 	}
 	
 	public void resetDriveToPos(){

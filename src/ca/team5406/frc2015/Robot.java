@@ -43,12 +43,12 @@ public class Robot extends IterativeRobot {
 		ConstantsBase.updateConstantsFromFile();
     	
     	drive = new Drive();
-    	drivePID = new DrivePID();
+    	drivePID = new DrivePID(drive);
     	stacker = new Stacker();
     	
     	compressor.setClosedLoopControl(false);
     	
-    	//Default solenoids positions
+    	//Default solenoid positions
     	stacker.setElevatorUp(true);
     	stacker.setGripperExpansion(false);
     	
@@ -57,9 +57,10 @@ public class Robot extends IterativeRobot {
 		cameraServer.setQuality(50);
 		cameraServer.startAutomaticCapture("cam0");
 		
+		//Send autonomous options to DS
 		autonSelector = new SendableChooser();
 		autonSelector.addDefault("Do Nothing", new DoNothing());
-		autonSelector.addObject("Take Ours", new TakeOurs(drive, drivePID, stacker));
+		autonSelector.addObject("Take Ours", new TakeOurs(drivePID, stacker));
     	
 		System.out.println("Done.");
     }
@@ -89,7 +90,7 @@ public class Robot extends IterativeRobot {
 	//Called each time the robot enters autonomous.
     public void autonomousInit(){
 		System.out.println("Autonomous Enabled");
-		System.out.printf("Waiting for %.2f seconds.", autonDelay);
+		System.out.printf("AUTO: Waiting for %.2f seconds.", autonDelay);
 		
 		Timer delayTimer = new Timer();
 		delayTimer.start();
