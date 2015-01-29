@@ -1,6 +1,7 @@
 
 package ca.team5406.frc2015;
 
+import ca.team5406.frc2015.autonmous.*;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.AttackStick;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
@@ -19,7 +21,11 @@ public class Robot extends IterativeRobot {
 	
 	//Subsystems
 	private Drive drive;
+	private DrivePID drivePID;
 	private Stacker stacker;
+	
+	private SendableChooser autonSelector;
+	private AutonomousRoutine selectedAuto;
 	
 	private CameraServer cameraServer;
 	
@@ -37,6 +43,7 @@ public class Robot extends IterativeRobot {
 		ConstantsBase.updateConstantsFromFile();
     	
     	drive = new Drive();
+    	drivePID = new DrivePID();
     	stacker = new Stacker();
     	
     	compressor.setClosedLoopControl(false);
@@ -49,6 +56,10 @@ public class Robot extends IterativeRobot {
 		cameraServer = CameraServer.getInstance();
 		cameraServer.setQuality(50);
 		cameraServer.startAutomaticCapture("cam0");
+		
+		autonSelector = new SendableChooser();
+		autonSelector.addDefault("Do Nothing", new DoNothing());
+		autonSelector.addObject("Take Ours", new TakeOurs(drive, drivePID, stacker));
     	
 		System.out.println("Done.");
     }
@@ -58,9 +69,10 @@ public class Robot extends IterativeRobot {
 		System.out.println("Robot Disabled");
 	}
 	
-	//Called at ~50Hz while the robot is in autonomous.
+	//Called at ~50Hz while the robot is disabled.
 	public void disabledPeriodic(){
-		if(driverGamepad.getButtonOnce(1)){
+		
+		if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
 			ConstantsBase.updateConstantsFromFile();
 		}
 		
@@ -71,7 +83,7 @@ public class Robot extends IterativeRobot {
 			if(autonDelay > 0) autonDelay -= 0.1;
 		}
 		
-		SmartDashboard.putNumber("Auton Delay", autonDelay);
+		sendSmartDashInfo();
 	}
 	
 	//Called each time the robot enters autonomous.
@@ -86,11 +98,16 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Auton Delay", (autonDelay - delayTimer.get()));
 		}
 		
+		selectedAuto = (AutonomousRoutine) autonSelector.getSelected();
+		selectedAuto.routineInit();
+		
     }
 
-	//Called at ~50Hz while the robot is disabled.
-    public void autonomousPeriodic() {
-
+	//Called at ~50Hz while the robot is in autonomous.
+    public void autonomousPeriodic(){
+    	if(!selectedAuto.isDone()){
+    		selectedAuto.routinePeriodic();
+    	}
     }
 
     //Called once each time the robot enters tele-op mode.
@@ -117,10 +134,10 @@ public class Robot extends IterativeRobot {
     	//Move away from stack when button held
     	if(driverGamepad.getButtonHeld(1) && stacker.getElevatorDown()){
         	if(driverGamepad.getButtonOnce(1)){
-        		drive.resetDriveTo();
+        		drivePID.resetDriveToPos();
         	}
         	stacker.setGripperExpansion(true);
-    		drive.driveToPosition(-1000);
+    		drivePID.driveToPos(-1000);
     	}
     	//Otherwise do normal arcade drive
     	else{
@@ -162,9 +179,18 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Other
-    	drive.sendDataToSmartDash();
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
+    	
+    	sendSmartDashInfo();
+    	printSensorInfo();
+    }
+    
+    public void sendSmartDashInfo(){
+    	SmartDashboard.putNumber("AutonDelay", autonDelay);
+    	SmartDashboard.putData("Autonomous", autonSelector);
+    	
+    	SmartDashboard.putNumber("Heading", (drive.getGyroAngle() % 360));
     }
     
     public void printSensorInfo(){

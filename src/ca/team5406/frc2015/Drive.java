@@ -6,7 +6,6 @@ import ca.team5406.util.sensors.ReletiveEncoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 	private Talon leftDriveA;
@@ -59,7 +58,7 @@ public class Drive {
 		speedMultiplier = val;
 	}
 	
-	private void setPowerLeftRight(double left, double right){
+	public void setPowerLeftRight(double left, double right){
 		leftDriveA.set(left * speedMultiplier);
 		leftDriveB.set(left * speedMultiplier);
 		rightDriveA.set(-right * speedMultiplier);
@@ -85,27 +84,5 @@ public class Drive {
 	
 	public void resetGyro(){
 		gyro.reset();
-	}
-	
-	public void resetDriveTo(){
-		
-	}
-	
-	public boolean driveToPosition(int position){
-		return false;
-	}
-	
-	public void resetTurnTo(){
-		
-	}
-	
-	public boolean turnToAngle(double angle){
-		return false;
-	}
-	
-	public void sendDataToSmartDash(){
-		SmartDashboard.putNumber("Left Drive Enc", getLeftEncoder());
-		SmartDashboard.putNumber("Right Drive Enc", getRightEncoder());
-		SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
 	}
 }
