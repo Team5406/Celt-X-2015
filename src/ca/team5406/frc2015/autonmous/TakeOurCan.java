@@ -3,7 +3,7 @@ package ca.team5406.frc2015.autonmous;
 import ca.team5406.frc2015.*;
 import edu.wpi.first.wpilibj.Timer;
 
-public class TakeOurs extends AutonomousRoutine {
+public class TakeOurCan extends AutonomousRoutine {
 	
 	private DrivePID drivePID;
 	private Stacker stacker;	
@@ -14,7 +14,7 @@ public class TakeOurs extends AutonomousRoutine {
 	 * This auto mode will stack our can on our tote and move them into the auto zone.
 	 */
 	
-	public TakeOurs(DrivePID drivePID, Stacker stacker){
+	public TakeOurCan(DrivePID drivePID, Stacker stacker){
 		this.drivePID = drivePID;
 		this.stacker = stacker;
 	}
@@ -43,39 +43,19 @@ public class TakeOurs extends AutonomousRoutine {
 				}
 				break;
 			case 2:
-				if(drivePID.driveToPos(1000)){
-					stacker.doAutoAddToStack(true);
+				if(drivePID.driveToPos(-100)){
 					super.autonState++;
 				}
-				break;
 			case 3:
-				if(stacker.getAutoStackState() == 0){
-					super.autonState++;
-				}
-				break;
-			case 4:
 				if(drivePID.turnToAngle(90)){
 					super.autonState++;
 				}
 				break;
-			case 5:
+			case 4:
 				if(drivePID.driveToPos(1000)){
-					stacker.setElevatorUp(false);
-					super.autonState++;
-				}
-				break;
-			case 6:
-				if(stacker.getElevatorDown()){
-					stacker.setGripperExpansion(true);
-					super.autonState++;
-				}
-				break;
-			case 7:
-				if(drivePID.driveToPos(-100)){
 					super.autonState++;
 					routineEnd();
 				}
-				break;
 			
 		}		
 	}

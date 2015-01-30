@@ -8,8 +8,8 @@ public class Stacker {
 
 	private Solenoid elevatorUpSolenoid = new Solenoid(0);
 	private Solenoid elevatorDownSolenoid = new Solenoid(1);
-	private Solenoid grabberExpansion = new Solenoid(2);
-	private Solenoid grabberContraction = new Solenoid(3);
+	private Solenoid grabberContraction = new Solenoid(2);
+	private Solenoid grabberExpansion = new Solenoid(3);
 	
 	private DigitalInput elevatorDownSensor = new DigitalInput(4);
 	

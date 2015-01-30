@@ -22,7 +22,7 @@ public class AutonomousRoutine {
 	}
 	
 	public void routineEnd(){
-		
+		isDone = true;
 	}
 
 	public boolean isDone(){

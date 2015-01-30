@@ -52,15 +52,21 @@ public class Robot extends IterativeRobot {
     	stacker.setElevatorUp(true);
     	stacker.setGripperExpansion(false);
     	
-    	//Start sending camera to DS
-		cameraServer = CameraServer.getInstance();
-		cameraServer.setQuality(50);
-		cameraServer.startAutomaticCapture("cam0");
+    	try{
+	    	//Start sending camera to DS
+			cameraServer = CameraServer.getInstance();
+			cameraServer.setQuality(50);
+			cameraServer.startAutomaticCapture("cam0");
+    	}
+    	catch(Exception ex){
+    		System.out.println("ERROR: Camera not available");
+    	}
 		
 		//Send autonomous options to DS
 		autonSelector = new SendableChooser();
 		autonSelector.addDefault("Do Nothing", new DoNothing());
-		autonSelector.addObject("Take Ours", new TakeOurs(drivePID, stacker));
+		autonSelector.addObject("Take Ours", new TakeBothOurs(drivePID, stacker));
+		autonSelector.addObject("Move to Zone", new MoveToZone(drivePID));
     	
 		System.out.println("Done.");
     }
