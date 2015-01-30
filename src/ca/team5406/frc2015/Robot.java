@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
 	//Subsystems
 	private Drive drive;
 	private DrivePID drivePID;
-	private Stacker stacker;
+	private PneumaticElevator stacker;
 	
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
     	
     	drive = new Drive();
     	drivePID = new DrivePID(drive);
-    	stacker = new Stacker();
+    	stacker = new PneumaticElevator();
     	
     	compressor.setClosedLoopControl(false);
     	

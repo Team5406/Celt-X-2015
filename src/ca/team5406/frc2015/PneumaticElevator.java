@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 
-public class Stacker {
+public class PneumaticElevator {
 
 	private Solenoid elevatorUpSolenoid = new Solenoid(0);
 	private Solenoid elevatorDownSolenoid = new Solenoid(1);
@@ -16,7 +16,7 @@ public class Stacker {
 	private int autoAddToStackState = 0;
 	private Timer autoAddToStackTimer = new Timer();
 	
-	public Stacker(){}
+	public PneumaticElevator(){}
 	
 	public void setElevatorUp(boolean up){
 		elevatorDownSolenoid.set(!up);

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class TakeOurCan extends AutonomousRoutine {
 	
 	private DrivePID drivePID;
-	private Stacker stacker;	
+	private PneumaticElevator stacker;	
 	
 	private Timer stateTimer;
 	
@@ -14,7 +14,7 @@ public class TakeOurCan extends AutonomousRoutine {
 	 * This auto mode will stack our can on our tote and move them into the auto zone.
 	 */
 	
-	public TakeOurCan(DrivePID drivePID, Stacker stacker){
+	public TakeOurCan(DrivePID drivePID, PneumaticElevator stacker){
 		this.drivePID = drivePID;
 		this.stacker = stacker;
 	}
