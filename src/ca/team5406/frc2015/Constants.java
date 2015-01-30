@@ -35,4 +35,8 @@ public class Constants {
 	public static Constant elevatorDownPidKd = new Constant("elevatorDownPidKd", 0.0);
 	public static Constant elevatorDownPidDeadband = new Constant("elevatorDownPidDeadband", 0.5);
 	
+	//Elevator Position Presets
+	public static Constant elevatorDownPreset = new Constant("elevatorDownPreset", 0);
+	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 0);
+	
 }
