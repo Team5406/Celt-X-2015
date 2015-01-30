@@ -61,7 +61,7 @@ public class Stacker {
 				}
 				break;
 			case 2:
-				setGripperExpansion(true);
+				setGripperExpansion(false);
 				if(autoAddToStackTimer.get() >= 0.5){
 					autoAddToStackState++;
 				}
