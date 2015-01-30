@@ -1,6 +1,7 @@
 package ca.team5406.frc2015;
 
 import ca.team5406.util.Functions;
+import ca.team5406.util.controllers.Controller;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.ReletiveEncoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -31,26 +32,27 @@ public class Drive {
 		rightEncoder = new ReletiveEncoder(2, 3, false);
 		
 		gyro = new Gyro(0);
+		gyro.initGyro();
 	}
-	public void doArcadeDrive(Joystick gamepad){
-		double forward = Functions.applyJoystickFilter(-gamepad.getRawAxis(1));
-		double turn = Functions.applyJoystickFilter(gamepad.getRawAxis(0));
+	public void doArcadeDrive(Controller gamepad, int forwardAxis, int turnAxis){
+		double forward = Functions.applyJoystickFilter(-gamepad.getRawAxis(forwardAxis));
+		double turn = Functions.applyJoystickFilter(gamepad.getRawAxis(turnAxis));
 		double leftPower = forward + turn;
 		double rightPower = forward - turn;
 		
 		setPowerLeftRight(leftPower, rightPower);
 	}
 	
-	public void doTankDrive(XboxController gamepad){
-		double leftPower = Functions.applyJoystickFilter(gamepad.getLeftY());
-		double rightPower = Functions.applyJoystickFilter(gamepad.getRightY());
+	public void doTankDrive(Controller gamepad, int leftAxis, int rightAxis){
+		double leftPower = Functions.applyJoystickFilter(-gamepad.getRawAxis(leftAxis));
+		double rightPower = Functions.applyJoystickFilter(-gamepad.getRawAxis(rightAxis));
 		
 		setPowerLeftRight(leftPower, rightPower);
 	}
 	
-	public void doTriggerDrive(XboxController gamepad){
-		double leftPower = gamepad.getRightTrigger() - gamepad.getLeftTrigger() + gamepad.getLeftX();
-		double rightPower = gamepad.getRightTrigger() + gamepad.getLeftTrigger() + gamepad.getLeftX();
+	public void doTriggerDrive(XboxController gamepad, int turnAxis){
+		double leftPower = gamepad.getRightTrigger() - gamepad.getLeftTrigger() + gamepad.getRawAxis(turnAxis);
+		double rightPower = gamepad.getRightTrigger() + gamepad.getLeftTrigger() + gamepad.getRawAxis(turnAxis);
 		
 		setPowerLeftRight(leftPower, rightPower);
 	}

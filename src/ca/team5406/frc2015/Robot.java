@@ -151,9 +151,8 @@ public class Robot extends IterativeRobot {
     	}
     	//Otherwise do normal arcade drive
     	else{
-        	drive.doArcadeDrive(driverGamepad);
+        	drive.doArcadeDrive(driverGamepad, 1, 0);
     	}
-    	
     	
     	//Operator
     	//Manual compressor control
