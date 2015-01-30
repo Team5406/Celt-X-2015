@@ -6,6 +6,7 @@ import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.AttackStick;
 import ca.team5406.util.controllers.XboxController;
+import ca.team5406.util.sensors.PressureTransducer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
 	private CameraServer cameraServer;
 	
 	private Compressor compressor = new Compressor();
+	private PressureTransducer pressureTransducer = new PressureTransducer(0);
 	
 	private RegulatedPrinter streamPrinter = new RegulatedPrinter(2.0);
 	
@@ -91,6 +93,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		sendSmartDashInfo();
+		operatorGamepad.updateButtons();
 	}
 	
 	//Called each time the robot enters autonomous.
@@ -141,10 +144,10 @@ public class Robot extends IterativeRobot {
     	//Move away from stack when button held
     	if(driverGamepad.getButtonHeld(1) && stacker.getElevatorDown()){
         	if(driverGamepad.getButtonOnce(1)){
-        		drivePID.resetDriveToPos();
+        		drivePID.initDriveToPos(-1000);
+            	stacker.setGripperExpansion(true);
         	}
-        	stacker.setGripperExpansion(true);
-    		drivePID.driveToPos(-1000);
+    		drivePID.driveToPos();
     	}
     	//Otherwise do normal arcade drive
     	else{
@@ -196,6 +199,9 @@ public class Robot extends IterativeRobot {
     public void sendSmartDashInfo(){
     	SmartDashboard.putNumber("AutonDelay", autonDelay);
     	SmartDashboard.putData("Autonomous", autonSelector);
+    	
+    	SmartDashboard.putNumber("Pressure", pressureTransducer.getPsi());
+    	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.1));
     	
     	SmartDashboard.putNumber("Heading", (drive.getGyroAngle() % 360));
     }

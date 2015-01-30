@@ -39,27 +39,30 @@ public class TakeBothOurs extends AutonomousRoutine {
 			case 1:
 				if(stateTimer.get() >= Constants.autoAddToStackRaiseDelay.getDouble()){
 					stateTimer.stop();
+					drivePID.initDriveToPos(0);
 					super.autonState++;
 				}
 				break;
 			case 2:
-				if(drivePID.driveToPos(1000)){
+				if(drivePID.driveToPos()){
 					stacker.doAutoAddToStack(true);
 					super.autonState++;
 				}
 				break;
 			case 3:
 				if(stacker.getAutoStackState() == 0){
+					drivePID.initTurnToAngle(90);
 					super.autonState++;
 				}
 				break;
 			case 4:
-				if(drivePID.turnToAngle(90)){
+				if(drivePID.turnToAngle()){
+					drivePID.initDriveToPos(0);
 					super.autonState++;
 				}
 				break;
 			case 5:
-				if(drivePID.driveToPos(1000)){
+				if(drivePID.driveToPos()){
 					stacker.setElevatorUp(false);
 					super.autonState++;
 				}
@@ -67,11 +70,12 @@ public class TakeBothOurs extends AutonomousRoutine {
 			case 6:
 				if(stacker.getElevatorDown()){
 					stacker.setGripperExpansion(true);
+					drivePID.initDriveToPos(0);
 					super.autonState++;
 				}
 				break;
 			case 7:
-				if(drivePID.driveToPos(-100)){
+				if(drivePID.driveToPos()){
 					super.autonState++;
 					routineEnd();
 				}

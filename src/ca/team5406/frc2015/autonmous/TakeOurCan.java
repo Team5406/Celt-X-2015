@@ -39,20 +39,23 @@ public class TakeOurCan extends AutonomousRoutine {
 			case 1:
 				if(stateTimer.get() >= Constants.autoAddToStackRaiseDelay.getDouble()){
 					stateTimer.stop();
+					drivePID.initDriveToPos(0);
 					super.autonState++;
 				}
 				break;
 			case 2:
-				if(drivePID.driveToPos(-100)){
+				if(drivePID.driveToPos()){
+					drivePID.initTurnToAngle(0);
 					super.autonState++;
 				}
 			case 3:
-				if(drivePID.turnToAngle(90)){
+				if(drivePID.turnToAngle()){
+					drivePID.initDriveToPos(0);
 					super.autonState++;
 				}
 				break;
 			case 4:
-				if(drivePID.driveToPos(1000)){
+				if(drivePID.driveToPos()){
 					super.autonState++;
 					routineEnd();
 				}

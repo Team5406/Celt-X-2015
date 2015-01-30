@@ -74,6 +74,10 @@ public class Drive {
 		return rightEncoder.get();
 	}
 	
+	public int getAverageEncoders(){
+		return (int)((getLeftEncoder() + getRightEncoder()) / 2);
+	}
+	
 	public void resetEncoders(){
 		leftEncoder.reset();
 		rightEncoder.reset();
