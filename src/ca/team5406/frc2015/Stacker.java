@@ -67,11 +67,11 @@ public class Stacker {
 						if(nextStackerPosition != null){
 							desiredStackerPosition = nextStackerPosition;
 							nextStackerPosition = null;
+							stackerState = 0;
 						}
 						else{
 							desiredStackerPosition = null;
 						}
-						stackerState++;
 						break;
 				}
 				break;
