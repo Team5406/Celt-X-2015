@@ -5,7 +5,6 @@ import ca.team5406.util.controllers.Controller;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.ReletiveEncoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Drive {
