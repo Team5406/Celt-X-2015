@@ -17,7 +17,6 @@ public class Stacker {
 	
 	private StackerPositions desiredStackerPosition;
 	private StackerPositions currentStackerPosition;
-	private StackerPositions previousStackerPosition;
 	private StackerPositions nextStackerPosition;
 	private int stackerState = 0;
 	
@@ -34,12 +33,11 @@ public class Stacker {
 		nextStackerPosition = StackerPositions.upClosed;
 	}
 	
-	public void setDesiredPostition(StackerPositions pos){
-		previousStackerPosition = desiredStackerPosition;
-		desiredStackerPosition = pos;
+	public void setDesiredPostition(StackerPositions desiredPosition){
+		desiredStackerPosition = desiredPosition;
 		currentStackerPosition = StackerPositions.travelling;
 		nextStackerPosition = null;
-		if(desiredStackerPosition != previousStackerPosition) stackerState = 0;
+		stackerState = 0;
 	}
 	
 	public String getStackerPosition(){
@@ -69,6 +67,9 @@ public class Stacker {
 							desiredStackerPosition = nextStackerPosition;
 							nextStackerPosition = null;
 						}
+						else{
+							desiredStackerPosition = null;
+						}
 						stackerState++;
 						break;
 				}
@@ -91,6 +92,9 @@ public class Stacker {
 						if(nextStackerPosition != null){
 							desiredStackerPosition = nextStackerPosition;
 							nextStackerPosition = null;
+						}
+						else{
+							desiredStackerPosition = null;
 						}
 						stackerState++;
 						break;
@@ -115,6 +119,9 @@ public class Stacker {
 							desiredStackerPosition = nextStackerPosition;
 							nextStackerPosition = null;
 						}
+						else{
+							desiredStackerPosition = null;
+						}
 						stackerState++;
 						break;
 				}
@@ -138,6 +145,9 @@ public class Stacker {
 						if(nextStackerPosition != null){
 							desiredStackerPosition = nextStackerPosition;
 							nextStackerPosition = null;
+						}
+						else{
+							desiredStackerPosition = null;
 						}
 						stackerState++;
 						break;
