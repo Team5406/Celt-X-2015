@@ -54,6 +54,10 @@ public class PID {
 		return false;
 	}
 	
+	public void setDesiredPosition(double desiredPosition){
+		this.desiredPosition = desiredPosition;
+	}
+	
 	public void setCosntants(double kP, double kI, double kD){
 		this.kP = kP;
 		this.kI = kI;

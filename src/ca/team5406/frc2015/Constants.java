@@ -23,4 +23,16 @@ public class Constants {
 	public static Constant turnToPidKd = new Constant("turnToPidKd", 0.0);
 	public static Constant turnToPidDeadband = new Constant("turnToPidDeadband", 0.5);
 	
+	//Elevator Up PID Constants
+	public static Constant elevatorUpPidKp = new Constant("elevatorUpPidKp", 0.0);
+	public static Constant elevatorUpPidKi = new Constant("elevatorUpPidKi", 0.0);
+	public static Constant elevatorUpPidKd = new Constant("elevatorUpPidKd", 0.0);
+	public static Constant elevatorUpPidDeadband = new Constant("elevatorUpPidDeadband", 0.5);
+	
+	//Elevator Down PID Constants
+	public static Constant elevatorDownPidKp = new Constant("elevatorDownPidKp", 0.0);
+	public static Constant elevatorDownPidKi = new Constant("elevatorDownPidKi", 0.0);
+	public static Constant elevatorDownPidKd = new Constant("elevatorDownPidKd", 0.0);
+	public static Constant elevatorDownPidDeadband = new Constant("elevatorDownPidDeadband", 0.5);
+	
 }

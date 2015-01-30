@@ -16,9 +16,7 @@ public class Stacker {
 	private int autoAddToStackState = 0;
 	private Timer autoAddToStackTimer = new Timer();
 	
-	public Stacker(){
-		
-	}
+	public Stacker(){}
 	
 	public void setElevatorUp(boolean up){
 		elevatorDownSolenoid.set(!up);
