@@ -18,6 +18,7 @@ public class Stacker {
 	private StackerPositions desiredStackerPosition;
 	private StackerPositions currentStackerPosition;
 	private StackerPositions previousStackerPosition;
+	private StackerPositions nextStackerPosition;
 	private int stackerState = 0;
 	
 	public Stacker(Elevator elevator, Gripper gripper){
@@ -25,12 +26,19 @@ public class Stacker {
 		this.gripper = gripper;
 		desiredStackerPosition = StackerPositions.downClosed;
 		currentStackerPosition = StackerPositions.downClosed;
+		nextStackerPosition = null;
+	}
+	
+	public void addToStack(){
+		desiredStackerPosition = StackerPositions.downClosed;
+		nextStackerPosition = StackerPositions.upClosed;
 	}
 	
 	public void setDesiredPostition(StackerPositions pos){
 		previousStackerPosition = desiredStackerPosition;
 		desiredStackerPosition = pos;
 		currentStackerPosition = StackerPositions.travelling;
+		nextStackerPosition = null;
 		if(desiredStackerPosition != previousStackerPosition) stackerState = 0;
 	}
 	
@@ -57,6 +65,11 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.downOpen;
+						if(nextStackerPosition != null){
+							desiredStackerPosition = nextStackerPosition;
+							nextStackerPosition = null;
+						}
+						stackerState++;
 						break;
 				}
 				break;
@@ -75,6 +88,11 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.upOpen;
+						if(nextStackerPosition != null){
+							desiredStackerPosition = nextStackerPosition;
+							nextStackerPosition = null;
+						}
+						stackerState++;
 						break;
 				}
 				break;
@@ -93,6 +111,11 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.downClosed;
+						if(nextStackerPosition != null){
+							desiredStackerPosition = nextStackerPosition;
+							nextStackerPosition = null;
+						}
+						stackerState++;
 						break;
 				}
 				break;
@@ -112,6 +135,11 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.downClosed;
+						if(nextStackerPosition != null){
+							desiredStackerPosition = nextStackerPosition;
+							nextStackerPosition = null;
+						}
+						stackerState++;
 						break;
 				}
 				break;
