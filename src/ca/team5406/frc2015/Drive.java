@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Drive {
+	
 	private Talon leftDriveA;
 	private Talon leftDriveB;
 	private Talon rightDriveA;
