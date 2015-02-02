@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	private Drive drive;
 	private DrivePID drivePID;
 	private PneumaticElevator stacker;
+	private Gripper grabber;
 	
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
@@ -47,7 +48,7 @@ public class Robot extends IterativeRobot {
     	drive = new Drive();
     	drivePID = new DrivePID(drive);
     	stacker = new PneumaticElevator();
-    	
+    	grabber = new gripper();
     	compressor.setClosedLoopControl(false);
     	
     	//Default solenoid positions
@@ -165,10 +166,10 @@ public class Robot extends IterativeRobot {
     	
     	//Manual Gripper control
     	if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
-    		stacker.setGripperExpansion(true);
+    		grabber.setGripperExpansion(true);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
-    		stacker.setGripperExpansion(false);
+    		grabber.setGripperExpansion(false);
     	}
     	
     	//Manual Elevator control
