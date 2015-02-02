@@ -136,10 +136,10 @@ public class Robot extends IterativeRobot {
 
     	//Driver 
     	if(driverGamepad.getRawButton(3)){
-    		drive.setSpeedMultiplier(0.7);
+    		drive.setSpeedMultiplier(1.0);
     	}
     	else{
-    		drive.setSpeedMultiplier(1.0);
+    		drive.setSpeedMultiplier(0.7);
     	}
     	
     	//Move away from stack when button held
