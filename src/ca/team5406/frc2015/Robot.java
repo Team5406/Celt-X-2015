@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
     	drive = new Drive();
     	drivePID = new DrivePID(drive);
     	stacker = new PneumaticElevator();
-    	grabber = new gripper();
+    	grabber = new Gripper();
     	compressor.setClosedLoopControl(false);
     	
     	//Default solenoid positions
