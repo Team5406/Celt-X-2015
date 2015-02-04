@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class Elevator {
 
-	private Victor elevatorMotor;
+	private Victor elevatorMotorA;
+	private Victor elevatorMotorB;
 	private Encoder elevatorEncoder;
 	private Solenoid brake;
 	
@@ -15,7 +16,8 @@ public class Elevator {
 	private PID downPID = new PID();
 	
 	public Elevator(){
-		elevatorMotor = new Victor(4);
+		elevatorMotorA = new Victor(4);
+		elevatorMotorB = new Victor(5);
 		elevatorEncoder = new Encoder(4, 5);
 		brake = new Solenoid(0);
 		
@@ -61,7 +63,8 @@ public class Elevator {
 	}
 	
 	public void setElevatorSpeed(double speed){
-		elevatorMotor.set(speed);
+		elevatorMotorA.set(speed);
+		elevatorMotorB.set(speed);
 	}
 	
 	public int getElevatorPosition(){
