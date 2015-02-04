@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 	    	//Start sending camera to DS
 			cameraServer = CameraServer.getInstance();
 			cameraServer.setQuality(50);
-			cameraServer.changeCamera(CameraServer.AvailableCameras.front);;
+			cameraServer.changeCamera("front");;
 			cameraServer.startAutomaticCaptureThread();
     	}
     	catch(Exception ex){

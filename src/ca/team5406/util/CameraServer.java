@@ -29,17 +29,11 @@ public class CameraServer {
     private static final int kSize320x240 = 1;
     private static final int kSize160x120 = 2;
     private static final int kHardwareCompression = -1;
-    private static final String kDefaultCameraName = "cam1";
     private static final int kMaxImageSize = 200000;
     private static CameraServer server;
     
 	private USBCamera frontCamera;
 	private USBCamera rearCamera;
-	
-	public enum AvailableCameras{
-		front,
-		rear;
-	}
 
     public static CameraServer getInstance() {
         if (server == null) {
@@ -148,30 +142,20 @@ public class CameraServer {
         setImageData(data, index);
     }
 
-    public void setCamera() {
-        setCamera(USBCamera.kDefaultCameraName);
-    }
-
-    public void setCamera(String cameraName) {
-        USBCamera camera = new USBCamera(cameraName);
-        camera.openCamera();
-        setCamera(camera);
-    }
-
-    public void setCamera(USBCamera camera) {
+    private void setCamera(USBCamera camera) {
     	m_camera.stopCapture();
         m_camera = camera;
         m_camera.startCapture();
     }
 	
-	public void changeCamera(AvailableCameras desiredCamera){
+	public void changeCamera(String desiredCamera){
 		switch(desiredCamera){
-		case front:
-			setCamera(frontCamera);
-			break;
-		case rear:
-			setCamera(rearCamera);
-			break;
+			case "front":
+				setCamera(frontCamera);
+				break;
+			case "rear":
+				setCamera(rearCamera);
+				break;
 		}
 	}
     
