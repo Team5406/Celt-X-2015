@@ -2,12 +2,13 @@
 package ca.team5406.frc2015;
 
 import ca.team5406.frc2015.autonmous.*;
+import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.AttackStick;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
-import edu.wpi.first.wpilibj.CameraServer;
+//import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -59,7 +60,8 @@ public class Robot extends IterativeRobot {
 	    	//Start sending camera to DS
 			cameraServer = CameraServer.getInstance();
 			cameraServer.setQuality(50);
-			cameraServer.startAutomaticCapture("cam0");
+			cameraServer.changeCamera(CameraServer.AvailableCameras.front);;
+			cameraServer.startAutomaticCaptureThread();
     	}
     	catch(Exception ex){
     		System.out.println("ERROR: Camera not available");
