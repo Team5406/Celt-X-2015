@@ -144,6 +144,14 @@ public class Robot extends IterativeRobot {
     		drive.setSpeedMultiplier(0.7);
     	}
     	
+    	//Change Cameras
+    	if(driverGamepad.getPOV() == 0){
+    		cameraServer.changeCamera("front");
+    	}
+    	else if(driverGamepad.getPOV() == 180){
+    		cameraServer.changeCamera("rear");
+    	}
+    	
     	//Move away from stack when button held
     	if(driverGamepad.getButtonHeld(1) && stacker.getElevatorDown()){
         	if(driverGamepad.getButtonOnce(1)){
