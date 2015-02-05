@@ -19,8 +19,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
-//replicates CameraServer.cpp in java lib
-
 public class CameraServer {
 
     private static final int kPort = 1180;
