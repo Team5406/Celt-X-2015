@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	//Controllers
-	private XboxController driverGamepad = new XboxController(0);
-	private XboxController operatorGamepad = new XboxController(1);
+	private XboxController driverGamepad = new XboxController(Constants.driverGamepad.getInt());
+	private XboxController operatorGamepad = new XboxController(Constants.operatorGamepad.getInt());
 	
 	//Subsystems
 	private Drive drive;
