@@ -70,5 +70,9 @@ public class Elevator {
 	public int getElevatorPosition(){
 		return elevatorEncoder.get();
 	}
+	public void resetEncoder(){
+		elevatorEncoder.reset();
+	}
+	}
 	
 }

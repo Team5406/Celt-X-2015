@@ -192,7 +192,11 @@ public class Robot extends IterativeRobot {
     	else{
     		stacker.doAutoAddToStack(operatorGamepad.getButtonOnce(XboxController.X_BUTTON));
     	}
-    	
+    	//Encoder resets
+    	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
+    		drive.resetEncoders();
+    		elevator.resetEncoder();    		
+    	}
     	//Other
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
