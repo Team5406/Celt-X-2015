@@ -25,8 +25,9 @@ public class Robot extends IterativeRobot {
 	//Subsystems
 	private Drive drive;
 	private DrivePID drivePID;
-	private Gripper grabber;
+	private Gripper gripper;
 	private Elevator elevator;
+	private Stacker stacker;
 	
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
@@ -50,10 +51,12 @@ public class Robot extends IterativeRobot {
     	
     	drive = new Drive();
     	drivePID = new DrivePID(drive);
-    	grabber = new Gripper();
+    	gripper = new Gripper();
     	elevator = new Elevator();
+    	elevator = new Elevator();
+    	stacker = new Stacker(elevator, gripper);
+
     	compressor.setClosedLoopControl(false);
-    	elevator = new Elevator();
     	
     	
     	try{
@@ -66,6 +69,8 @@ public class Robot extends IterativeRobot {
     	catch(Exception ex){
     		System.out.println("ERROR: Camera not available");
     	}
+    	
+    	gripper.setGripperExpansion(false);
 		
 		//Send autonomous options to DS
 		autonSelector = new SendableChooser();
@@ -166,13 +171,19 @@ public class Robot extends IterativeRobot {
     	
     	//Manual Gripper control
     	if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
-    		grabber.setGripperExpansion(true);
+    		gripper.setGripperExpansion(true);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
-    		grabber.setGripperExpansion(false);
+    		gripper.setGripperExpansion(false);
     	}
     	
     	//TODO: Add stacker control buttons.
+    	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
+    		stacker.addToStack();
+    	}
+    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
+    		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
+    	}
     	
     	//TODO: TEMP: Manual Elevator control
     	elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(0) ? 0.6 : 1.0));

@@ -2,7 +2,6 @@ package ca.team5406.frc2015;
 
 import ca.team5406.util.PID;
 import ca.team5406.util.sensors.RelativeEncoder;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 

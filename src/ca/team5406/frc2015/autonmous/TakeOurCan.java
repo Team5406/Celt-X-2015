@@ -37,7 +37,7 @@ public class TakeOurCan extends AutonomousRoutine {
 				super.autonState++;
 				break;
 			case 1:
-				if(stateTimer.get() >= Constants.autoAddToStackRaiseDelay.getDouble()){
+				if(stateTimer.get() >= Constants.gripperMoveDelay.getDouble()){
 					stateTimer.stop();
 					drivePID.initDriveToPos(0);
 					super.autonState++;

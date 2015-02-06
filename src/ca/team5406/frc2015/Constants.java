@@ -8,7 +8,7 @@ public class Constants {
 	
 	//public static Constant *name* = new Constant("*key*", *defaultValue*);
 	
-	public static Constant autoAddToStackRaiseDelay = new Constant("raiseStackDelay", 2.0);
+	public static Constant gripperMoveDelay = new Constant("gripperMoveDelay", 0.4);
 	
 	//DriveTo PID Constants
 	public static Constant driveToPidKp = new Constant("driveToPidKp", 0.0);
