@@ -178,25 +178,25 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Manual Elevator control
+    	elevator.setSpeedMultiplier(0.4);
+    	elevator.setElevatorSpeed(operatorGamepad.filterAxis(operatorGamepad.getLeftY()));
+    	
+    	//Manual Elevator control
     	//if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
     		//stacker.setElevatorUp(false);
     	//}
     	//else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
     		//stacker.setElevatorUp(true);
+    	//}    	
+    	//Elevator presets
+    	//else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
+    	//	stacker.setElevatorUp(false);
+    	//	stacker.setGripperExpansion(true);
+    	//}
+    	//else{
+    	//	stacker.doAutoAddToStack(operatorGamepad.getButtonOnce(XboxController.X_BUTTON));
     	//}
     	
-    	//Manual Elevator control
-    	elevator.setSpeedMultiplier(0.4);
-    	elevator.setElevatorSpeed(operatorGamepad.filterAxis(operatorGamepad.getLeftY()));
-    	
-    	//Elevator presets
-    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
-    		stacker.setElevatorUp(false);
-    		stacker.setGripperExpansion(true);
-    	}
-    	else{
-    		stacker.doAutoAddToStack(operatorGamepad.getButtonOnce(XboxController.X_BUTTON));
-    	}
     	//Encoder resets
     	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
     		drive.resetEncoders();
