@@ -12,7 +12,7 @@ public class MoveToZone extends AutonomousRoutine {
 	
 	public void routineInit(){
 		System.out.println("AUTO: Moving to auto zone");
-		drivePID.initDriveToPos(0);
+		drivePID.initDriveToPos(2000);
 	}
 	
 	public void routinePeriodic(){

@@ -25,7 +25,6 @@ public class Robot extends IterativeRobot {
 	//Subsystems
 	private Drive drive;
 	private DrivePID drivePID;
-//	private PneumaticElevator stacker;
 	private Gripper grabber;
 	private Elevator elevator;
 	
@@ -51,16 +50,11 @@ public class Robot extends IterativeRobot {
     	
     	drive = new Drive();
     	drivePID = new DrivePID(drive);
-//    	stacker = new PneumaticElevator();
     	grabber = new Gripper();
     	elevator = new Elevator();
     	compressor.setClosedLoopControl(false);
     	elevator = new Elevator();
     	
-    	
-    	//Default solenoid positions
-//    	stacker.setElevatorUp(true);
-//    	stacker.setGripperExpansion(false);
     	
     	try{
 	    	//Start sending camera to DS
@@ -76,7 +70,6 @@ public class Robot extends IterativeRobot {
 		//Send autonomous options to DS
 		autonSelector = new SendableChooser();
 		autonSelector.addDefault("Do Nothing", new DoNothing());
-//		autonSelector.addObject("Take Ours", new TakeBothOurs(drivePID, stacker));
 		autonSelector.addObject("Move to Zone", new MoveToZone(drivePID));
     	
 		System.out.println("Done.");
@@ -121,19 +114,13 @@ public class Robot extends IterativeRobot {
 		selectedAuto = (AutonomousRoutine) autonSelector.getSelected();
 		selectedAuto.routineInit();
 		
-		//TEMP
-		drivePID.initDriveToPos(2000);
-		
     }
 
 	//Called at ~50Hz while the robot is in autonomous.
-    public void autonomousPeriodic(){
-    	
-    	drivePID.driveToPos();
-    	
-//    	if(!selectedAuto.isDone()){
-//    		selectedAuto.routinePeriodic();
-//    	}
+    public void autonomousPeriodic(){    	
+    	if(!selectedAuto.isDone()){
+    		selectedAuto.routinePeriodic();
+    	}
     }
 
     //Called once each time the robot enters tele-op mode.
@@ -187,10 +174,10 @@ public class Robot extends IterativeRobot {
     	
     	//TODO: Add stacker control buttons.
     	
-    	//TEMP: Manual Elevator control
+    	//TODO: TEMP: Manual Elevator control
     	elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(0) ? 0.6 : 1.0));
     	
-    	//TEMP: Encoder resets
+    	//TODO: TEMP: Encoder resets
     	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
     		drive.resetEncoders();
     		elevator.resetEncoder();
