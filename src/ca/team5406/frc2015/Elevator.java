@@ -1,6 +1,7 @@
 package ca.team5406.frc2015;
 
 import ca.team5406.util.PID;
+import ca.team5406.util.sensors.ReletiveEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
@@ -9,7 +10,7 @@ public class Elevator {
 
 	private Victor elevatorMotorA;
 	private Victor elevatorMotorB;
-	private Encoder elevatorEncoder;
+	private ReletiveEncoder elevatorEncoder;
 	private Solenoid brake;
 	
 	private PID upPID = new PID();
@@ -18,7 +19,7 @@ public class Elevator {
 	public Elevator(){
 		elevatorMotorA = new Victor(4);
 		elevatorMotorB = new Victor(5);
-		elevatorEncoder = new Encoder(4, 5);
+		elevatorEncoder = new ReletiveEncoder(4, 5);
 		brake = new Solenoid(0);
 		
 		upPID.setCosntants(Constants.elevatorUpPidKp.getDouble(), 
@@ -70,5 +71,11 @@ public class Elevator {
 	public int getElevatorPosition(){
 		return elevatorEncoder.get();
 	}
+	public void resetEncoder(){
+		elevatorEncoder.reset();
+	}
+	
 	
 }
+	
+

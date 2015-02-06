@@ -4,6 +4,7 @@ package ca.team5406.frc2015;
 import ca.team5406.frc2015.autonmous.*;
 import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
+import ca.team5406.util.Functions;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.AttackStick;
 import ca.team5406.util.controllers.XboxController;
@@ -18,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	//Controllers
-	private AttackStick driverGamepad = new AttackStick(0);
+	private XboxController driverGamepad = new XboxController(0);
 	private XboxController operatorGamepad = new XboxController(1);
 	
 	//Subsystems
@@ -54,6 +55,8 @@ public class Robot extends IterativeRobot {
     	grabber = new Gripper();
     	elevator = new Elevator();
     	compressor.setClosedLoopControl(false);
+    	elevator = new Elevator();
+    	
     	
     	//Default solenoid positions
 //    	stacker.setElevatorUp(true);
@@ -147,7 +150,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic(){
 
     	//Driver 
-    	if(driverGamepad.getRawButton(3)){
+    	if(driverGamepad.getButtonHeld(XboxController.X_BUTTON)){
     		drive.setSpeedMultiplier(1.0);
     	}
     	else{
@@ -155,25 +158,15 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Change Cameras
-    	if(driverGamepad.getPOV() == 0){
-//    		cameraServer.changeCamera("front");
+    	if(driverGamepad.getDirectionPad() == 0){
+    		cameraServer.changeCamera("front");
     	}
-    	else if(driverGamepad.getPOV() == 180){
-//    		cameraServer.changeCamera("rear");
+    	else if(driverGamepad.getDirectionPad() == 180){
+    		cameraServer.changeCamera("rear");
     	}
     	
-    	//Move away from stack when button held
-//    	if(driverGamepad.getButtonHeld(1) && stacker.getElevatorDown()){
-//        	if(driverGamepad.getButtonOnce(1)){
-//        		drivePID.initDriveToPos(-1000);
-//            	stacker.setGripperExpansion(true);
-//        	}
-//    		drivePID.driveToPos();
-//    	}
-//    	//Otherwise do normal arcade drive
-//    	else{
-        	drive.doArcadeDrive(driverGamepad, 1, 0);
-//    	}
+    	//TODO: Add backup from stack button.
+    	drive.doArcadeDrive(driverGamepad, 1, 0);
     	
     	//Operator
     	//Manual compressor control
@@ -192,33 +185,20 @@ public class Robot extends IterativeRobot {
     		grabber.setGripperExpansion(false);
     	}
     	
-    	//TEMP
-    	if(Math.abs(operatorGamepad.getLeftY()) > 0.1){
-    		//Cube the joystick value so it's slow.
-    		elevator.setElevatorSpeed(operatorGamepad.getLeftY() * operatorGamepad.getLeftY() * operatorGamepad.getLeftY());
-    	}
+    	//TODO: Add stacker control buttons.
     	
-    	//Pneumatic Elevator - Disabled
-    	//Manual Elevator control
-//    	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
-//    		stacker.setElevatorUp(false);
-//    	}
-//    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-//    		stacker.setElevatorUp(true);
-//    	}
-//    	//Elevator presets
-//    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
-//    		stacker.setElevatorUp(false);
-//    		stacker.setGripperExpansion(true);
-//    	}
-//    	else{
-//    		stacker.doAutoAddToStack(operatorGamepad.getButtonOnce(XboxController.X_BUTTON));
-//    	}
+    	//TEMP: Manual Elevator control
+    	elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(0) ? 0.6 : 1.0));
+    	
+    	//TEMP: Encoder resets
+    	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
+    		drive.resetEncoders();
+    		elevator.resetEncoder();
+    	}
     	
     	//Other
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
-    	
     	sendSmartDashInfo();
     	printSensorInfo();
     }
@@ -236,11 +216,8 @@ public class Robot extends IterativeRobot {
     public void printSensorInfo(){
     	streamPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
+    						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
     						"Gyro:             " + drive.getGyroAngle() + "\n");
-//    						"Elevator Down:    " + stacker.getElevatorDown() + "\n" + 
-//    						"Auto Stack State: " + stacker.getAutoStackState() + "\n");
-    	//TEMP
-    	if(driverGamepad.getButtonOnce(1)) drive.resetEncoders();
     }
     
 }

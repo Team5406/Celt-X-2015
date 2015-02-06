@@ -46,5 +46,5 @@ public class XboxController extends Controller {
 	public int getDirectionPad(){
 		return super.getPOV();
 	}
-
+	
 }
