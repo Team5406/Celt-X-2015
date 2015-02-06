@@ -3,7 +3,7 @@ package ca.team5406.frc2015;
 import ca.team5406.util.Functions;
 import ca.team5406.util.controllers.Controller;
 import ca.team5406.util.controllers.XboxController;
-import ca.team5406.util.sensors.ReletiveEncoder;
+import ca.team5406.util.sensors.RelativeEncoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Talon;
 
@@ -14,8 +14,8 @@ public class Drive {
 	private Talon rightDriveA;
 	private Talon rightDriveB;
 	
-	private ReletiveEncoder leftEncoder;
-	private ReletiveEncoder rightEncoder;
+	private RelativeEncoder leftEncoder;
+	private RelativeEncoder rightEncoder;
 	
 	private Gyro gyro;
 	
@@ -27,8 +27,8 @@ public class Drive {
 		rightDriveA = new Talon(2);
 		rightDriveB = new Talon(3);
 		
-		leftEncoder = new ReletiveEncoder(0, 1, true);
-		rightEncoder = new ReletiveEncoder(2, 3, false);
+		leftEncoder = new RelativeEncoder(0, 1, true);
+		rightEncoder = new RelativeEncoder(2, 3, false);
 		
 		gyro = new Gyro(0);
 		gyro.initGyro();
