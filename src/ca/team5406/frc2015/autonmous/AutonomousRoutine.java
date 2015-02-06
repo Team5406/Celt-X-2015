@@ -8,13 +8,13 @@ public class AutonomousRoutine {
 	public AutonomousRoutine(){
 		
 	}
-	
+		
 	public int getAutonState(){
 		return autonState;
 	}
 	
 	public void routineInit(){
-		
+		autonState = 0;
 	}
 	
 	public void routinePeriodic(){

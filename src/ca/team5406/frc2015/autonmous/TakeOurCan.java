@@ -20,6 +20,8 @@ public class TakeOurCan extends AutonomousRoutine {
 	}
 	
 	public void routineInit(){
+		super.routineInit();
+		
 		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
 		stateTimer = new Timer();
 		System.out.println("Taking our can");

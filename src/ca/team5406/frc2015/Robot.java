@@ -177,7 +177,7 @@ public class Robot extends IterativeRobot {
     		gripper.setGripperExpansion(false);
     	}
     	
-    	//TODO: Add stacker control buttons.
+    	//TODO: Add more/refine stacker control buttons.
     	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
     		stacker.addToStack();
     	}
