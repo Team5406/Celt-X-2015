@@ -130,12 +130,7 @@ public class Robot extends IterativeRobot {
 
     //Called once each time the robot enters tele-op mode.
     public void teleopInit(){
-		System.out.println("Tele-op Enabled");
-		
-		if(!compressor.getPressureSwitchValue()){
-			compressor.start();
-		}
-    	
+		System.out.println("Tele-op Enabled");    	
     }
 
 	//Called at ~50Hz while the robot is enabled.
@@ -165,7 +160,7 @@ public class Robot extends IterativeRobot {
     	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
     		compressor.stop();
     	}
-    	if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
     		compressor.start();
     	}
     	
