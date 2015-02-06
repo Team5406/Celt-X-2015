@@ -26,6 +26,7 @@ public class Robot extends IterativeRobot {
 	private DrivePID drivePID;
 	private PneumaticElevator stacker;
 	private Gripper grabber;
+	private Elevator elevator;
 	
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
@@ -51,6 +52,8 @@ public class Robot extends IterativeRobot {
     	stacker = new PneumaticElevator();
     	grabber = new Gripper();
     	compressor.setClosedLoopControl(false);
+    	elevator = new Elevator();
+    	
     	
     	//Default solenoid positions
     	stacker.setElevatorUp(true);
@@ -211,6 +214,7 @@ public class Robot extends IterativeRobot {
     public void printSensorInfo(){
     	streamPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
+    						"Elevator Encoder:" + elevator.getElevatorPosition() + "\n" +
     						"Gyro:             " + drive.getGyroAngle() + "\n" + 
     						"Elevator Down:    " + stacker.getElevatorDown() + "\n" + 
     						"Auto Stack State: " + stacker.getAutoStackState() + "\n");
