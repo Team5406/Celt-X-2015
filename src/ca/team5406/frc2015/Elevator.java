@@ -14,6 +14,7 @@ public class Elevator {
 	
 	private PID upPID = new PID();
 	private PID downPID = new PID();
+	private double speedMultiplier = 0.0;
 	
 	public Elevator(){
 		elevatorMotorA = new Victor(4);
@@ -63,8 +64,8 @@ public class Elevator {
 	}
 	
 	public void setElevatorSpeed(double speed){
-		elevatorMotorA.set(speed);
-		elevatorMotorB.set(speed);
+		elevatorMotorA.set(speedMultiplier * motorFunction(speed));
+		elevatorMotorB.set(speedMultiplier * motorFunction(speed));
 	}
 	
 	public int getElevatorPosition(){
@@ -73,6 +74,16 @@ public class Elevator {
 	public void resetEncoder(){
 		elevatorEncoder.reset();
 	}
+	public double motorFunction(double speed){
+		double functionVal = 0.0;		
+		functionVal = Math.abs(speed) * speed;				
+		return functionVal;
+	}
+	public void setSpeedMultiplier(double val){
+		speedMultiplier = val;
 	}
 	
+	
 }
+	
+

@@ -140,7 +140,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic(){
 
     	//Driver 
-    	if(driverGamepad.getRawButton(3)){
+    	if(driverGamepad.getRawButton(XboxController.X_BUTTON)){
     		drive.setSpeedMultiplier(1.0);
     	}
     	else{
@@ -178,12 +178,17 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Manual Elevator control
-    	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
-    		stacker.setElevatorUp(false);
-    	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-    		stacker.setElevatorUp(true);
-    	}
+    	//if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
+    		//stacker.setElevatorUp(false);
+    	//}
+    	//else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+    		//stacker.setElevatorUp(true);
+    	//}
+    	
+    	//Manual Elevator control
+    	elevator.setSpeedMultiplier(0.4);
+    	elevator.setElevatorSpeed(operatorGamepad.filterAxis(operatorGamepad.getLeftY()));
+    	
     	//Elevator presets
     	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
     		stacker.setElevatorUp(false);

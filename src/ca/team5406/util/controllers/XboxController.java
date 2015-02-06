@@ -46,5 +46,11 @@ public class XboxController extends Controller {
 	public int getDirectionPad(){
 		return super.getPOV();
 	}
-
+	public double filterAxis(double axisVal){
+		if(Math.abs(axisVal) <= 0.1)
+			return 0.0;
+		else
+			return axisVal;
+	}
+	
 }
