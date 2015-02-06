@@ -4,7 +4,7 @@ import ca.team5406.util.ConstantsBase.Constant;
 
 public class Constants {
 	
-	private Constants(){}
+	public Constants(){}
 	
 	//public static Constant *name* = new Constant("*key*", *defaultValue*);
 	

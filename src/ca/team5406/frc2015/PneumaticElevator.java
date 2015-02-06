@@ -11,7 +11,7 @@ public class PneumaticElevator {
 	private Solenoid grabberContraction = new Solenoid(2);
 	private Solenoid grabberExpansion = new Solenoid(3);
 	
-	private DigitalInput elevatorDownSensor = new DigitalInput(4);
+	private DigitalInput elevatorDownSensor = new DigitalInput(8);
 	
 	private int autoAddToStackState = 0;
 	private Timer autoAddToStackTimer = new Timer();
@@ -37,8 +37,6 @@ public class PneumaticElevator {
 	}
 	
 	public int doAutoAddToStack(boolean manualButton){
-		System.out.println("Timer: " + autoAddToStackTimer.get());
-		System.out.println("Stste: " + autoAddToStackState);
 
 		switch(autoAddToStackState){
 			default:

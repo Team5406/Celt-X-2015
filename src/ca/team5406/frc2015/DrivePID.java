@@ -12,11 +12,13 @@ public class DrivePID {
 
 	public DrivePID(Drive drive){
 		this.drive = drive;
-		
+		resetPidConstants();
+	}
+	
+	public void resetPidConstants(){
 		driveToPID.setCosntants(Constants.driveToPidKp.getDouble(), 
 								Constants.driveToPidKi.getDouble(), 
 								Constants.driveToPidKd.getDouble());
-		
 		turnToPID.setCosntants(Constants.turnToPidKp.getDouble(),
 							   Constants.turnToPidKi.getDouble(),
 							   Constants.turnToPidKd.getDouble());

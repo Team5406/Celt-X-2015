@@ -24,8 +24,9 @@ public class Robot extends IterativeRobot {
 	//Subsystems
 	private Drive drive;
 	private DrivePID drivePID;
-	private PneumaticElevator stacker;
+//	private PneumaticElevator stacker;
 	private Gripper grabber;
+	private Elevator elevator;
 	
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
@@ -33,7 +34,7 @@ public class Robot extends IterativeRobot {
 	private CameraServer cameraServer;
 	
 	private Compressor compressor = new Compressor();
-	private PressureTransducer pressureTransducer = new PressureTransducer(0);
+	private PressureTransducer pressureTransducer = new PressureTransducer(1);
 	
 	private RegulatedPrinter streamPrinter = new RegulatedPrinter(2.0);
 	
@@ -44,17 +45,19 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		System.out.println("Initializing Robot...");
 		
+		new Constants();
 		ConstantsBase.updateConstantsFromFile();
     	
     	drive = new Drive();
     	drivePID = new DrivePID(drive);
-    	stacker = new PneumaticElevator();
+//    	stacker = new PneumaticElevator();
     	grabber = new Gripper();
+    	elevator = new Elevator();
     	compressor.setClosedLoopControl(false);
     	
     	//Default solenoid positions
-    	stacker.setElevatorUp(true);
-    	stacker.setGripperExpansion(false);
+//    	stacker.setElevatorUp(true);
+//    	stacker.setGripperExpansion(false);
     	
     	try{
 	    	//Start sending camera to DS
@@ -70,7 +73,7 @@ public class Robot extends IterativeRobot {
 		//Send autonomous options to DS
 		autonSelector = new SendableChooser();
 		autonSelector.addDefault("Do Nothing", new DoNothing());
-		autonSelector.addObject("Take Ours", new TakeBothOurs(drivePID, stacker));
+//		autonSelector.addObject("Take Ours", new TakeBothOurs(drivePID, stacker));
 		autonSelector.addObject("Move to Zone", new MoveToZone(drivePID));
     	
 		System.out.println("Done.");
@@ -86,6 +89,7 @@ public class Robot extends IterativeRobot {
 		
 		if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
 			ConstantsBase.updateConstantsFromFile();
+			drivePID.resetPidConstants();
 		}
 		
 		if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
@@ -114,13 +118,19 @@ public class Robot extends IterativeRobot {
 		selectedAuto = (AutonomousRoutine) autonSelector.getSelected();
 		selectedAuto.routineInit();
 		
+		//TEMP
+		drivePID.initDriveToPos(2000);
+		
     }
 
 	//Called at ~50Hz while the robot is in autonomous.
     public void autonomousPeriodic(){
-    	if(!selectedAuto.isDone()){
-    		selectedAuto.routinePeriodic();
-    	}
+    	
+    	drivePID.driveToPos();
+    	
+//    	if(!selectedAuto.isDone()){
+//    		selectedAuto.routinePeriodic();
+//    	}
     }
 
     //Called once each time the robot enters tele-op mode.
@@ -146,24 +156,24 @@ public class Robot extends IterativeRobot {
     	
     	//Change Cameras
     	if(driverGamepad.getPOV() == 0){
-    		cameraServer.changeCamera("front");
+//    		cameraServer.changeCamera("front");
     	}
     	else if(driverGamepad.getPOV() == 180){
-    		cameraServer.changeCamera("rear");
+//    		cameraServer.changeCamera("rear");
     	}
     	
     	//Move away from stack when button held
-    	if(driverGamepad.getButtonHeld(1) && stacker.getElevatorDown()){
-        	if(driverGamepad.getButtonOnce(1)){
-        		drivePID.initDriveToPos(-1000);
-            	stacker.setGripperExpansion(true);
-        	}
-    		drivePID.driveToPos();
-    	}
-    	//Otherwise do normal arcade drive
-    	else{
+//    	if(driverGamepad.getButtonHeld(1) && stacker.getElevatorDown()){
+//        	if(driverGamepad.getButtonOnce(1)){
+//        		drivePID.initDriveToPos(-1000);
+//            	stacker.setGripperExpansion(true);
+//        	}
+//    		drivePID.driveToPos();
+//    	}
+//    	//Otherwise do normal arcade drive
+//    	else{
         	drive.doArcadeDrive(driverGamepad, 1, 0);
-    	}
+//    	}
     	
     	//Operator
     	//Manual compressor control
@@ -182,21 +192,28 @@ public class Robot extends IterativeRobot {
     		grabber.setGripperExpansion(false);
     	}
     	
+    	//TEMP
+    	if(Math.abs(operatorGamepad.getLeftY()) > 0.1){
+    		//Cube the joystick value so it's slow.
+    		elevator.setElevatorSpeed(operatorGamepad.getLeftY() * operatorGamepad.getLeftY() * operatorGamepad.getLeftY());
+    	}
+    	
+    	//Pneumatic Elevator - Disabled
     	//Manual Elevator control
-    	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
-    		stacker.setElevatorUp(false);
-    	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-    		stacker.setElevatorUp(true);
-    	}
-    	//Elevator presets
-    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
-    		stacker.setElevatorUp(false);
-    		stacker.setGripperExpansion(true);
-    	}
-    	else{
-    		stacker.doAutoAddToStack(operatorGamepad.getButtonOnce(XboxController.X_BUTTON));
-    	}
+//    	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
+//    		stacker.setElevatorUp(false);
+//    	}
+//    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+//    		stacker.setElevatorUp(true);
+//    	}
+//    	//Elevator presets
+//    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
+//    		stacker.setElevatorUp(false);
+//    		stacker.setGripperExpansion(true);
+//    	}
+//    	else{
+//    		stacker.doAutoAddToStack(operatorGamepad.getButtonOnce(XboxController.X_BUTTON));
+//    	}
     	
     	//Other
     	driverGamepad.updateButtons();
@@ -219,9 +236,11 @@ public class Robot extends IterativeRobot {
     public void printSensorInfo(){
     	streamPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
-    						"Gyro:             " + drive.getGyroAngle() + "\n" + 
-    						"Elevator Down:    " + stacker.getElevatorDown() + "\n" + 
-    						"Auto Stack State: " + stacker.getAutoStackState() + "\n");
+    						"Gyro:             " + drive.getGyroAngle() + "\n");
+//    						"Elevator Down:    " + stacker.getElevatorDown() + "\n" + 
+//    						"Auto Stack State: " + stacker.getAutoStackState() + "\n");
+    	//TEMP
+    	if(driverGamepad.getButtonOnce(1)) drive.resetEncoders();
     }
     
 }

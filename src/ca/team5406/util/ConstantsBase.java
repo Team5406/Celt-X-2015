@@ -10,7 +10,7 @@ public abstract class ConstantsBase {
 	private ConstantsBase(){}
 	
 	private static ArrayList<Constant> constants = new ArrayList<Constant>();
-	private static final String FILE_PATH = "Constants.txt";
+	private static final String FILE_PATH = "/home/Constants.txt";
 	
 	public static void updateConstantsFromFile(){
 		try {
@@ -31,7 +31,7 @@ public abstract class ConstantsBase {
 					System.out.println("Setting " + name + " to " + value);
 				}
 				else{
-					System.out.println("Error: Could not find constant: " + value);
+					System.out.println("Error: Could not find constant: " + name);
 				}
 			}
 			
@@ -45,7 +45,7 @@ public abstract class ConstantsBase {
 	
 	public static boolean writeConstant(String key, double value){
 		for(Constant constant : constants){
-			if(constant.getName() == key){
+			if(constant.getName().equals(key)){
 				constant.setValue(value);
 				return true;
 			}
@@ -59,9 +59,10 @@ public abstract class ConstantsBase {
 		private String key;
 		private double value;
 		
-		public Constant(String key, double value){
-			this.key = key;
-			this.value = value;
+		public Constant(String name, double val){
+			key = name;
+			value = val;
+			
 			constants.add(this);
 		}
 		public void setValue(double value){
@@ -78,6 +79,10 @@ public abstract class ConstantsBase {
 		
 		public double getDouble(){
 			return value;
+		}
+		
+		public String toString(){
+			return key + ":" + value;
 		}
 	}
 	
