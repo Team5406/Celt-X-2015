@@ -41,8 +41,12 @@ public class Stacker {
 		stackerState = 0;
 	}
 	
-	public String getStackerPosition(){
+	public String getStackerPositionName(){
 		return currentStackerPosition.name();
+	}
+	
+	public StackerPositions getStackerPosition(){
+		return currentStackerPosition;
 	}
 	
 	public void doAutoLoop(){

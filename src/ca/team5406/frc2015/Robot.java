@@ -184,6 +184,12 @@ public class Robot extends IterativeRobot {
     	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
     	}
+    	else if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
+    		stacker.setDesiredPostition(Stacker.StackerPositions.floorOpen);
+    	}
+    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+    		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
+    	}
     	
     	//TODO: TEMP: Manual Elevator control
     	elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(0) ? 0.6 : 1.0));
@@ -195,6 +201,7 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Other
+//    	stacker.doAutoLoop(); //Uncomment when the PID is done
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
     	sendSmartDashInfo();

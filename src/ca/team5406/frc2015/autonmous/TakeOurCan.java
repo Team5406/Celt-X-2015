@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class TakeOurCan extends AutonomousRoutine {
 	
 	private DrivePID drivePID;
-	private PneumaticElevator stacker;	
+	private Stacker stacker;
 	
 	private Timer stateTimer;
 	
@@ -14,16 +14,15 @@ public class TakeOurCan extends AutonomousRoutine {
 	 * This auto mode will stack our can on our tote and move them into the auto zone.
 	 */
 	
-	public TakeOurCan(DrivePID drivePID, PneumaticElevator stacker){
+	public TakeOurCan(DrivePID drivePID, Stacker stacker){
 		this.drivePID = drivePID;
 		this.stacker = stacker;
 	}
 	
 	public void routineInit(){
-		stacker.setGripperExpansion(true);
-		stacker.setElevatorUp(false);
+		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
 		stateTimer = new Timer();
-		System.out.println("Taking our things");
+		System.out.println("Taking our can");
 	}
 	
 	public void routinePeriodic(){
@@ -31,26 +30,23 @@ public class TakeOurCan extends AutonomousRoutine {
 			default:
 				break;
 			case 0:
-				stacker.setElevatorUp(true);
-				stateTimer.reset();
-				stateTimer.start();
+				stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
 				super.autonState++;
 				break;
 			case 1:
-				if(stateTimer.get() >= Constants.gripperMoveDelay.getDouble()){
-					stateTimer.stop();
-					drivePID.initDriveToPos(0);
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.carryClosed){
+					drivePID.initDriveToPos(-500);
 					super.autonState++;
 				}
 				break;
 			case 2:
 				if(drivePID.driveToPos()){
-					drivePID.initTurnToAngle(0);
+					drivePID.initTurnToAngle(90);
 					super.autonState++;
 				}
 			case 3:
 				if(drivePID.turnToAngle()){
-					drivePID.initDriveToPos(0);
+					drivePID.initDriveToPos(2500);
 					super.autonState++;
 				}
 				break;
