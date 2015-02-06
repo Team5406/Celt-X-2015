@@ -6,10 +6,8 @@ import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.Functions;
 import ca.team5406.util.RegulatedPrinter;
-import ca.team5406.util.controllers.AttackStick;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
-//import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -35,7 +33,7 @@ public class Robot extends IterativeRobot {
 	private CameraServer cameraServer;
 	
 	private Compressor compressor = new Compressor();
-	private PressureTransducer pressureTransducer = new PressureTransducer(1);
+	private PressureTransducer pressureTransducer;
 	
 	private RegulatedPrinter streamPrinter = new RegulatedPrinter(2.0);
 	
@@ -55,9 +53,10 @@ public class Robot extends IterativeRobot {
     	elevator = new Elevator();
     	elevator = new Elevator();
     	stacker = new Stacker(elevator, gripper);
-
-    	compressor.setClosedLoopControl(false);
     	
+    	pressureTransducer = new PressureTransducer(Constants.pressureTransducer.getInt());
+    	gripper.setGripperExpansion(false);
+    	compressor.setClosedLoopControl(false);
     	
     	try{
 	    	//Start sending camera to DS
@@ -69,8 +68,6 @@ public class Robot extends IterativeRobot {
     	catch(Exception ex){
     		System.out.println("ERROR: Camera not available");
     	}
-    	
-    	gripper.setGripperExpansion(false);
 		
 		//Send autonomous options to DS
 		autonSelector = new SendableChooser();

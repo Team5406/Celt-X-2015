@@ -22,15 +22,18 @@ public class Drive {
 	private double speedMultiplier = 1.0;
 	
 	public Drive(){
-		leftDriveA = new Talon(0);
-		leftDriveB = new Talon(1);
-		rightDriveA = new Talon(2);
-		rightDriveB = new Talon(3);
+		leftDriveA = new Talon(Constants.leftDriveTalonA.getInt());
+		leftDriveB = new Talon(Constants.leftDriveTalonB.getInt());
+		rightDriveA = new Talon(Constants.rightDriveTalonA.getInt());
+		rightDriveB = new Talon(Constants.rightDriveTalonB.getInt());
 		
-		leftEncoder = new RelativeEncoder(0, 1, true);
-		rightEncoder = new RelativeEncoder(2, 3, false);
+		leftEncoder = new RelativeEncoder(Constants.leftDriveEncA.getInt(),
+										  Constants.leftDriveEncB.getInt(), true);
 		
-		gyro = new Gyro(0);
+		rightEncoder = new RelativeEncoder(Constants.rightDriveEncA.getInt(),
+										   Constants.rightDriveEncB.getInt(), false);
+		
+		gyro = new Gyro(Constants.gyro.getInt());
 		gyro.initGyro();
 	}
 	

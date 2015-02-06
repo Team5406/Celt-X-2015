@@ -16,10 +16,11 @@ public class Elevator {
 	private PID downPID = new PID();
 	
 	public Elevator(){
-		elevatorMotorA = new Victor(4);
-		elevatorMotorB = new Victor(5);
-		elevatorEncoder = new RelativeEncoder(4, 5);
-		brake = new Solenoid(0);
+		elevatorMotorA = new Victor(Constants.elevatorVictorA.getInt());
+		elevatorMotorB = new Victor(Constants.elevatorVictorB.getInt());
+		elevatorEncoder = new RelativeEncoder(Constants.elevatorEncA.getInt(),
+											  Constants.elevatorEncB.getInt());
+		brake = new Solenoid(Constants.elevatorBrake.getInt());
 		
 		upPID.setCosntants(Constants.elevatorUpPidKp.getDouble(), 
 						   Constants.elevatorUpPidKi.getDouble(),

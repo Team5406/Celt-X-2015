@@ -8,8 +8,8 @@ public class Gripper {
 	private Solenoid gripperExpansion;
 
 	public Gripper(){
-		gripperContraction = new Solenoid(2);
-		gripperExpansion = new Solenoid(3);
+		gripperContraction = new Solenoid(Constants.gripperContraction.getInt());
+		gripperExpansion = new Solenoid(Constants.gripperExpansion.getInt());
 	}
 	
 	public boolean getGripperExpanded(){
