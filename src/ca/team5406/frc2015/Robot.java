@@ -51,7 +51,6 @@ public class Robot extends IterativeRobot {
     	drivePID = new DrivePID(drive);
     	gripper = new Gripper();
     	elevator = new Elevator();
-    	elevator = new Elevator();
     	stacker = new Stacker(elevator, gripper);
     	
     	pressureTransducer = new PressureTransducer(Constants.pressureTransducer.getInt());
