@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	private Compressor compressor = new Compressor();
 	private PressureTransducer pressureTransducer;
 	
-	private RegulatedPrinter streamPrinter = new RegulatedPrinter(2.0);
+	private RegulatedPrinter riologPrinter = new RegulatedPrinter(2.0);
 	
 	//Autonomous
 	double autonDelay = 0.0;
@@ -142,10 +142,10 @@ public class Robot extends IterativeRobot {
     	
     	//Change Cameras
     	if(driverGamepad.getDirectionPad() == 0){
-    		cameraServer.changeCamera("front");
+    		//cameraServer.changeCamera("front");
     	}
     	else if(driverGamepad.getDirectionPad() == 180){
-    		cameraServer.changeCamera("rear");
+    		//cameraServer.changeCamera("rear");
     	}
     	
     	//TODO: Add backup from stack button.
@@ -195,6 +195,7 @@ public class Robot extends IterativeRobot {
 //    	stacker.doAutoLoop(); //Uncomment when the PID is done
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
+    	
     	sendSmartDashInfo();
     	printSensorInfo();
     }
@@ -210,7 +211,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void printSensorInfo(){
-    	streamPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
+    	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
     						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
     						"Gyro:             " + drive.getGyroAngle() + "\n");
