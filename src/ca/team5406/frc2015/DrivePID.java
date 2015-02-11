@@ -16,10 +16,10 @@ public class DrivePID {
 	}
 	
 	public void resetPidConstants(){
-		driveToPID.setCosntants(Constants.driveToPidKp.getDouble(), 
+		driveToPID.setConstants(Constants.driveToPidKp.getDouble(), 
 								Constants.driveToPidKi.getDouble(), 
 								Constants.driveToPidKd.getDouble());
-		turnToPID.setCosntants(Constants.turnToPidKp.getDouble(),
+		turnToPID.setConstants(Constants.turnToPidKp.getDouble(),
 							   Constants.turnToPidKi.getDouble(),
 							   Constants.turnToPidKd.getDouble());
 	}

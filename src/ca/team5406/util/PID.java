@@ -32,10 +32,14 @@ public class PID {
 		double valP = kP * currentError;
 		double valI = accumI;
 		double valD = kD * (previousError - currentError);
-		valD = Functions.limitValue(valD, valP); // Limit so that D isn't the driving number
+		if(Math.abs(valD) > Math.abs(valP)) valD = valP; // Limit so that D isn't the driving number
 		accumI += kI;
 		
-		if(Math.signum(previousError) != Math.signum(currentError)) accumI = 0; //If we overshoot, reset the I
+		//If we overshoot, reset the I
+		if(Math.signum(previousError) != Math.signum(currentError)){ 
+			accumI = 0; 
+			valI = 0;
+		}
 		
 		double speed = valP + (valI * (desiredPosition > currentPosition ? 1.0 : -1.0)) - valD;
 
@@ -61,7 +65,11 @@ public class PID {
 		this.desiredPosition = desiredPosition;
 	}
 	
-	public void setCosntants(double kP, double kI, double kD){
+	public void resetAccumI(){
+		accumI = 0.0;
+	}
+	
+	public void setConstants(double kP, double kI, double kD){
 		this.kP = kP;
 		this.kI = kI;
 		this.kD = kD;

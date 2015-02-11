@@ -16,9 +16,9 @@ public class Stacker {
 		elevatorMoving;
 	}
 
-	private StackerPositions currentStackerPosition;
-	private StackerPositions desiredStackerPosition;
-	private StackerPositions nextStackerPosition;
+	private StackerPositions currentStackerPosition = StackerPositions.elevatorMoving;
+	private StackerPositions desiredStackerPosition = StackerPositions.elevatorMoving;
+	private StackerPositions nextStackerPosition = StackerPositions.elevatorMoving;
 	private int stackerState = 0;
 	
 	public Stacker(Elevator elevator, Gripper gripper){
@@ -26,7 +26,7 @@ public class Stacker {
 		this.gripper = gripper;
 		desiredStackerPosition = StackerPositions.floorClosed;
 		currentStackerPosition = StackerPositions.floorClosed;
-		nextStackerPosition = null;
+		nextStackerPosition = StackerPositions.elevatorMoving;
 	}
 	
 	public void addToStack(){
@@ -37,7 +37,7 @@ public class Stacker {
 	public void setDesiredPostition(StackerPositions desiredPosition){
 		desiredStackerPosition = desiredPosition;
 		currentStackerPosition = StackerPositions.elevatorMoving;
-		nextStackerPosition = null;
+		nextStackerPosition = StackerPositions.elevatorMoving;
 		stackerState = 0;
 	}
 	
@@ -164,6 +164,7 @@ public class Stacker {
 						break;
 					case 0:
 						gripper.setGripperExpansion(false);
+						Timer.delay(0.2);//Terrible way to do this
 						stackerState++;
 						break;
 					case 1:
@@ -182,7 +183,7 @@ public class Stacker {
 							stackerState++;
 						}
 						break;
-					}
+				}
 		}
 	}
 	

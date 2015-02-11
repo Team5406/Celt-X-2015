@@ -24,21 +24,21 @@ public class Constants {
 	public static Constant turnToPidDeadband = new Constant("turnToPidDeadband", 0.5);
 	
 	//Elevator Up PID Constants
-	public static Constant elevatorUpPidKp = new Constant("elevatorUpPidKp", 0.0);
-	public static Constant elevatorUpPidKi = new Constant("elevatorUpPidKi", 0.0);
-	public static Constant elevatorUpPidKd = new Constant("elevatorUpPidKd", 0.0);
-	public static Constant elevatorUpPidDeadband = new Constant("elevatorUpPidDeadband", 0.5);
+	public static Constant elevatorUpPidKp = new Constant("elevatorUpPidKp", 0.0014);
+	public static Constant elevatorUpPidKi = new Constant("elevatorUpPidKi", 0.0035);
+	public static Constant elevatorUpPidKd = new Constant("elevatorUpPidKd", 0.0033);
+	public static Constant elevatorUpPidDeadband = new Constant("elevatorUpPidDeadband", 200);
 	
 	//Elevator Down PID Constants
-	public static Constant elevatorDownPidKp = new Constant("elevatorDownPidKp", 0.0);
-	public static Constant elevatorDownPidKi = new Constant("elevatorDownPidKi", 0.0);
-	public static Constant elevatorDownPidKd = new Constant("elevatorDownPidKd", 0.0);
-	public static Constant elevatorDownPidDeadband = new Constant("elevatorDownPidDeadband", 0.5);
+	public static Constant elevatorDownPidKp = new Constant("elevatorDownPidKp", 0.00014);
+	public static Constant elevatorDownPidKi = new Constant("elevatorDownPidKi", 0.0008);
+	public static Constant elevatorDownPidKd = new Constant("elevatorDownPidKd", 0.0048);
+	public static Constant elevatorDownPidDeadband = new Constant("elevatorDownPidDeadband", 300);
 	
 	//Elevator Position Presets
-	public static Constant elevatorFloorPreset = new Constant("elevatorFloorPreset", 10);
-	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 10000);
-	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 1500);
+	public static Constant elevatorFloorPreset = new Constant("elevatorFloorPreset", -100);
+	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 10100);
+	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 1800);
 	
 	//s
 	//Controllers
@@ -67,7 +67,7 @@ public class Constants {
 	public static Constant pressureTransducer = new Constant("pressureTransducer", 1);
 	
 	//Solenoid
-	public static Constant elevatorBrake = new Constant("elevatorBrake", 0);
-	public static Constant gripperContraction = new Constant("gripperContraction", 2);
-	public static Constant gripperExpansion = new Constant("gripperExpansion", 3);
+	public static Constant elevatorBrake = new Constant("elevatorBrake", 1);
+	public static Constant gripperContraction = new Constant("gripperContraction", 3);
+	public static Constant gripperExpansion = new Constant("gripperExpansion", 2);
 }

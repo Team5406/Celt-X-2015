@@ -88,6 +88,7 @@ public class Robot extends IterativeRobot {
 			ConstantsBase.updateConstantsFromFile();
 			drivePID.resetPidConstants();
 			elevator.resetPidConstants();
+			elevator.resetI();
 		}
 		
 		if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
@@ -137,6 +138,9 @@ public class Robot extends IterativeRobot {
     	if(driverGamepad.getButtonHeld(XboxController.X_BUTTON)){
     		drive.setSpeedMultiplier(1.0);
     	}
+    	else if(driverGamepad.getButtonHeld(XboxController.B_BUTTON)){
+    		drive.setSpeedMultiplier(0.5);
+    	}
     	else{
     		drive.setSpeedMultiplier(0.7);
     	}
@@ -183,16 +187,30 @@ public class Robot extends IterativeRobot {
     		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
     	}
     	
-    	//TODO: TEMP FOR PID TUNING
-    	if(operatorGamepad.getButtonHeld(XboxController.X_BUTTON)){
-    		elevator.setElevatorPosition(10000);
-    	}
-    	else if(operatorGamepad.getButtonHeld(XboxController.B_BUTTON)){
-    		elevator.setElevatorPosition(2000);
-    	}
+    	//TODO: MANUAL CONTROL - works
+//    	if(operatorGamepad.getButtonHeld(XboxController.Y_BUTTON)){
+//    		elevator.setBrake(false);
+//    		SmartDashboard.putBoolean("ele", elevator.setElevatorPosition(Constants.elevatorUpPreset.getInt()));
+//    	}
+//    	else if(operatorGamepad.getButtonHeld(XboxController.B_BUTTON)){
+//    		elevator.setBrake(false);
+//    		SmartDashboard.putBoolean("ele", elevator.setElevatorPosition(Constants.elevatorCarryPreset.getInt()));
+//    	}
+//    	else if(operatorGamepad.getButtonHeld(XboxController.A_BUTTON)){
+//    		elevator.setBrake(false);
+//    		SmartDashboard.putBoolean("ele", elevator.setElevatorPosition(Constants.elevatorFloorPreset.getInt()));
+//    	}
+//    	else if(Math.abs(operatorGamepad.getLeftY())> 0.1){
+//    		elevator.setBrake(false);
+//    		SmartDashboard.putBoolean("ele", false);
+//    		elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
+//    	}
+//    	else{
+//    		elevator.setElevatorSpeed(0.0);
+//    		elevator.setBrake(true);
+//    	}
     	
     	//TODO: TEMP: Manual Elevator control
-    	else elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
     	
     	//TODO: TEMP: Encoder resets
     	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
@@ -201,7 +219,7 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Other
-//    	stacker.doAutoLoop(); //Uncomment when the PID is done
+    	stacker.doAutoLoop(); //Uncomment when the PID is done
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
     	
@@ -223,7 +241,6 @@ public class Robot extends IterativeRobot {
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
     						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
-    						"Elevator Speed:   " + elevator.getMotor().get() + "\n" +
     						"Gyro:             " + drive.getGyroAngle() + "\n");
     }
     
