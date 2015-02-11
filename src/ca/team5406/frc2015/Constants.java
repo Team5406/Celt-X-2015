@@ -40,7 +40,7 @@ public class Constants {
 	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 10100);
 	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 1800);
 	
-	//s
+	//Ports
 	//Controllers
 	public static Constant driverGamepad = new Constant("driverGamepad", 0);
 	public static Constant operatorGamepad = new Constant("operatorGamepad", 1);
