@@ -31,10 +31,13 @@ public class PID {
 		
 		double valP = kP * currentError;
 		double valI = accumI;
-		double valD = kD * (currentError - previousError);
+		double valD = kD * (previousError - currentError);
+		valD = Functions.limitValue(valD, valP); // Limit so that D isn't the driving number
 		accumI += kI;
 		
-		double speed = valP + valI - valD;
+		if(Math.signum(previousError) != Math.signum(currentError)) accumI = 0; //If we overshoot, reset the I
+		
+		double speed = valP + (valI * (desiredPosition > currentPosition ? 1.0 : -1.0)) - valD;
 
 		previousError = currentError;
 		

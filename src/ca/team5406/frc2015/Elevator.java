@@ -42,21 +42,21 @@ public class Elevator {
 		double upSpeed = upPID.calcSpeed(currentPosition);
 		double downSpeed = downPID.calcSpeed(currentPosition);
 		
-		if(desiredPosition > currentPosition + Constants.elevatorUpPidDeadband.getInt()){
+//		if(desiredPosition > currentPosition + Constants.elevatorUpPidDeadband.getInt()){
 			setBrake(false);
 			setElevatorSpeed(upSpeed);
 			return upPID.isDone(currentPosition, Constants.elevatorUpPidDeadband.getInt());
-		}
-		else if(desiredPosition < currentPosition - Constants.elevatorDownPidDeadband.getInt()){
-			setBrake(false);
-			setElevatorSpeed(downSpeed);
-			return downPID.isDone(currentPosition, Constants.elevatorDownPidDeadband.getInt());
-		}
-		else{
-			setElevatorSpeed(0);
-			setBrake(true);
-			return true;
-		}
+//		}
+//		else if(desiredPosition < currentPosition - Constants.elevatorDownPidDeadband.getInt()){
+//			setBrake(false);
+//			setElevatorSpeed(downSpeed);
+//			return downPID.isDone(currentPosition, Constants.elevatorDownPidDeadband.getInt());
+//		}
+//		else{
+//			setElevatorSpeed(0);
+//			setBrake(true);
+//			return true;
+//		}
 	}
 	
 	public void setBrake(boolean shouldBrake){
@@ -73,6 +73,21 @@ public class Elevator {
 	}
 	public void resetEncoder(){
 		elevatorEncoder.reset();
+	}
+	
+	public void resetPidConstants(){
+		downPID.setCosntants(Constants.elevatorDownPidKp.getDouble(), 
+				   Constants.elevatorDownPidKi.getDouble(),
+				   Constants.elevatorDownPidKd.getDouble());
+
+		upPID.setCosntants(Constants.elevatorUpPidKp.getDouble(), 
+						   Constants.elevatorUpPidKi.getDouble(),
+						   Constants.elevatorUpPidKd.getDouble());
+	}
+	
+	//TODO: Temp
+	public Victor getMotor(){
+		return elevatorMotorA;
 	}
 	
 	

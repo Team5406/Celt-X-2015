@@ -11,10 +11,10 @@ public class Constants {
 	public static Constant gripperMoveDelay = new Constant("gripperMoveDelay", 0.4);
 	
 	//DriveTo PID Constants
-	public static Constant driveToPidKp = new Constant("driveToPidKp", 0.0);
-	public static Constant driveToPidKi = new Constant("driveToPidKi", 0.0);
-	public static Constant driveToPidKd = new Constant("driveToPidKd", 0.0);
-	public static Constant driveToPidDeadband = new Constant("driveToPidDeadband", 10);
+	public static Constant driveToPidKp = new Constant("driveToPidKp", 0.00035);
+	public static Constant driveToPidKi = new Constant("driveToPidKi", 0.001);
+	public static Constant driveToPidKd = new Constant("driveToPidKd", 0.006);
+	public static Constant driveToPidDeadband = new Constant("driveToPidDeadband", 100);
 	public static Constant driveToPidGyroFactor = new Constant("driveToPidGyroFactor", 0.0);
 	
 	//TurnTo PID Constants
@@ -36,9 +36,9 @@ public class Constants {
 	public static Constant elevatorDownPidDeadband = new Constant("elevatorDownPidDeadband", 0.5);
 	
 	//Elevator Position Presets
-	public static Constant elevatorFloorPreset = new Constant("elevatorFloorPreset", 0);
-	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 0);
-	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 0);
+	public static Constant elevatorFloorPreset = new Constant("elevatorFloorPreset", 10);
+	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 10000);
+	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 1500);
 	
 	//s
 	//Controllers

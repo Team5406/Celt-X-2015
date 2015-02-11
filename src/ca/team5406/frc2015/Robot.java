@@ -87,6 +87,7 @@ public class Robot extends IterativeRobot {
 		if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
 			ConstantsBase.updateConstantsFromFile();
 			drivePID.resetPidConstants();
+			elevator.resetPidConstants();
 		}
 		
 		if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
@@ -182,8 +183,16 @@ public class Robot extends IterativeRobot {
     		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
     	}
     	
+    	//TODO: TEMP FOR PID TUNING
+    	if(operatorGamepad.getButtonHeld(XboxController.X_BUTTON)){
+    		elevator.setElevatorPosition(10000);
+    	}
+    	else if(operatorGamepad.getButtonHeld(XboxController.B_BUTTON)){
+    		elevator.setElevatorPosition(2000);
+    	}
+    	
     	//TODO: TEMP: Manual Elevator control
-    	elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(0) ? 0.6 : 1.0));
+    	else elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
     	
     	//TODO: TEMP: Encoder resets
     	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
@@ -214,6 +223,7 @@ public class Robot extends IterativeRobot {
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
     						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
+    						"Elevator Speed:   " + elevator.getMotor().get() + "\n" +
     						"Gyro:             " + drive.getGyroAngle() + "\n");
     }
     

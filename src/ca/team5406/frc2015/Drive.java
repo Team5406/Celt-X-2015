@@ -28,10 +28,10 @@ public class Drive {
 		rightDriveB = new Talon(Constants.rightDriveTalonB.getInt());
 		
 		leftEncoder = new RelativeEncoder(Constants.leftDriveEncA.getInt(),
-										  Constants.leftDriveEncB.getInt(), true);
+										  Constants.leftDriveEncB.getInt(), false);
 		
 		rightEncoder = new RelativeEncoder(Constants.rightDriveEncA.getInt(),
-										   Constants.rightDriveEncB.getInt(), false);
+										   Constants.rightDriveEncB.getInt(), true);
 		
 		gyro = new Gyro(Constants.gyro.getInt());
 		gyro.initGyro();
