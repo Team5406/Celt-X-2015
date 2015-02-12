@@ -166,10 +166,10 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Manual Gripper control
-    	if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
+    	if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
     		gripper.setGripperExpansion(true);
     	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
     		gripper.setGripperExpansion(false);
     	}
     	
