@@ -11,6 +11,7 @@ import ca.team5406.util.sensors.PressureTransducer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,7 +27,10 @@ public class Robot extends IterativeRobot {
 	private Gripper gripper;
 	private Elevator elevator;
 	private Stacker stacker;
-	
+
+	//temp 
+	private Victor toteRoller = new Victor(6);
+	//
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
 	
@@ -134,6 +138,7 @@ public class Robot extends IterativeRobot {
 	//Called at ~50Hz while the robot is enabled.
     public void teleopPeriodic(){
 
+    	
     	//Driver 
     	if(driverGamepad.getButtonHeld(XboxController.X_BUTTON)){
     		drive.setSpeedMultiplier(1.0);
@@ -223,6 +228,14 @@ public class Robot extends IterativeRobot {
     	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
     		drive.resetEncoders();
     		elevator.resetEncoder();
+    	}
+    	
+    	//TODO: TEMP: toteroller code
+    	if(elevator.getElevatorPosition() >= 5000){
+    		toteRoller.set(-.35);
+    	}
+    	else{
+    		toteRoller.set(0.0);
     	}
     	
     	//Other

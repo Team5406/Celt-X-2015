@@ -51,7 +51,6 @@ public class Elevator {
 		}
 		else if(desiredPosition < currentPosition - Constants.elevatorDownPidDeadband.getInt()){
 			setBrake(false);
-			
 			setElevatorSpeed(downSpeed);
 			return downPID.isDone(currentPosition, Constants.elevatorDownPidDeadband.getInt());
 		}
