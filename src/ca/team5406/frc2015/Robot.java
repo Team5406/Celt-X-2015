@@ -11,7 +11,6 @@ import ca.team5406.util.sensors.PressureTransducer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -28,9 +27,8 @@ public class Robot extends IterativeRobot {
 	private Elevator elevator;
 	private Stacker stacker;
 
-	//temp 
-	private Victor toteRoller = new Victor(6);
-	//
+	private ToteRoller toteRoller;
+	
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
 	
@@ -56,6 +54,7 @@ public class Robot extends IterativeRobot {
     	gripper = new Gripper();
     	elevator = new Elevator();
     	stacker = new Stacker(elevator, gripper);
+    	toteRoller = new ToteRoller();
     	
     	pressureTransducer = new PressureTransducer(Constants.pressureTransducer.getInt());
     	gripper.setGripperExpansion(false);
@@ -229,15 +228,12 @@ public class Robot extends IterativeRobot {
     		drive.resetEncoders();
     		elevator.resetEncoder();
     	}
-    	
+    	double triggerVal = 0.0;
     	//TODO: TEMP: toteroller code
-    	if(elevator.getElevatorPosition() >= 5000){
-    		toteRoller.set(-.35);
+    	if(operatorGamepad.getRightTrigger() > 0.5){
+    		    triggerVal = operatorGamepad.getRightTrigger();
     	}
-    	else{
-    		toteRoller.set(0.0);
-    	}
-    	
+    	toteRoller.setSpeed(triggerVal);
     	//Other
     	//stacker.doAutoLoop(); //Uncomment when the PID is done
     	driverGamepad.updateButtons();
