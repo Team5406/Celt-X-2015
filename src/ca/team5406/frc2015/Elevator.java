@@ -21,7 +21,7 @@ public class Elevator {
 		elevatorMotorB = new Victor(Constants.elevatorVictorB.getInt());
 		elevatorEncoder = new RelativeEncoder(Constants.elevatorEncA.getInt(),
 											  Constants.elevatorEncB.getInt());
-		brake = new Solenoid(Constants.elevatorBrake.getInt());
+		brake = new Solenoid(1);
 		unbrake = new Solenoid(0);
 		
 		upPID.setConstants(Constants.elevatorUpPidKp.getDouble(),
@@ -67,9 +67,9 @@ public class Elevator {
 	
 	public void setBrake(boolean shouldBrake){
 		unbrake.set(!shouldBrake);
-		brake.set(shouldBrake);
-	}
+		brake.set(shouldBrake);	
 	
+	}
 	public void setElevatorSpeed(double speed){
 		elevatorMotorA.set(speed);
 		elevatorMotorB.set(speed);

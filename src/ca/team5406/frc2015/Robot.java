@@ -6,6 +6,7 @@ import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.Functions;
 import ca.team5406.util.RegulatedPrinter;
+import ca.team5406.util.controllers.LogitechGamepad;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -18,7 +19,7 @@ public class Robot extends IterativeRobot {
 
 	//Controllers
 	private XboxController driverGamepad = new XboxController(Constants.driverGamepad.getInt());
-	private XboxController operatorGamepad = new XboxController(Constants.operatorGamepad.getInt());
+	private LogitechGamepad operatorGamepad = new LogitechGamepad(Constants.operatorGamepad.getInt());
 	
 	//Subsystems
 	private Drive drive;
@@ -87,17 +88,17 @@ public class Robot extends IterativeRobot {
 	//Called at ~50Hz while the robot is disabled.
 	public void disabledPeriodic(){
 		
-		if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
+		if(operatorGamepad.getButtonOnce(LogitechGamepad.Button3)){
 			ConstantsBase.updateConstantsFromFile();
 			drivePID.resetPidConstants();
 			elevator.resetPidConstants();
 			elevator.resetI();
 		}
 		
-		if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+		if(operatorGamepad.getButtonOnce(LogitechGamepad.Button4)){
 			if(autonDelay < 10) autonDelay += 0.1;
 		}
-		else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
+		else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button5)){
 			if(autonDelay > 0) autonDelay -= 0.1;
 		}
 		
@@ -137,7 +138,6 @@ public class Robot extends IterativeRobot {
 	//Called at ~50Hz while the robot is enabled.
     public void teleopPeriodic(){
 
-    	
     	//Driver 
     	if(driverGamepad.getButtonHeld(XboxController.X_BUTTON)){
     		drive.setSpeedMultiplier(1.0);
@@ -162,78 +162,61 @@ public class Robot extends IterativeRobot {
     	
     	//Operator
     	//Manual compressor control
-    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
+    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(LogitechGamepad.Button11)){
     		compressor.stop();
     	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
+    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button12)){
     		compressor.start();
     	}
     	
     	//Manual Gripper control
-    	if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
+    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button7)){
     		gripper.setGripperExpansion(true);
     	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
+    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button8)){
     		gripper.setGripperExpansion(false);
     	}
     	
     	//TODO: Add more/refine stacker control buttons.
-    	if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
+    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button6)){
     		stacker.addToStack();
     	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
+    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button4)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
     	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.floorOpen);
+    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button3)){
+    		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
     	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button5)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
     	}
     	
-    	if(Math.abs(operatorGamepad.getLeftY()) > 0.15 && operatorGamepad.getButtonHeld(XboxController.BACK_BUTTON)){
-    		elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
+    	if(Math.abs(operatorGamepad.getYAxis()) > 0.15 && operatorGamepad.getButtonHeld(LogitechGamepad.Button1)){
+    		elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getYAxis()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
     	}
     	else{
     		stacker.doAutoLoop();
     	}
-    	
-    	//TODO: MANUAL CONTROL - works
-//    	if(operatorGamepad.getButtonHeld(XboxController.Y_BUTTON)){
-//    		elevator.setBrake(false);
-//    		SmartDashboard.putBoolean("ele", elevator.setElevatorPosition(Constants.elevatorUpPreset.getInt()));
-//    	}
-//    	else if(operatorGamepad.getButtonHeld(XboxController.B_BUTTON)){
-//    		elevator.setBrake(false);
-//    		SmartDashboard.putBoolean("ele", elevator.setElevatorPosition(Constants.elevatorCarryPreset.getInt()));
-//    	}
-//    	else if(operatorGamepad.getButtonHeld(XboxController.A_BUTTON)){
-//    		elevator.setBrake(false);
-//    		SmartDashboard.putBoolean("ele", elevator.setElevatorPosition(Constants.elevatorFloorPreset.getInt()));
-//    	}
-//    	else if(Math.abs(operatorGamepad.getLeftY())> 0.1){
-//    		elevator.setBrake(false);
-//    		SmartDashboard.putBoolean("ele", false);
-//    		elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
-//    	}
-//    	else{
-//    		elevator.setElevatorSpeed(0.0);
-//    		elevator.setBrake(true);
-//    	}
-    	
-    	//TODO: TEMP: Manual Elevator control
-    	
+    	   
+    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button9)){
+    		elevator.setBrake(true);
+    	}
+    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button10)){
+    		elevator.setBrake(false);
+    	}
     	//TODO: TEMP: Encoder resets
-    	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
-    		drive.resetEncoders();
+    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button11) && operatorGamepad.getButtonOnce(LogitechGamepad.Button12)){
     		elevator.resetEncoder();
     	}
-    	double triggerVal = 0.0;
+    	
+    	
     	//TODO: TEMP: toteroller code
-    	if(operatorGamepad.getRightTrigger() > 0.5){
-    		    triggerVal = operatorGamepad.getRightTrigger();
+    	if(operatorGamepad.getButtonHeld(LogitechGamepad.Button2)){
+    		toteRoller.setSpeed(1);
     	}
-    	toteRoller.setSpeed(triggerVal);
+    	    	
+    	
+    	
     	//Other
     	//stacker.doAutoLoop(); //Uncomment when the PID is done
     	driverGamepad.updateButtons();
@@ -257,7 +240,8 @@ public class Robot extends IterativeRobot {
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
     						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
-    						"Gyro:             " + drive.getGyroAngle() + "\n");
+    						"Gyro:             " + drive.getGyroAngle() + "\n" +
+    						"DPad" + operatorGamepad.getDirectionPad());
     }
     
 }

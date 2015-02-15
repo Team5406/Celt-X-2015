@@ -37,7 +37,7 @@ public class Constants {
 	
 	//Elevator Position Presets
 	public static Constant elevatorFloorPreset = new Constant("elevatorFloorPreset", -100);
-	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 10100);
+	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 9500);
 	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 1800);
 	
 	//Ports
