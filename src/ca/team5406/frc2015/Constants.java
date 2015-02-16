@@ -63,8 +63,8 @@ public class Constants {
 	public static Constant elevatorEncB = new Constant("elevatorEncB", 5);
 	
 	//Analog
-	public static Constant gyro = new Constant("gyro", 0);
-	public static Constant pressureTransducer = new Constant("pressureTransducer", 1);
+	public static Constant gyro = new Constant("gyro", 1);
+	public static Constant pressureTransducer = new Constant("pressureTransducer", 0);
 	
 	//Solenoid
 	public static Constant elevatorBrake = new Constant("elevatorBrake", 1);

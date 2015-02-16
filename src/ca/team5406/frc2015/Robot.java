@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
     	
     	pressureTransducer = new PressureTransducer(Constants.pressureTransducer.getInt());
     	gripper.setGripperExpansion(false);
-    	compressor.setClosedLoopControl(false);
+    	compressor.setClosedLoopControl(true);
     	
     	try{
 	    	//Start sending camera to DS
@@ -143,10 +143,10 @@ public class Robot extends IterativeRobot {
     		drive.setSpeedMultiplier(1.0);
     	}
     	else if(driverGamepad.getButtonHeld(XboxController.B_BUTTON)){
-    		drive.setSpeedMultiplier(0.5);
+    		drive.setSpeedMultiplier(0.7);
     	}
     	else{
-    		drive.setSpeedMultiplier(0.7);
+    		drive.setSpeedMultiplier(0.5);
     	}
     	
     	//Change Cameras
@@ -161,14 +161,6 @@ public class Robot extends IterativeRobot {
     	drive.doArcadeDrive(driverGamepad, 1, 0);
     	
     	//Operator
-    	//Manual compressor control
-    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
-    		compressor.stop();
-    	}
-    	else if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
-    		compressor.start();
-    	}
-    	
     	//Manual Gripper control
     	if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
     		gripper.setGripperExpansion(true);
@@ -178,9 +170,9 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//TODO: Add more/refine stacker control buttons.
-//    	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
-//    		stacker.addToStack();
-//    	}
+    	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
+    		stacker.addToStack();
+    	}
     	if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
     	}
@@ -216,12 +208,12 @@ public class Robot extends IterativeRobot {
 //    	}
     	
     	//TODO: TEMP: Encoder resets
-    	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
+    	if(operatorGamepad.getButtonOnce(XboxController.RIGHT_STICK) && operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
     		elevator.resetEncoder();
     	}    	
     	
     	//TODO: TEMP: tote-roller code
-    	toteRoller.setSpeed(operatorGamepad.getLeftTrigger());	
+    	toteRoller.setSpeed(1.0);	
     	
     	//Other
     	driverGamepad.updateButtons();
@@ -235,8 +227,11 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("AutonDelay", autonDelay);
     	SmartDashboard.putData("Autonomous", autonSelector);
     	
+    	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
+    	
     	SmartDashboard.putNumber("Pressure", pressureTransducer.getPsi());
-    	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.1));
+    	
+    	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.0));
     	
     	SmartDashboard.putNumber("Heading", (drive.getGyroAngle() % 360));
     }

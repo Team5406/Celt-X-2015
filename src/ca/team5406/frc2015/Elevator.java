@@ -57,7 +57,7 @@ public class Elevator {
 			
 			if((currentPosition < 2000) && (desiredPosition == Constants.elevatorFloorPreset.getInt())){
 				downPID.setConstants(Constants.elevatorDownPidKp.getDouble(), 
-						   			 Constants.elevatorDownPidKi.getDouble() + 0.01,
+						   			 Constants.elevatorDownPidKi.getDouble() + 0.015,
 						   			 Constants.elevatorDownPidKd.getDouble());
 			}
 			else{
