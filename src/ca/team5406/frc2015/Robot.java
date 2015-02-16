@@ -6,8 +6,8 @@ import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.Functions;
 import ca.team5406.util.RegulatedPrinter;
-import ca.team5406.util.controllers.LogitechGamepad;
 import ca.team5406.util.controllers.XboxController;
+import ca.team5406.util.controllers.AttackStick;
 import ca.team5406.util.sensors.PressureTransducer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
 	private Compressor compressor = new Compressor();
 	private PressureTransducer pressureTransducer;
 	
-	private RegulatedPrinter riologPrinter = new RegulatedPrinter(2.0);
+	private RegulatedPrinter riologPrinter = new RegulatedPrinter(0.5);
 	
 	//Autonomous
 	double autonDelay = 0.0;
@@ -88,17 +88,17 @@ public class Robot extends IterativeRobot {
 	//Called at ~50Hz while the robot is disabled.
 	public void disabledPeriodic(){
 		
-		if(operatorGamepad.getButtonOnce(LogitechGamepad.Button3)){
+		if(operatorGamepad.getButtonOnce(3)){
 			ConstantsBase.updateConstantsFromFile();
 			drivePID.resetPidConstants();
 			elevator.resetPidConstants();
 			elevator.resetI();
 		}
 		
-		if(operatorGamepad.getButtonOnce(LogitechGamepad.Button4)){
+		if(operatorGamepad.getButtonOnce(4)){
 			if(autonDelay < 10) autonDelay += 0.1;
 		}
-		else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button5)){
+		else if(operatorGamepad.getButtonOnce(5)){
 			if(autonDelay > 0) autonDelay -= 0.1;
 		}
 		
@@ -190,24 +190,23 @@ public class Robot extends IterativeRobot {
     	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
     	}
+    	else if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
+    		stacker.setDesiredPostition(Stacker.StackerPositions.manualControl);
+    	}
     	
-    	if(Math.abs(operatorGamepad.getLeftY()) > 0.15 && operatorGamepad.getButtonHeld(XboxController.X_BUTTON)){
-    		elevator.setBrake(false);
-    		elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
+    	if(stacker.getStackerPosition() == Stacker.StackerPositions.manualControl){
+    		if(Math.abs(operatorGamepad.getLeftY()) >= 0.08){
+    			elevator.setBrake(false);
+    			elevator.setElevatorSpeed(operatorGamepad.getLeftY());
+    		}
+    		else{
+    			elevator.setBrake(true);
+    		}
     	}
     	else{
-    		elevator.setBrake(true);
-    		elevator.setElevatorSpeed(0.0);
+    		stacker.doAutoLoop();
     	}
     	
-    	switch(operatorGamepad.getDirectionPad()){
-    	case 180:
-    		elevator.setBrake(true);
-    		break;
-    	case 270:
-    		elevator.setBrake(false);
-    		break;    	
-    	}
 //    	//TODO: Brake Control
 //    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button9)){
 //    		elevator.setBrake(true);
@@ -221,11 +220,10 @@ public class Robot extends IterativeRobot {
     		elevator.resetEncoder();
     	}    	
     	
-    	//TODO: TEMP: toteroller code
+    	//TODO: TEMP: tote-roller code
     	toteRoller.setSpeed(operatorGamepad.getLeftTrigger());	
     	
     	//Other
-    	//stacker.doAutoLoop(); //Uncomment when the PID is done
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
     	

@@ -47,10 +47,26 @@ public class Elevator {
 		if(desiredPosition > currentPosition + Constants.elevatorUpPidDeadband.getInt()){
 			setBrake(false);
 			setElevatorSpeed(upSpeed);
+			
+			if(upSpeed > 0.6) upSpeed = 0.6;
+			
 			return upPID.isDone(currentPosition, Constants.elevatorUpPidDeadband.getInt());
 		}
 		else if(desiredPosition < currentPosition - Constants.elevatorDownPidDeadband.getInt()){
 			setBrake(false);
+			
+			if((currentPosition < 2000) && (desiredPosition == Constants.elevatorFloorPreset.getInt())){
+				downPID.setConstants(Constants.elevatorDownPidKp.getDouble(), 
+						   			 Constants.elevatorDownPidKi.getDouble() + 0.01,
+						   			 Constants.elevatorDownPidKd.getDouble());
+			}
+			else{
+				downPID.setConstants(Constants.elevatorDownPidKp.getDouble(), 
+			   			 Constants.elevatorDownPidKi.getDouble(),
+			   			 Constants.elevatorDownPidKd.getDouble());
+				if(downSpeed < -0.2) downSpeed = -0.2;
+			}
+			
 			setElevatorSpeed(downSpeed);
 			return downPID.isDone(currentPosition, Constants.elevatorDownPidDeadband.getInt());
 		}

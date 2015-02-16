@@ -13,6 +13,7 @@ public class Stacker {
 		upOpen,
 		upClosed,
 		carryClosed,
+		manualControl,
 		elevatorMoving;
 	}
 
