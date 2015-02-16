@@ -19,7 +19,7 @@ public class Robot extends IterativeRobot {
 
 	//Controllers
 	private XboxController driverGamepad = new XboxController(Constants.driverGamepad.getInt());
-	private LogitechGamepad operatorGamepad = new LogitechGamepad(Constants.operatorGamepad.getInt());
+	private XboxController operatorGamepad = new XboxController(Constants.operatorGamepad.getInt());
 	
 	//Subsystems
 	private Drive drive;
@@ -162,59 +162,67 @@ public class Robot extends IterativeRobot {
     	
     	//Operator
     	//Manual compressor control
-    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(LogitechGamepad.Button11)){
+    	if(compressor.getPressureSwitchValue() || operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
     		compressor.stop();
     	}
-    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button12)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
     		compressor.start();
     	}
     	
     	//Manual Gripper control
-    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button7)){
+    	if(operatorGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
     		gripper.setGripperExpansion(true);
     	}
-    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button8)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
     		gripper.setGripperExpansion(false);
     	}
     	
     	//TODO: Add more/refine stacker control buttons.
-    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button6)){
-    		stacker.addToStack();
-    	}
-    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button4)){
+//    	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
+//    		stacker.addToStack();
+//    	}
+    	if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
     	}
-    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button3)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
     	}
-    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button5)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
     	}
     	
-    	if(Math.abs(operatorGamepad.getYAxis()) > 0.15 && operatorGamepad.getButtonHeld(LogitechGamepad.Button1)){
-    		elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getYAxis()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
+    	if(Math.abs(operatorGamepad.getLeftY()) > 0.15 && operatorGamepad.getButtonHeld(XboxController.X_BUTTON)){
+    		elevator.setBrake(false);
+    		elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()) * (operatorGamepad.getButtonHeld(1) ? 0.6 : 1.0));
     	}
     	else{
-    		stacker.doAutoLoop();
+    		elevator.setBrake(true);
+    		elevator.setElevatorSpeed(0.0);
     	}
     	
-    	//TODO: Brake Control
-    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button9)){
+    	switch(operatorGamepad.getDirectionPad()){
+    	case 180:
     		elevator.setBrake(true);
-    	}
-    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button10)){
+    		break;
+    	case 270:
     		elevator.setBrake(false);
+    		break;    	
     	}
+//    	//TODO: Brake Control
+//    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button9)){
+//    		elevator.setBrake(true);
+//    	}
+//    	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button10)){
+//    		elevator.setBrake(false);
+//    	}
     	
     	//TODO: TEMP: Encoder resets
-    	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button11) && operatorGamepad.getButtonOnce(LogitechGamepad.Button12)){
+    	if(operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
     		elevator.resetEncoder();
     	}    	
     	
     	//TODO: TEMP: toteroller code
-    	if(operatorGamepad.getButtonHeld(LogitechGamepad.Button2)){
-    		toteRoller.setSpeed(1);
-    	}    	
+    	toteRoller.setSpeed(operatorGamepad.getLeftTrigger());	
     	
     	//Other
     	//stacker.doAutoLoop(); //Uncomment when the PID is done

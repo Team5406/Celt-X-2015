@@ -9,6 +9,6 @@ public class ToteRoller {
 		toteMotor= new Victor(6);
 	}
 	public void setSpeed(double setVal){
-		toteMotor.set(setVal * -.20);		
+		toteMotor.set(setVal * -.30);		
 	}
 }
