@@ -30,10 +30,25 @@ public class CameraServer {
     private static final int kMaxImageSize = 200000;
     private static CameraServer server;
     
-	private USBCamera frontCamera;
-	private USBCamera rearCamera;
+	private static USBCamera frontCamera;
+	private static USBCamera rearCamera;
 
     public static CameraServer getInstance() {
+
+    	try{
+    		frontCamera = new USBCamera("cam0"); 
+    	}
+    	catch(Exception ex){
+    		System.out.println("Cannon init cam 0");
+    	}
+    	
+    	try{
+    		rearCamera = new USBCamera("cam1");
+    	}
+    	catch(Exception ex){
+    		System.out.println("Cannon init cam 1");
+    	}
+    	
         if (server == null) {
             server = new CameraServer();
         }
@@ -60,8 +75,6 @@ public class CameraServer {
     }
 
     private CameraServer() {
-		frontCamera = new USBCamera("cam0"); 
-		rearCamera = new USBCamera("cam1");
     	
         m_quality = 50;
         m_camera = null;

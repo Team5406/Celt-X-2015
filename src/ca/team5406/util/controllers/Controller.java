@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Controller extends Joystick {
 
-	int numButtons = 15;
-	boolean[] previousButtonState = new boolean[numButtons];
+	int numButtons = 10;
+	boolean[] previousButtonState = new boolean[numButtons + 1];
 	
 	public Controller(int port) {
 		super(port);
 	}
 	
 	public void updateButtons(){
-		for(int i = 1; i < numButtons; i++){
+		for(int i = 1; i <= numButtons; i++){
 			previousButtonState[i] = getRawButton(i);
 		}
 	}

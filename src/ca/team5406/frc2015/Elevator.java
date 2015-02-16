@@ -64,7 +64,7 @@ public class Elevator {
 				downPID.setConstants(Constants.elevatorDownPidKp.getDouble(), 
 			   			 Constants.elevatorDownPidKi.getDouble(),
 			   			 Constants.elevatorDownPidKd.getDouble());
-				if(downSpeed < -0.2) downSpeed = -0.2;
+				if(downSpeed < -0.3) downSpeed = -0.3;
 			}
 			
 			setElevatorSpeed(downSpeed);
