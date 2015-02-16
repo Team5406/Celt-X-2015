@@ -197,25 +197,24 @@ public class Robot extends IterativeRobot {
     	else{
     		stacker.doAutoLoop();
     	}
-    	   
+    	
+    	//TODO: Brake Control
     	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button9)){
     		elevator.setBrake(true);
     	}
     	else if(operatorGamepad.getButtonOnce(LogitechGamepad.Button10)){
     		elevator.setBrake(false);
     	}
+    	
     	//TODO: TEMP: Encoder resets
     	if(operatorGamepad.getButtonOnce(LogitechGamepad.Button11) && operatorGamepad.getButtonOnce(LogitechGamepad.Button12)){
     		elevator.resetEncoder();
-    	}
-    	
+    	}    	
     	
     	//TODO: TEMP: toteroller code
     	if(operatorGamepad.getButtonHeld(LogitechGamepad.Button2)){
     		toteRoller.setSpeed(1);
-    	}
-    	    	
-    	
+    	}    	
     	
     	//Other
     	//stacker.doAutoLoop(); //Uncomment when the PID is done
