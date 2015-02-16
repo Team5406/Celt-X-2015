@@ -50,6 +50,10 @@ public class Stacker {
 		return currentStackerPosition;
 	}
 	
+	public StackerPositions getDesiredPosition(){
+		return desiredStackerPosition;
+	}
+	
 	public void doAutoLoop(){
 		switch(desiredStackerPosition){
 			default:

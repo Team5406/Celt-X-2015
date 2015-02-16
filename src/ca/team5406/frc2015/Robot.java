@@ -186,7 +186,7 @@ public class Robot extends IterativeRobot {
     		stacker.setDesiredPostition(Stacker.StackerPositions.manualControl);
     	}
     	
-    	if(stacker.getStackerPosition() == Stacker.StackerPositions.manualControl){
+    	if(stacker.getDesiredPosition() == Stacker.StackerPositions.manualControl){
     		if(Math.abs(operatorGamepad.getLeftY()) >= 0.08){
     			elevator.setBrake(false);
     			elevator.setElevatorSpeed(operatorGamepad.getLeftY());
