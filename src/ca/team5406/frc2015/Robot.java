@@ -5,6 +5,7 @@ import ca.team5406.frc2015.autonmous.*;
 import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.Functions;
+import ca.team5406.util.Toggle;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
@@ -217,8 +218,11 @@ public class Robot extends IterativeRobot {
     		elevator.resetEncoder();
     	}    	
     	
-    	//TODO: TEMP: tote-roller code
-    	toteRoller.setSpeed(1.0);	
+    	//Tote Roller
+    	if(operatorGamepad.getButtonOnce(0)){
+    		toteRoller.toggleState();
+    	}
+    	toteRoller.doToteRoller();
     	
     	//Other
     	driverGamepad.updateButtons();
@@ -233,12 +237,11 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putData("Autonomous", autonSelector);
     	
     	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
+    	SmartDashboard.putBoolean("Tote Toller", toteRoller.getStatus());
+    	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.0));
+    	SmartDashboard.putNumber("Heading", (drive.getGyroAngle() % 360));
     	
     	SmartDashboard.putNumber("Pressure", pressureTransducer.getPsi());
-    	
-    	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.0));
-    	
-    	SmartDashboard.putNumber("Heading", (drive.getGyroAngle() % 360));
     }
     
     public void printSensorInfo(){
