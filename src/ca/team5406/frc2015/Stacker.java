@@ -14,7 +14,8 @@ public class Stacker {
 		upClosed,
 		carryClosed,
 		manualControl,
-		elevatorMoving;
+		elevatorMoving,
+		nothing;
 	}
 
 	private StackerPositions currentStackerPosition = StackerPositions.elevatorMoving;
@@ -38,7 +39,6 @@ public class Stacker {
 	public void setDesiredPostition(StackerPositions desiredPosition){
 		desiredStackerPosition = desiredPosition;
 		currentStackerPosition = StackerPositions.elevatorMoving;
-		nextStackerPosition = StackerPositions.elevatorMoving;
 		stackerState = 0;
 	}
 	
@@ -73,13 +73,13 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.floorOpen;
-						if(nextStackerPosition != null){
+						if(nextStackerPosition != StackerPositions.nothing){
 							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = null;
+							nextStackerPosition = StackerPositions.nothing;
 							stackerState = 0;
 						}
 						else{
-							desiredStackerPosition = null;
+							desiredStackerPosition = StackerPositions.nothing;
 						}
 						break;
 				}
@@ -99,14 +99,14 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.floorClosed;
-						if(nextStackerPosition != null){
+						if(nextStackerPosition != StackerPositions.nothing){
 							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = null;
+							nextStackerPosition = StackerPositions.nothing;
 						}
 						else{
-							desiredStackerPosition = null;
+							desiredStackerPosition = StackerPositions.nothing;
 						}
-						stackerState++;
+						stackerState = 0;
 						break;
 				}
 				break;
@@ -125,14 +125,14 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.upOpen;
-						if(nextStackerPosition != null){
+						if(nextStackerPosition != StackerPositions.nothing){
 							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = null;
+							nextStackerPosition = StackerPositions.nothing;
 						}
 						else{
-							desiredStackerPosition = null;
+							desiredStackerPosition = StackerPositions.nothing;
 						}
-						stackerState++;
+						stackerState = 0;
 						break;
 				}
 				break;
@@ -152,14 +152,14 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.floorClosed;
-						if(nextStackerPosition != null){
+						if(nextStackerPosition != StackerPositions.nothing){
 							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = null;
+							nextStackerPosition = StackerPositions.nothing;
 						}
 						else{
-							desiredStackerPosition = null;
+							desiredStackerPosition = StackerPositions.nothing;
 						}
-						stackerState++;
+						stackerState = 0;
 						break;
 				}
 				break;
@@ -179,14 +179,14 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.carryClosed;
-						if(nextStackerPosition != null){
+						if(nextStackerPosition != StackerPositions.nothing){
 							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = null;
+							nextStackerPosition = StackerPositions.nothing;
 						}
 						else{
-							desiredStackerPosition = null;
-							stackerState++;
+							desiredStackerPosition = StackerPositions.nothing;
 						}
+						stackerState = 0;
 						break;
 				}
 		}

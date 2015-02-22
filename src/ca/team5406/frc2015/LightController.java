@@ -6,21 +6,43 @@ public class LightController {
 	
 	private I2C rioduino;
 	
-	public static enum LightPatterns{
-		off,
-		chase;
+	private int redVal = 0;
+	private int greenVal = 255;
+	private int blueVal = 0;
+	
+	public static enum PixelLightPatterns{
+		rainbow,
+		red,
+		green,
+		blue,
+		off;
 	}
 
 	public LightController(){
 		rioduino = new I2C(I2C.Port.kMXP, 1);
 	}
 	
-	public void setLightPattern(LightPatterns pattern){
+	public void setUnderglowColor(double r, double g, double b){
+		redVal = (int)(r * 255);
+		greenVal = (int)(g * 255);
+		blueVal = (int)(b * 255);
+	}
+	
+	public void setLightPattern(PixelLightPatterns pattern){
 		sendPacket(pattern);
 	}
 	
-	private void sendPacket(LightPatterns pattern){
-		rioduino.write(0, pattern.ordinal());
+	private void sendPacket(PixelLightPatterns pattern){
+		String WriteString = pattern.name() + ":" + (redVal) + ":" + (greenVal) + ":" + (blueVal);
+		
+		char[] CharArray = WriteString.toCharArray();
+		byte[] WriteData = new byte[CharArray.length];
+		
+		for (int i = 0; i < CharArray.length; i++) {
+			WriteData[i] = (byte) CharArray[i];
+		}
+		
+		rioduino.transaction(WriteData, WriteData.length, null, 0);
 	}
 	
 }

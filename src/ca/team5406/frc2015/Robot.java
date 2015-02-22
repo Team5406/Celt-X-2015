@@ -5,7 +5,6 @@ import ca.team5406.frc2015.autonmous.*;
 import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.Functions;
-import ca.team5406.util.Toggle;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
@@ -70,8 +69,6 @@ public class Robot extends IterativeRobot {
     	}
     	catch(Exception ex){
     		System.out.println("ERROR: Camera not available");
-    		ex.printStackTrace();
-    		System.out.println("===========================");
     	}
 		
 		//Send autonomous options to DS
@@ -219,7 +216,7 @@ public class Robot extends IterativeRobot {
     	}    	
     	
     	//Tote Roller
-    	if(operatorGamepad.getButtonOnce(0)){
+    	if(operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
     		toteRoller.toggleState();
     	}
     	toteRoller.doToteRoller();
@@ -248,8 +245,7 @@ public class Robot extends IterativeRobot {
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
     						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
-    						"Gyro:             " + drive.getGyroAngle() + "\n" +
-    						"DPad" + operatorGamepad.getDirectionPad());
+    						"Gyro:             " + drive.getGyroAngle() + "\n");
     }
     
 }

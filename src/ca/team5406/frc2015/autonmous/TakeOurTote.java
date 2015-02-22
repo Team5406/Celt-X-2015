@@ -3,7 +3,7 @@ package ca.team5406.frc2015.autonmous;
 import ca.team5406.frc2015.*;
 import edu.wpi.first.wpilibj.Timer;
 
-public class TakeOurCan extends AutonomousRoutine {
+public class TakeOurTote extends AutonomousRoutine {
 	
 	private DrivePID drivePID;
 	private Stacker stacker;
@@ -14,7 +14,7 @@ public class TakeOurCan extends AutonomousRoutine {
 	 * This auto mode will stack our can on our tote and move them into the auto zone.
 	 */
 	
-	public TakeOurCan(DrivePID drivePID, Stacker stacker){
+	public TakeOurTote(DrivePID drivePID, Stacker stacker){
 		this.drivePID = drivePID;
 		this.stacker = stacker;
 	}
