@@ -9,6 +9,7 @@ public class LightController {
 	private int redVal = 0;
 	private int greenVal = 255;
 	private int blueVal = 0;
+	private PixelLightPatterns pattern = PixelLightPatterns.rainbow;
 	
 	public static enum PixelLightPatterns{
 		rainbow,
@@ -29,10 +30,10 @@ public class LightController {
 	}
 	
 	public void setLightPattern(PixelLightPatterns pattern){
-		sendPacket(pattern);
+		this.pattern = pattern;
 	}
 	
-	private void sendPacket(PixelLightPatterns pattern){
+	public void updateLights(){
 		String WriteString = pattern.name() + ":" + (redVal) + ":" + (greenVal) + ":" + (blueVal);
 		
 		char[] CharArray = WriteString.toCharArray();

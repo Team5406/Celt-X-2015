@@ -6,6 +6,7 @@ public class Stacker {
 
 	private Elevator elevator;
 	private Gripper gripper;
+	private LightController lightController;
 	
 	public static enum StackerPositions{
 		floorOpen,
@@ -23,16 +24,17 @@ public class Stacker {
 	private StackerPositions nextStackerPosition = StackerPositions.elevatorMoving;
 	private int stackerState = 0;
 	
-	public Stacker(Elevator elevator, Gripper gripper){
+	public Stacker(Elevator elevator, Gripper gripper, LightController lightController){
 		this.elevator = elevator;
 		this.gripper = gripper;
+		this.lightController = lightController;
 		desiredStackerPosition = StackerPositions.floorClosed;
 		currentStackerPosition = StackerPositions.floorClosed;
 		nextStackerPosition = StackerPositions.elevatorMoving;
 	}
 	
 	public void addToStack(){
-		desiredStackerPosition = StackerPositions.floorClosed;
+		setDesiredPostition(StackerPositions.floorClosed);
 		nextStackerPosition = StackerPositions.upClosed;
 	}
 	
@@ -54,7 +56,25 @@ public class Stacker {
 		return desiredStackerPosition;
 	}
 	
+	private void finishMoving(){
+		if(nextStackerPosition != StackerPositions.nothing){
+			setDesiredPostition(nextStackerPosition);
+			nextStackerPosition = StackerPositions.nothing;
+		}
+		else{
+			setDesiredPostition(StackerPositions.nothing);
+		}
+	}
+	
 	public void doAutoLoop(){
+		
+		if(currentStackerPosition == StackerPositions.elevatorMoving){
+			lightController.setLightPattern(LightController.PixelLightPatterns.red);
+		}
+		else{
+			lightController.setLightPattern(LightController.PixelLightPatterns.green);
+		}
+		
 		switch(desiredStackerPosition){
 			default:
 				break;
@@ -73,14 +93,7 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.floorOpen;
-						if(nextStackerPosition != StackerPositions.nothing){
-							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = StackerPositions.nothing;
-							stackerState = 0;
-						}
-						else{
-							desiredStackerPosition = StackerPositions.nothing;
-						}
+						finishMoving();
 						break;
 				}
 				break;
@@ -100,13 +113,12 @@ public class Stacker {
 					case 2:
 						currentStackerPosition = StackerPositions.floorClosed;
 						if(nextStackerPosition != StackerPositions.nothing){
-							desiredStackerPosition = nextStackerPosition;
+							setDesiredPostition(nextStackerPosition);
 							nextStackerPosition = StackerPositions.nothing;
 						}
 						else{
-							desiredStackerPosition = StackerPositions.nothing;
+							setDesiredPostition(StackerPositions.nothing);
 						}
-						stackerState = 0;
 						break;
 				}
 				break;
@@ -125,14 +137,7 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.upOpen;
-						if(nextStackerPosition != StackerPositions.nothing){
-							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = StackerPositions.nothing;
-						}
-						else{
-							desiredStackerPosition = StackerPositions.nothing;
-						}
-						stackerState = 0;
+						finishMoving();
 						break;
 				}
 				break;
@@ -152,14 +157,7 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.floorClosed;
-						if(nextStackerPosition != StackerPositions.nothing){
-							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = StackerPositions.nothing;
-						}
-						else{
-							desiredStackerPosition = StackerPositions.nothing;
-						}
-						stackerState = 0;
+						finishMoving();
 						break;
 				}
 				break;
@@ -179,14 +177,7 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.carryClosed;
-						if(nextStackerPosition != StackerPositions.nothing){
-							desiredStackerPosition = nextStackerPosition;
-							nextStackerPosition = StackerPositions.nothing;
-						}
-						else{
-							desiredStackerPosition = StackerPositions.nothing;
-						}
-						stackerState = 0;
+						finishMoving();
 						break;
 				}
 		}
