@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	private AutonomousRoutine selectedAuto;
 	
 	private CameraServer cameraServer;
-	private LightController lightController;
+	//private LightController lightController;
 	
 	private Compressor compressor = new Compressor();
 	private PressureTransducer pressureTransducer;
@@ -55,14 +55,14 @@ public class Robot extends IterativeRobot {
     	drivePID = new DrivePID(drive);
     	gripper = new Gripper();
     	elevator = new Elevator();
-    	stacker = new Stacker(elevator, gripper, lightController);
+    	stacker = new Stacker(elevator, gripper);
     	toteRoller = new ToteRoller();
     	
     	pressureTransducer = new PressureTransducer(Constants.pressureTransducer.getInt());
     	gripper.setGripperExpansion(false);
     	compressor.setClosedLoopControl(true);
     	
-    	lightController = new LightController();
+    	//lightController = new LightController();
     	
     	try{
 	    	//Start sending camera to DS
@@ -87,17 +87,17 @@ public class Robot extends IterativeRobot {
 	public void disabledInit(){
 		System.out.println("Robot Disabled");
 
-		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue){
-			lightController.setUnderglowColor(0.0, 0.0, 1.0);
-		}
-		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red){
-			lightController.setUnderglowColor(1.0, 0.0, 0.0);
-		}
-		else{
-			lightController.setUnderglowColor(0.0, 1.0, 0.0);
-		}
-		lightController.setLightPattern(LightController.PixelLightPatterns.rainbow);
-		lightController.updateLights();
+//		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue){
+//			lightController.setUnderglowColor(0.0, 0.0, 1.0);
+//		}
+//		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red){
+//			lightController.setUnderglowColor(1.0, 0.0, 0.0);
+//		}
+//		else{
+//			lightController.setUnderglowColor(0.0, 1.0, 0.0);
+//		}
+//		lightController.setLightPattern(LightController.PixelLightPatterns.rainbow);
+//		lightController.updateLights();
 	}
 	
 	//Called at ~50Hz while the robot is disabled.
@@ -239,7 +239,7 @@ public class Robot extends IterativeRobot {
     	//Other
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
-    	lightController.updateLights();
+    	//lightController.updateLights();
     	toteRoller.doToteRoller();
     	
     	sendSmartDashInfo();

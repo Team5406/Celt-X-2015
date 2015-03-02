@@ -30,7 +30,7 @@ public class ToteRoller {
 	
 	public void doToteRoller(){
 		if(shouldBeOn.get()){
-			toteMotor.set(-0.7);
+			toteMotor.set(Constants.rollerSpeed.getDouble());
 		}
 		else{
 			toteMotor.set(0);

@@ -6,7 +6,7 @@ public class Stacker {
 
 	private Elevator elevator;
 	private Gripper gripper;
-	private LightController lightController;
+	//private LightController lightController;
 	
 	public static enum StackerPositions{
 		floorOpen,
@@ -24,10 +24,10 @@ public class Stacker {
 	private StackerPositions nextStackerPosition = StackerPositions.elevatorMoving;
 	private int stackerState = 0;
 	
-	public Stacker(Elevator elevator, Gripper gripper, LightController lightController){
+	public Stacker(Elevator elevator, Gripper gripper){
 		this.elevator = elevator;
 		this.gripper = gripper;
-		this.lightController = lightController;
+		//this.lightController = lightController;
 		desiredStackerPosition = StackerPositions.floorClosed;
 		currentStackerPosition = StackerPositions.floorClosed;
 		nextStackerPosition = StackerPositions.elevatorMoving;
@@ -68,12 +68,12 @@ public class Stacker {
 	
 	public void doAutoLoop(){
 		
-		if(currentStackerPosition == StackerPositions.elevatorMoving){
+//		if(currentStackerPosition == StackerPositions.elevatorMoving){
 //			lightController.setLightPattern(LightController.PixelLightPatterns.red);
-		}
-		else{
+//		}
+//		else{
 //			lightController.setLightPattern(LightController.PixelLightPatterns.green);
-		}
+//		}
 		
 		switch(desiredStackerPosition){
 			default:
