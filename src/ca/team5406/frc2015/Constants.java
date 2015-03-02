@@ -67,6 +67,7 @@ public class Constants {
 	public static Constant pressureTransducer = new Constant("pressureTransducer", 0);
 	
 	//Solenoid
+	public static Constant elevatorUnbrake = new Constant("elevatorUnbrake", 0);
 	public static Constant elevatorBrake = new Constant("elevatorBrake", 1);
 	public static Constant gripperContraction = new Constant("gripperContraction", 3);
 	public static Constant gripperExpansion = new Constant("gripperExpansion", 2);

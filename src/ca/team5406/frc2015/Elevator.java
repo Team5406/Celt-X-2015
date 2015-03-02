@@ -21,8 +21,8 @@ public class Elevator {
 		elevatorMotorB = new Victor(Constants.elevatorVictorB.getInt());
 		elevatorEncoder = new RelativeEncoder(Constants.elevatorEncA.getInt(),
 											  Constants.elevatorEncB.getInt());
-		brake = new Solenoid(1);
-		unbrake = new Solenoid(0);
+		brake = new Solenoid(Constants.elevatorBrake.getInt());
+		unbrake = new Solenoid(Constants.elevatorUnbrake.getInt());
 		
 		upPID.setConstants(Constants.elevatorUpPidKp.getDouble(),
 						   Constants.elevatorUpPidKi.getDouble(),
@@ -37,6 +37,7 @@ public class Elevator {
 	
 	public boolean setElevatorPosition(int desiredPosition){
 		int currentPosition = getElevatorPosition();
+		
 
 		upPID.setDesiredPosition(desiredPosition);
 		downPID.setDesiredPosition(desiredPosition);

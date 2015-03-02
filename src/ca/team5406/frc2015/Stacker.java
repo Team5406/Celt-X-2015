@@ -69,10 +69,10 @@ public class Stacker {
 	public void doAutoLoop(){
 		
 		if(currentStackerPosition == StackerPositions.elevatorMoving){
-			lightController.setLightPattern(LightController.PixelLightPatterns.red);
+//			lightController.setLightPattern(LightController.PixelLightPatterns.red);
 		}
 		else{
-			lightController.setLightPattern(LightController.PixelLightPatterns.green);
+//			lightController.setLightPattern(LightController.PixelLightPatterns.green);
 		}
 		
 		switch(desiredStackerPosition){
