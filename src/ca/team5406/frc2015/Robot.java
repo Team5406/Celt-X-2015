@@ -5,6 +5,7 @@ import ca.team5406.frc2015.autonmous.*;
 import ca.team5406.util.CameraServer;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.Functions;
+import ca.team5406.util.MultiCamServer;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
@@ -33,7 +34,7 @@ public class Robot extends IterativeRobot {
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
 	
-	private CameraServer cameraServer;
+	private MultiCamServer cameraServer;
 	//private LightController lightController;
 	
 	private Compressor compressor = new Compressor();
@@ -66,13 +67,10 @@ public class Robot extends IterativeRobot {
     	
     	try{
 	    	//Start sending camera to DS
-			cameraServer = CameraServer.getInstance();
-			cameraServer.changeCamera("front");
-			cameraServer.setQuality(50);
-			cameraServer.startAutomaticCaptureThread();
+			cameraServer = new MultiCamServer();
     	}
     	catch(Exception ex){
-    		System.out.println("ERROR: Camera not available");
+    		System.out.println("ERROR: Cameras not available");
     	}
 		
 		//Send autonomous options to DS
@@ -104,26 +102,26 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic(){
 
     	//Change Cameras
-    	if(driverGamepad.getDirectionPad() == 0){
-    		try{ cameraServer.changeCamera("front"); }
+    	if(driverGamepad.getButtonOnce(XboxController.A_BUTTON)){
+    		try{ cameraServer.setCamera("front"); }
     		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
     	}
-    	else if(driverGamepad.getDirectionPad() == 180){
-    		try{ cameraServer.changeCamera("rear"); }
+    	else if(driverGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+    		try{ cameraServer.setCamera("rear"); }
     		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
     	}
 		
-		if(operatorGamepad.getButtonOnce(3)){
+		if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
 			ConstantsBase.updateConstantsFromFile();
 			drivePID.resetPidConstants();
 			elevator.resetPidConstants();
 			elevator.resetI();
 		}
 		
-		if(operatorGamepad.getButtonOnce(4)){
+		if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
 			if(autonDelay < 10) autonDelay += 0.1;
 		}
-		else if(operatorGamepad.getButtonOnce(5)){
+		else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
 			if(autonDelay > 0) autonDelay -= 0.1;
 		}
 		
@@ -175,12 +173,12 @@ public class Robot extends IterativeRobot {
     	}
     	
     	//Change Cameras
-    	if(driverGamepad.getDirectionPad() == 0){
-    		try{ cameraServer.changeCamera("front"); }
+    	if(driverGamepad.getButtonOnce(XboxController.A_BUTTON)){
+    		try{ cameraServer.setCamera("front"); }
     		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
     	}
-    	else if(driverGamepad.getDirectionPad() == 180){
-    		try{ cameraServer.changeCamera("rear"); }
+    	else if(driverGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+    		try{ cameraServer.setCamera("rear"); }
     		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
     	}
     	
