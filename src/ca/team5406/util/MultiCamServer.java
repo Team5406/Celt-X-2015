@@ -23,13 +23,15 @@ public class MultiCamServer {
 	}
 	
 	private void init(){
+		System.out.println("Starting Cameras");
 		frameA = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-	    sessionA = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+	    sessionA = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 	    
 		frameB = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-	    sessionB = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+	    sessionB = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 	   
 	    setCamera("front");
+		System.out.println("Done Cameras");
 	}
 	
 	public void setCamera(String camera){
@@ -55,6 +57,11 @@ public class MultiCamServer {
 			NIVision.IMAQdxGrab(sessionA, frameA, 1);
 	        CameraServer.getInstance().setImage(frameA);
 		}
+	}
+	
+	public void stop(){
+        NIVision.IMAQdxStopAcquisition(sessionA);
+        NIVision.IMAQdxStopAcquisition(sessionB);
 	}
 	
 }

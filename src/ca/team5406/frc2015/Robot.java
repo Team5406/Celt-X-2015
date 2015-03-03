@@ -9,7 +9,6 @@ import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -126,6 +125,7 @@ public class Robot extends IterativeRobot {
 		
 		sendSmartDashInfo();
 		operatorGamepad.updateButtons();
+		cameraServer.sendImage();
 	}
 	
 	//Called each time the robot enters autonomous.
@@ -238,6 +238,7 @@ public class Robot extends IterativeRobot {
     	operatorGamepad.updateButtons();
     	//lightController.updateLights();
     	toteRoller.doToteRoller();
+    	cameraServer.sendImage();
     	
     	sendSmartDashInfo();
     	printSensorInfo();
