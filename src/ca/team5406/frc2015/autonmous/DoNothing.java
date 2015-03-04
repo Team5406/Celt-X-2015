@@ -6,9 +6,18 @@ public class DoNothing extends AutonomousRoutine {
 		super();
 	}
 	
-	public void routinePeriodic(){
-		System.out.println("AUTO: Doing Nothing");
-		super.isDone = true;
+	public void routineInit(){
+		super.routineInit();
+		System.out.println("AUTO: Doing nothing.");
 	}
 	
+	public void routinePeriodic(){
+		System.out.println("AUTO: Doing Nothing");
+		routineEnd();
+	}
+	
+	public void routineEnd(){
+		super.isDone = true;
+		System.out.println("AUTO: Done Auto Routine");
+	}
 }

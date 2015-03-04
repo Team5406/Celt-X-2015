@@ -92,6 +92,10 @@ public class Elevator {
 		elevatorMotorB.set(speed);
 	}
 	
+	public void presetElevatorEncoder(int pos){
+		elevatorEncoder.set(pos);
+	}
+	
 	public int getElevatorPosition(){
 		return elevatorEncoder.get();
 	}

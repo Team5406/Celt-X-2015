@@ -19,8 +19,13 @@ public class MoveToZone extends AutonomousRoutine {
 	
 	public void routinePeriodic(){
 		if(drivePID.driveToPos()){
-			super.routineEnd();
+			routineEnd();
 		}
+	}
+	
+	public void routineEnd(){
+		System.out.println("AUTO: Done auto routine.");
+		super.routineEnd();
 	}
 	
 }

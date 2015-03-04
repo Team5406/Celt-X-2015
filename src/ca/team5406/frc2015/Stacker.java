@@ -58,6 +58,10 @@ public class Stacker {
 		return desiredStackerPosition;
 	}
 	
+	public void presetElevatorEncoder(int pos){
+		elevator.presetElevatorEncoder(pos);
+	}
+	
 	private void finishMoving(){
 		if(nextStackerPosition != StackerPositions.nothing){
 			setDesiredPostition(nextStackerPosition);
