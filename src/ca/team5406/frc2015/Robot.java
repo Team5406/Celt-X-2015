@@ -73,11 +73,12 @@ public class Robot extends IterativeRobot {
 		
 		//Send autonomous options to DS
 		autonSelector = new SendableChooser();
-		autonSelector.addDefault("Do Nothing", new DoNothing());
-		autonSelector.addObject("Move to Zone", new MoveToZone(drivePID));
-		autonSelector.addObject("Set Up For Noodle", new SetUpNoodling(drivePID, stacker));
-		autonSelector.addObject("Take Our Can", new TakeOurCan(drivePID, stacker));
-		autonSelector.addObject("Take Our Tote", new TakeOurTote(drivePID, stacker));
+		autonSelector.addDefault("Do nothing", new DoNothing());
+		autonSelector.addObject("Move to zone", new MoveToZone(drivePID));
+		autonSelector.addObject("Set up for noodle", new SetUpNoodling(drivePID, stacker));
+		autonSelector.addObject("Take our can", new TakeOurCan(drivePID, stacker));
+		autonSelector.addObject("Take our tote", new TakeOurTote(drivePID, stacker));
+		autonSelector.addObject("Take our tote and can", new TakeOurToteAndCan(drivePID, stacker));
     	
 		System.out.println("Done.");
     }
