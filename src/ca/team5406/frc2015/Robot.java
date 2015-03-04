@@ -166,24 +166,28 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic(){
 
     	//Driver 
+    	//Speed Scaling
     	if(driverGamepad.getButtonHeld(XboxController.X_BUTTON)){
-    		drive.setSpeedMultiplier(1.0);
+    		drive.setSpeedMultiplier(Constants.highDriveSpeedMutlipler.getDouble());
     	}
     	else if(driverGamepad.getButtonHeld(XboxController.B_BUTTON)){
-    		drive.setSpeedMultiplier(0.7);
+    		drive.setSpeedMultiplier(Constants.midDriveSpeedMutlipler.getDouble());
     	}
     	else{
-    		drive.setSpeedMultiplier(0.5);
+    		drive.setSpeedMultiplier(Constants.lowDriveSpeedMutlipler.getDouble());
     	}
     	
     	//Change Cameras
-    	if(driverGamepad.getButtonOnce(XboxController.A_BUTTON)){
-    		try{ cameraServer.setCamera("front"); }
-    		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
+    	try{
+	    	if(driverGamepad.getButtonOnce(XboxController.A_BUTTON)){
+	    			cameraServer.setCamera("front");
+	    	}
+	    	else if(driverGamepad.getButtonOnce(XboxController.Y_BUTTON)){
+	    			cameraServer.setCamera("rear");
+	    	}
     	}
-    	else if(driverGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-    		try{ cameraServer.setCamera("rear"); }
-    		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
+    	catch(Exception ex){
+			System.out.println("ERROR: Cannot change cameras.");
     	}
     	
     	//TODO: Add backup from stack button.
@@ -198,7 +202,7 @@ public class Robot extends IterativeRobot {
     		gripper.setGripperExpansion(false);
     	}
     	
-    	//TODO: Add more/refine stacker control buttons.
+    	//Elevator Postions
     	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
     		stacker.addToStack();
     	}
@@ -215,6 +219,7 @@ public class Robot extends IterativeRobot {
     		stacker.setDesiredPostition(Stacker.StackerPositions.manualControl);
     	}
     	
+    	//Auto or Manual elevator control
     	if(stacker.getDesiredPosition() == Stacker.StackerPositions.manualControl){
     		if(Math.abs(operatorGamepad.getLeftY()) >= 0.1){
     			elevator.setBrake(false);
@@ -228,7 +233,7 @@ public class Robot extends IterativeRobot {
     		stacker.doAutoLoop();
     	}
     	
-    	//TODO: TEMP: Encoder reset
+    	//Manual Elevator Encoder Reset
     	if(operatorGamepad.getButtonOnce(XboxController.RIGHT_STICK) && operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
     		elevator.resetEncoder();
     	}    	
@@ -241,10 +246,9 @@ public class Robot extends IterativeRobot {
     	//Other
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
-//    	lightController.updateLights();
     	toteRoller.doToteRoller();
+//    	lightController.updateLights();
 //    	cameraServer.sendImage();
-    	
     	sendSmartDashInfo();
     	printSensorInfo();
     }
@@ -256,7 +260,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
     	SmartDashboard.putBoolean("Tote Toller", toteRoller.getStatus());
     	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.0));
-    	SmartDashboard.putNumber("Heading", (drive.getGyroAngle() % 360));
+    	SmartDashboard.putNumber("Heading", (((drive.getGyroAngle() % 360) + 360) % 360));
     	
     	SmartDashboard.putNumber("Pressure", pressureTransducer.getPsi());
     }

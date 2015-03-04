@@ -43,6 +43,9 @@ public class Constants {
 
 	//Speeds
 	public static Constant rollerSpeed = new Constant("rollerSpeed", -0.7);
+	public static Constant highDriveSpeedMutlipler = new Constant("highDriveSpeedMutlipler", 1.0);
+	public static Constant midDriveSpeedMutlipler = new Constant("midDriveSpeedMutlipler", 0.7);
+	public static Constant lowDriveSpeedMutlipler = new Constant("lowDriveSpeedMutlipler", 0.5);
 	
 	//Ports
 	//Controllers
