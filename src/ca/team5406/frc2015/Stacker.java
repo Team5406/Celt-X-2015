@@ -14,6 +14,8 @@ public class Stacker {
 		upOpen,
 		upClosed,
 		carryClosed,
+		oneUpOpen,
+		oneUpClosed,
 		manualControl,
 		elevatorMoving,
 		nothing;
@@ -112,13 +114,7 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.floorClosed;
-						if(nextStackerPosition != StackerPositions.nothing){
-							setDesiredPostition(nextStackerPosition);
-							nextStackerPosition = StackerPositions.nothing;
-						}
-						else{
-							setDesiredPostition(StackerPositions.nothing);
-						}
+						finishMoving();
 						break;
 				}
 				break;
@@ -156,7 +152,7 @@ public class Stacker {
 						}
 						break;
 					case 2:
-						currentStackerPosition = StackerPositions.floorClosed;
+						currentStackerPosition = StackerPositions.upClosed;
 						finishMoving();
 						break;
 				}
@@ -180,6 +176,46 @@ public class Stacker {
 						finishMoving();
 						break;
 				}
+				break;
+			case oneUpOpen:
+				switch(stackerState){
+					default:
+						break;
+					case 0:
+						if(elevator.setElevatorPosition(Constants.elevatorOneUpPreset.getInt())){
+							stackerState++;
+						}
+						break;
+					case 1:
+						gripper.setGripperExpansion(true);
+						stackerState++;
+						break;
+					case 2:
+						currentStackerPosition = StackerPositions.oneUpOpen;
+						finishMoving();
+						break;
+				}
+				break;
+			case oneUpClosed:
+				switch(stackerState){
+					default:
+						break;
+					case 0:
+						gripper.setGripperExpansion(false);
+						Timer.delay(0.2);//Terrible way of doing this but I'm lazy right now.
+						stackerState++;
+						break;
+					case 1:
+						if(elevator.setElevatorPosition(Constants.elevatorOneUpPreset.getInt())){
+							stackerState++;
+						}
+						break;
+					case 2:
+						currentStackerPosition = StackerPositions.oneUpClosed;
+						finishMoving();
+						break;
+				}
+				break;
 		}
 	}
 	

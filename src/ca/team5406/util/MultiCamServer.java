@@ -7,9 +7,8 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 public class MultiCamServer {
     private int sessionA;
-    private Image frameA;
     private int sessionB;
-    private Image frameB;
+    private Image frame;
     
     private Camera selectedCamera;
 
@@ -24,10 +23,9 @@ public class MultiCamServer {
 	
 	private void init(){
 		System.out.println("Starting Cameras");
-		frameA = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		
 	    sessionA = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-	    
-		frameB = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 	    sessionB = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 	   
 	    setCamera("front");
@@ -50,13 +48,14 @@ public class MultiCamServer {
 	
 	public void sendImage(){
 		if(selectedCamera == Camera.back){
-			NIVision.IMAQdxGrab(sessionB, frameB, 1);
-	        CameraServer.getInstance().setImage(frameB);
+			NIVision.IMAQdxGrab(sessionB, frame, 1);
 		}
 		else{
-			NIVision.IMAQdxGrab(sessionA, frameA, 1);
-	        CameraServer.getInstance().setImage(frameA);
+			NIVision.IMAQdxGrab(sessionA, frame, 1);
 		}
+		//Attempt at compressing the image.
+		NIVision.imaqSetImageSize(frame, 640, 480);
+        CameraServer.getInstance().setImage(frame);
 	}
 	
 	public void stop(){
