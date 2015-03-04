@@ -121,15 +121,15 @@ public class Robot extends IterativeRobot {
 		}
 		
 		if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-			if(autonDelay < 10) autonDelay += 0.1;
+			if(autonDelay < 10.0) autonDelay += 0.1;
 		}
 		else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
-			if(autonDelay > 0) autonDelay -= 0.1;
+			if(autonDelay > 0.0) autonDelay -= 0.1;
 		}
 		
 		sendSmartDashInfo();
 		operatorGamepad.updateButtons();
-		cameraServer.sendImage();
+//		cameraServer.sendImage();
 	}
 	
 	//Called each time the robot enters autonomous.
@@ -140,7 +140,8 @@ public class Robot extends IterativeRobot {
 		Timer delayTimer = new Timer();
 		delayTimer.start();
     	
-		while(delayTimer.get() < autonDelay){
+		//Wait the specified amount of time
+		while(autonDelay > 0.0 && delayTimer.get() < autonDelay){
 			SmartDashboard.putNumber("Auton Delay", (autonDelay - delayTimer.get()));
 		}
 		
@@ -240,9 +241,9 @@ public class Robot extends IterativeRobot {
     	//Other
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
-    	//lightController.updateLights();
+//    	lightController.updateLights();
     	toteRoller.doToteRoller();
-    	cameraServer.sendImage();
+//    	cameraServer.sendImage();
     	
     	sendSmartDashInfo();
     	printSensorInfo();
