@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot {
     	
     	try{
 	    	//Start sending camera to DS
-			cameraServer = new MultiCamServer();
+//			cameraServer = new MultiCamServer();
     	}
     	catch(Exception ex){
     		System.out.println("ERROR: Cameras not available");
@@ -75,10 +75,10 @@ public class Robot extends IterativeRobot {
 		autonSelector = new SendableChooser();
 		autonSelector.addDefault("Do nothing", new DoNothing());
 		autonSelector.addObject("Move to zone", new MoveToZone(drivePID));
-		autonSelector.addObject("Set up for noodle", new SetUpNoodling(drivePID, stacker));
-		autonSelector.addObject("Take our can", new TakeOurCan(drivePID, stacker));
-		autonSelector.addObject("Take our tote", new TakeOurTote(drivePID, stacker));
-		autonSelector.addObject("Take our tote and can", new TakeOurToteAndCan(drivePID, stacker));
+//		autonSelector.addObject("Set up for noodle", new SetUpNoodling(drivePID, stacker));
+//		autonSelector.addObject("Take our can", new TakeOurCan(drivePID, stacker));
+//		autonSelector.addObject("Take our tote", new TakeOurTote(drivePID, stacker));
+//		autonSelector.addObject("Take our tote and can", new TakeOurToteAndCan(drivePID, stacker));
     	
 		System.out.println("Done.");
     }
@@ -257,7 +257,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("AutonDelay", autonDelay);
     	SmartDashboard.putData("Autonomous", autonSelector);
     	
-    	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
+//    	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
     	SmartDashboard.putBoolean("Tote Toller", toteRoller.getStatus());
     	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.0));
     	SmartDashboard.putNumber("Heading", (((drive.getGyroAngle() % 360) + 360) % 360));
@@ -268,7 +268,7 @@ public class Robot extends IterativeRobot {
     public void printSensorInfo(){
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
-    						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
+//    						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
     						"Gyro:             " + drive.getGyroAngle() + "\n");
     }
     

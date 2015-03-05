@@ -39,7 +39,7 @@ public class Constants {
 	public static Constant elevatorFloorPreset = new Constant("elevatorFloorPreset", -100);
 	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 10100);
 	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 1800);
-	public static Constant elevatorOneUpPreset = new Constant("elevatorOneUpPreset", 5000);//TODO: Find actual value
+	public static Constant elevatorOneUpPreset = new Constant("elevatorOneUpPreset", 4000);//TODO: Find actual value
 
 	//Speeds
 	public static Constant rollerSpeed = new Constant("rollerSpeed", -0.7);
