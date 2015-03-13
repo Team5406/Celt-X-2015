@@ -197,7 +197,14 @@ public class Robot extends IterativeRobot {
     	if(stacker.getDesiredPosition() == Stacker.StackerPositions.manualControl){
     		if(Math.abs(operatorGamepad.getLeftY()) >= 0.1){
     			elevator.setBrake(false);
-    			elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()));
+    			if(operatorGamepad.getLeftY() > 0 
+    			&& elevator.getElevatorPosition() < Constants.elevatorUpPreset.getInt()){
+    				elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()));
+    			}
+    			else if(operatorGamepad.getLeftY() < 0 
+    			     && elevator.getElevatorPosition() > Constants.elevatorFloorPreset.getInt()){
+    				elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()));
+    			}
     		}
     		else{
     			elevator.setElevatorSpeed(0.0);
