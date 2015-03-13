@@ -6,16 +6,19 @@ public class Stacker {
 
 	private Elevator elevator;
 	private Gripper gripper;
-	//private LightController lightController;
 	
 	public static enum StackerPositions{
 		floorOpen,
 		floorClosed,
+		floor,
 		upOpen,
 		upClosed,
+		up,
 		carryClosed,
+		carry,
 		oneUpOpen,
 		oneUpClosed,
+		oneUp,
 		manualControl,
 		elevatorMoving,
 		nothing;
@@ -29,7 +32,6 @@ public class Stacker {
 	public Stacker(Elevator elevator, Gripper gripper){
 		this.elevator = elevator;
 		this.gripper = gripper;
-		//this.lightController = lightController;
 		desiredStackerPosition = StackerPositions.floorClosed;
 		currentStackerPosition = StackerPositions.floorClosed;
 		nextStackerPosition = StackerPositions.elevatorMoving;
@@ -74,13 +76,6 @@ public class Stacker {
 	
 	public void doAutoLoop(){
 		
-//		if(currentStackerPosition == StackerPositions.elevatorMoving){
-//			lightController.setLightPattern(LightController.PixelLightPatterns.red);
-//		}
-//		else{
-//			lightController.setLightPattern(LightController.PixelLightPatterns.green);
-//		}
-		
 		switch(desiredStackerPosition){
 			default:
 				break;
@@ -118,6 +113,21 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.floorClosed;
+						finishMoving();
+						break;
+				}
+				break;
+			case floor:
+				switch(stackerState){
+					default:
+						break;
+					case 0:
+						if(elevator.setElevatorPosition(Constants.elevatorFloorPreset.getInt())){
+							stackerState++;
+						}
+						break;
+					case 1:
+						currentStackerPosition = StackerPositions.floor;
 						finishMoving();
 						break;
 				}
@@ -161,6 +171,21 @@ public class Stacker {
 						break;
 				}
 				break;
+			case up:
+				switch(stackerState){
+					default:
+						break;
+					case 0:
+						if(elevator.setElevatorPosition(Constants.elevatorUpPreset.getInt())){
+							stackerState++;
+						}
+						break;
+					case 1:
+						currentStackerPosition = StackerPositions.up;
+						finishMoving();
+						break;
+				}
+				break;
 			case carryClosed:
 				switch(stackerState){
 					default:
@@ -177,6 +202,21 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.carryClosed;
+						finishMoving();
+						break;
+				}
+				break;
+			case carry:
+				switch(stackerState){
+					default:
+						break;
+					case 0:
+						if(elevator.setElevatorPosition(Constants.elevatorCarryPreset.getInt())){
+							stackerState++;
+						}
+						break;
+					case 2:
+						currentStackerPosition = StackerPositions.carry;
 						finishMoving();
 						break;
 				}
@@ -216,6 +256,21 @@ public class Stacker {
 						break;
 					case 2:
 						currentStackerPosition = StackerPositions.oneUpClosed;
+						finishMoving();
+						break;
+				}
+				break;
+			case oneUp:
+				switch(stackerState){
+					default:
+						break;
+					case 0:
+						if(elevator.setElevatorPosition(Constants.elevatorOneUpPreset.getInt())){
+							stackerState++;
+						}
+						break;
+					case 1:
+						currentStackerPosition = StackerPositions.oneUpOpen;
 						finishMoving();
 						break;
 				}

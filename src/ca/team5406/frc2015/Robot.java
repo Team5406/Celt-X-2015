@@ -177,16 +177,17 @@ public class Robot extends IterativeRobot {
     	
     	//Elevator Postions
     	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
-    		stacker.addToStack();
+    		//stacker.addToStack();
+    		stacker.setDesiredPostition(Stacker.StackerPositions.oneUp);
     	}
     	if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.carry);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.floor);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.up);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.manualControl);
