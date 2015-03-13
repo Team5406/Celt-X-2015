@@ -21,4 +21,8 @@ public class Functions {
 	public static double applyDeadband(double val, double deadband){
 		return (Math.abs(val) < deadband ? 0 : val);
 	}
+	
+	public static boolean checkBounds(double val, double upper, double lower){
+		return (val < upper && val > lower);
+	}
 }

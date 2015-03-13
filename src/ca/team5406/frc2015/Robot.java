@@ -200,6 +200,7 @@ public class Robot extends IterativeRobot {
     			elevator.setElevatorSpeed(Functions.applyJoystickFilter(operatorGamepad.getLeftY()));
     		}
     		else{
+    			elevator.setElevatorSpeed(0.0);
     			elevator.setBrake(true);
     		}
     	}
