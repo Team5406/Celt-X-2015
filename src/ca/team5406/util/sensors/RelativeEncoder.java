@@ -15,14 +15,14 @@ public class RelativeEncoder extends Encoder {
 	}
 	
 	public void set(int position){
-//		zero = (super.get() - position);
+		zero = (super.get() - position);
 	}
 	
 	public int get(){
 		return (super.get() - zero);
 	}
 	
-	public int getRaw(){
+	public int getActual(){
 		return super.get();
 	}
 	

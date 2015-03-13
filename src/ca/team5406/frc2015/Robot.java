@@ -8,6 +8,7 @@ import ca.team5406.util.MultiCamServer;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -32,8 +33,7 @@ public class Robot extends IterativeRobot {
 	private SendableChooser autonSelector;
 	private AutonomousRoutine selectedAuto;
 	
-	private MultiCamServer cameraServer;
-	//private LightController lightController;
+	private CameraServer cameraServer;
 	
 	private Compressor compressor = new Compressor();
 	private PressureTransducer pressureTransducer;
@@ -61,58 +61,45 @@ public class Robot extends IterativeRobot {
     	gripper.setGripperExpansion(false);
     	compressor.setClosedLoopControl(true);
     	
-    	//lightController = new LightController();
-    	
+    	cameraServer = CameraServer.getInstance();
+
     	try{
 	    	//Start sending camera to DS
-//			cameraServer = new MultiCamServer();
+			System.out.println("Trying Cam0");
+    		cameraServer.startAutomaticCapture("cam0");
+    		System.out.println("Started Cam0");
     	}
     	catch(Exception ex){
-    		System.out.println("ERROR: Cameras not available");
+    		try{
+    			System.out.println("Trying Cam1");
+        		cameraServer.startAutomaticCapture("cam1");
+        		System.out.println("Started Cam1");
+    		}
+    		catch(Exception e){
+    			System.out.println("ERROR: Cameras not available");
+    		}
     	}
 		
 		//Send autonomous options to DS
 		autonSelector = new SendableChooser();
 		autonSelector.addDefault("Do nothing", new DoNothing());
 		autonSelector.addObject("Move to zone", new MoveToZone(drivePID));
-//		autonSelector.addObject("Set up for noodle", new SetUpNoodling(drivePID, stacker));
-//		autonSelector.addObject("Take our can", new TakeOurCan(drivePID, stacker));
-//		autonSelector.addObject("Take our tote", new TakeOurTote(drivePID, stacker));
-//		autonSelector.addObject("Take our tote and can", new TakeOurToteAndCan(drivePID, stacker));
+		autonSelector.addObject("Set up for noodle", new SetUpNoodling(drivePID, stacker));
+		autonSelector.addObject("Take our can", new TakeOurCan(drivePID, stacker));
+		autonSelector.addObject("Take our tote", new TakeOurTote(drivePID, stacker));
+		autonSelector.addObject("Take our tote and can", new TakeOurToteAndCan(drivePID, stacker));
     	
 		System.out.println("Done.");
     }
 	
-    //Called the first time the robot enters disabled mode.
+    //Called each time the robot enters disabled mode.
 	public void disabledInit(){
 		System.out.println("Robot Disabled");
-
-//		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue){
-//			lightController.setUnderglowColor(0.0, 0.0, 1.0);
-//		}
-//		if(DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red){
-//			lightController.setUnderglowColor(1.0, 0.0, 0.0);
-//		}
-//		else{
-//			lightController.setUnderglowColor(0.0, 1.0, 0.0);
-//		}
-//		lightController.setLightPattern(LightController.PixelLightPatterns.rainbow);
-//		lightController.updateLights();
 	}
 	
 	//Called at ~50Hz while the robot is disabled.
 	public void disabledPeriodic(){
 
-    	//Change Cameras
-    	if(driverGamepad.getButtonOnce(XboxController.A_BUTTON)){
-    		try{ cameraServer.setCamera("front"); }
-    		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
-    	}
-    	else if(driverGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-    		try{ cameraServer.setCamera("rear"); }
-    		catch(Exception ex){ System.out.println("ERROR: Cannot change cameras."); }
-    	}
-		
 		if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
 			ConstantsBase.updateConstantsFromFile();
 			drivePID.resetPidConstants();
@@ -129,7 +116,6 @@ public class Robot extends IterativeRobot {
 		
 		sendSmartDashInfo();
 		operatorGamepad.updateButtons();
-//		cameraServer.sendImage();
 	}
 	
 	//Called each time the robot enters autonomous.
@@ -176,22 +162,9 @@ public class Robot extends IterativeRobot {
     	else{
     		drive.setSpeedMultiplier(Constants.lowDriveSpeedMutlipler.getDouble());
     	}
-    	
-    	//Change Cameras
-    	try{
-	    	if(driverGamepad.getButtonOnce(XboxController.A_BUTTON)){
-	    			cameraServer.setCamera("front");
-	    	}
-	    	else if(driverGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-	    			cameraServer.setCamera("rear");
-	    	}
-    	}
-    	catch(Exception ex){
-			System.out.println("ERROR: Cannot change cameras.");
-    	}
-    	
+    	    	
     	//TODO: Add backup from stack button.
-    	drive.doArcadeDrive(driverGamepad, 1, 0);
+    	drive.doArcadeDrive(driverGamepad, 1, 0, driverGamepad.getButtonHeld(XboxController.X_BUTTON));
     	
     	//Operator
     	//Manual Gripper control
@@ -247,8 +220,6 @@ public class Robot extends IterativeRobot {
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
     	toteRoller.doToteRoller();
-//    	lightController.updateLights();
-//    	cameraServer.sendImage();
     	sendSmartDashInfo();
     	printSensorInfo();
     }
@@ -257,7 +228,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("AutonDelay", autonDelay);
     	SmartDashboard.putData("Autonomous", autonSelector);
     	
-//    	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
+    	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
     	SmartDashboard.putBoolean("Tote Toller", toteRoller.getStatus());
     	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.0));
     	SmartDashboard.putNumber("Heading", (((drive.getGyroAngle() % 360) + 360) % 360));
@@ -268,7 +239,7 @@ public class Robot extends IterativeRobot {
     public void printSensorInfo(){
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
-//    						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
+    						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
     						"Gyro:             " + drive.getGyroAngle() + "\n");
     }
     

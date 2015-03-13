@@ -21,7 +21,7 @@ public class TakeOurCan extends AutonomousRoutine {
 	
 	public void routineInit(){
 		super.routineInit();
-
+		
 		stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
 		stacker.setDesiredPostition(Stacker.StackerPositions.oneUpOpen);
 		stateTimer = new Timer();

@@ -37,9 +37,17 @@ public class Drive {
 		gyro.initGyro();
 	}
 	
-	public void doArcadeDrive(Controller gamepad, int forwardAxis, int turnAxis){
-		double forward = Functions.applyJoystickFilter(-gamepad.getRawAxis(forwardAxis));
-		double turn = Functions.applyJoystickFilter(gamepad.getRawAxis(turnAxis));
+	public void doArcadeDrive(Controller gamepad, int forwardAxis, int turnAxis, boolean filter){
+		double forward = 0;
+		double turn = 0;
+		if(filter){
+			forward = Functions.applyJoystickFilter(-gamepad.getRawAxis(forwardAxis));
+			turn = Functions.applyJoystickFilter(gamepad.getRawAxis(turnAxis));
+		}
+		else{
+			forward = (-gamepad.getRawAxis(forwardAxis));
+			turn = (gamepad.getRawAxis(turnAxis));
+		}
 		double leftPower = forward + turn;
 		double rightPower = forward - turn;
 		
