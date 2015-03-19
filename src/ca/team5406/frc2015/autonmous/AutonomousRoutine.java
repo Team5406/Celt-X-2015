@@ -15,6 +15,7 @@ public class AutonomousRoutine {
 	
 	public void routineInit(){
 		autonState = 0;
+		isDone = false;
 	}
 	
 	public void routinePeriodic(){

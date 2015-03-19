@@ -51,7 +51,7 @@ public class PID {
 	private int timesTrue = 0;
 	public boolean isDone(double currentPosition, double deadband){
 		if(Math.abs(desiredPosition - currentPosition) <= deadband){
-			if(timesTrue >= 10){
+			if(timesTrue >= 3){
 				return true;
 			}
 			timesTrue++;

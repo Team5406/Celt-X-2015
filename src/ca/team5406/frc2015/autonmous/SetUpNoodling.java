@@ -8,7 +8,7 @@ public class SetUpNoodling extends AutonomousRoutine {
 	private DrivePID drivePID;
 	private Stacker stacker;
 	
-	private Timer stateTimer;
+	private Timer liftTimer;
 	
 	/*
 	 * This auto mode will take our can and get ready to be noodled.
@@ -20,10 +20,10 @@ public class SetUpNoodling extends AutonomousRoutine {
 	}
 	
 	public void routineInit(){
+		liftTimer = new Timer();
 		super.routineInit();
 		stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
 		stacker.setDesiredPostition(Stacker.StackerPositions.oneUpOpen);
-		stateTimer = new Timer();
 		System.out.println("AUTO: Getting ready for noodle.");
 	}
 	
@@ -33,21 +33,39 @@ public class SetUpNoodling extends AutonomousRoutine {
 				break;
 			case 0:
 				stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
+				liftTimer.start();
 				super.autonState++;
 				break;
 			case 1:
-				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed){
-					drivePID.initTurnToAngle(45);
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed || liftTimer.get() > 1.0){
+					liftTimer.stop();
+					drivePID.initTurnToAngle(-12);
 					super.autonState++;
 				}
 				break;
 			case 2:
 				if(drivePID.turnToAngle()){
-					drivePID.initDriveToPos(2000);
+					drivePID.initDriveToPos(2500);
 					super.autonState++;
 				}
+				break;
 			case 3:
 				if(drivePID.driveToPos()){
+					super.autonState++;
+					liftTimer.reset();
+					stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
+				}
+				break;
+			case 4:
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.floorClosed || liftTimer.get() > 2){
+					super.autonState++;
+					stacker.setDesiredPostition(Stacker.StackerPositions.oneUpClosed);
+				}
+				break;
+			case 5:
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.oneUpClosed || liftTimer.get() > 3){
+					liftTimer.stop();
+					stacker.stopElevator();
 					super.autonState++;
 					routineEnd();
 				}
@@ -57,7 +75,6 @@ public class SetUpNoodling extends AutonomousRoutine {
 	}
 	
 	public void routineEnd(){
-		stateTimer.stop();
 		super.isDone = true;
 		System.out.println("AUTO: Done Auto Routine");
 	}

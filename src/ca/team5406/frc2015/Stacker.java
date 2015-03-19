@@ -64,6 +64,15 @@ public class Stacker {
 		elevator.presetElevatorEncoder(pos);
 	}
 	
+	public void resetElevatorEncoder(){
+		elevator.resetEncoder();
+	}
+	
+	public void stopElevator(){
+		elevator.setBrake(true);
+		elevator.setElevatorSpeed(0.0);
+	}
+	
 	private void finishMoving(){
 		if(nextStackerPosition != StackerPositions.nothing){
 			setDesiredPostition(nextStackerPosition);
@@ -157,7 +166,7 @@ public class Stacker {
 						break;
 					case 0:
 						gripper.setGripperExpansion(false);
-						Timer.delay(0.2);//Terrible way of doing this but I'm lazy right now.
+						Timer.delay(0.25);//Terrible way of doing this but I'm lazy right now.
 						stackerState++;
 						break;
 					case 1:

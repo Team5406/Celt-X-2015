@@ -45,20 +45,24 @@ public class Elevator {
 		double upSpeed = upPID.calcSpeed(currentPosition);
 		double downSpeed = downPID.calcSpeed(currentPosition);
 		
-		if(desiredPosition > currentPosition + Constants.elevatorUpPidDeadband.getInt()){
+		if(desiredPosition > currentPosition){
 			setBrake(false);
 			setElevatorSpeed(upSpeed);
 			
-			if(upSpeed > 0.6) upSpeed = 0.6;
+			if(upSpeed > 0.7) upSpeed = 0.7;
 			
-			return upPID.isDone(currentPosition, Constants.elevatorUpPidDeadband.getInt());
+			if(upPID.isDone(currentPosition, Constants.elevatorUpPidDeadband.getInt())){
+				setBrake(true);
+				return true;
+			}
+			else return false;
 		}
-		else if(desiredPosition < currentPosition - Constants.elevatorDownPidDeadband.getInt()){
+		else if(desiredPosition < currentPosition){
 			setBrake(false);
 			
-			if((currentPosition < 2000) && (desiredPosition == Constants.elevatorFloorPreset.getInt())){
+			if((currentPosition < Constants.elevatorOneUpPreset.getInt()) && (desiredPosition == Constants.elevatorFloorPreset.getInt())){
 				downPID.setConstants(Constants.elevatorDownPidKp.getDouble(), 
-						   			 Constants.elevatorDownPidKi.getDouble() + 0.015,
+						   			 Constants.elevatorDownPidKi.getDouble() + Constants.elevatorDownPidKiAlt.getDouble(),
 						   			 Constants.elevatorDownPidKd.getDouble());
 			}
 			else{
@@ -69,10 +73,13 @@ public class Elevator {
 			}
 			
 			setElevatorSpeed(downSpeed);
-			return downPID.isDone(currentPosition, Constants.elevatorDownPidDeadband.getInt());
+			if(downPID.isDone(currentPosition, Constants.elevatorDownPidDeadband.getInt())){
+				setBrake(true);
+				return true;
+			}
+			else return false;
 		}
 		else{
-			setElevatorSpeed(0.0);
 			setBrake(true);
 			return true;
 		}

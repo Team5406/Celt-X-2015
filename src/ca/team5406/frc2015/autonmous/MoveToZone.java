@@ -14,7 +14,7 @@ public class MoveToZone extends AutonomousRoutine {
 		super.routineInit();
 		
 		System.out.println("AUTO: Moving to auto zone");
-		drivePID.initDriveToPos(2000);
+		drivePID.initDriveToPos(-11000);
 	}
 	
 	public void routinePeriodic(){
@@ -24,8 +24,8 @@ public class MoveToZone extends AutonomousRoutine {
 	}
 	
 	public void routineEnd(){
+		super.isDone = true;
 		System.out.println("AUTO: Done auto routine.");
-		super.routineEnd();
 	}
 	
 }

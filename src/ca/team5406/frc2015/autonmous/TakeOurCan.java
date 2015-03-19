@@ -7,8 +7,7 @@ public class TakeOurCan extends AutonomousRoutine {
 	
 	private DrivePID drivePID;
 	private Stacker stacker;
-	
-	private Timer stateTimer;
+	private Timer liftTimer;
 	
 	/*
 	 * This auto mode will take our can and move into the auto zone.
@@ -22,28 +21,47 @@ public class TakeOurCan extends AutonomousRoutine {
 	public void routineInit(){
 		super.routineInit();
 		
+		liftTimer = new Timer();
+		
+		stacker.resetElevatorEncoder();
 		stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
 		stacker.setDesiredPostition(Stacker.StackerPositions.oneUpOpen);
-		stateTimer = new Timer();
 		System.out.println("AUTO: Taking our can");
 	}
 	
 	public void routinePeriodic(){
+		System.out.println(super.autonState + ":" + liftTimer.get());
 		switch(super.autonState){
 			default:
 				break;
 			case 0:
 				stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
+				liftTimer.start();
 				super.autonState++;
 				break;
 			case 1:
-				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed){
-					drivePID.initDriveToPos(-5000);
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed || liftTimer.get() > 1){
+					drivePID.initDriveToPos(-11000);
 					super.autonState++;
 				}
 				break;
 			case 2:
 				if(drivePID.driveToPos()){
+					super.autonState++;
+					liftTimer.reset();
+					stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
+				}
+				break;
+			case 3:
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.floorClosed || liftTimer.get() > 2){
+					super.autonState++;
+					stacker.setDesiredPostition(Stacker.StackerPositions.oneUpClosed);
+				}
+				break;
+			case 4:
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.oneUpClosed || liftTimer.get() > 3){
+					liftTimer.stop();
+					stacker.stopElevator();
 					super.autonState++;
 					routineEnd();
 				}
@@ -53,8 +71,8 @@ public class TakeOurCan extends AutonomousRoutine {
 	}
 	
 	public void routineEnd(){
-		stateTimer.stop();
 		super.isDone = true;
+		liftTimer.stop();
 		System.out.println("AUTO: Done Auto Routine");
 	}
 	

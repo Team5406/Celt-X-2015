@@ -8,7 +8,7 @@ public class TakeOurTote extends AutonomousRoutine {
 	private DrivePID drivePID;
 	private Stacker stacker;
 	
-	private Timer stateTimer;
+	private Timer liftTimer;
 	
 	/*
 	 * This auto mode will take our tote and move into the auto zone.
@@ -21,9 +21,9 @@ public class TakeOurTote extends AutonomousRoutine {
 	
 	public void routineInit(){
 		super.routineInit();
-		
+		liftTimer = new Timer();
+		stacker.resetElevatorEncoder();
 		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
-		stateTimer = new Timer();
 		System.out.println("AUTO: Taking our tote");
 	}
 	
@@ -33,32 +33,32 @@ public class TakeOurTote extends AutonomousRoutine {
 				break;
 			case 0:
 				stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
+				liftTimer.start();
 				super.autonState++;
 				break;
 			case 1:
-				if(stacker.getStackerPosition() == Stacker.StackerPositions.carryClosed){
-					drivePID.initTurnToAngle(-90);
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.carryClosed || liftTimer.get() > 0.8){
+					drivePID.initDriveToPos(-11000);
 					super.autonState++;
 				}
 				break;
 			case 2:
-				if(drivePID.turnToAngle()){
-					drivePID.initDriveToPos(-5000);
-					super.autonState++;
-				}
-			case 3:
 				if(drivePID.driveToPos()){
-					drivePID.initDriveToPos(2500);
+					super.autonState++;
+					stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
+					liftTimer.reset();
+				}
+				break;
+			case 3:
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.floorClosed || liftTimer.get() > 1){
 					super.autonState++;
 					routineEnd();
 				}
-				break;
 			
 		}		
 	}
 	
 	public void routineEnd(){
-		stateTimer.stop();
 		super.isDone = true;
 		System.out.println("AUTO: Done Auto Routine");
 	}

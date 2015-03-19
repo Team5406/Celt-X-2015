@@ -4,12 +4,12 @@ package ca.team5406.frc2015;
 import ca.team5406.frc2015.autonmous.*;
 import ca.team5406.util.ConstantsBase;
 import ca.team5406.util.Functions;
-import ca.team5406.util.MultiCamServer;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -61,18 +61,18 @@ public class Robot extends IterativeRobot {
     	gripper.setGripperExpansion(false);
     	compressor.setClosedLoopControl(true);
     	
-    	cameraServer = CameraServer.getInstance();
+//    	cameraServer = CameraServer.getInstance();
 
     	try{
 	    	//Start sending camera to DS
 			System.out.println("Trying Cam0");
-    		cameraServer.startAutomaticCapture("cam0");
+//    		cameraServer.startAutomaticCapture("cam0");
     		System.out.println("Started Cam0");
     	}
     	catch(Exception ex){
     		try{
     			System.out.println("Trying Cam1");
-        		cameraServer.startAutomaticCapture("cam1");
+//        		cameraServer.startAutomaticCapture("cam1");
         		System.out.println("Started Cam1");
     		}
     		catch(Exception e){
@@ -85,9 +85,11 @@ public class Robot extends IterativeRobot {
 		autonSelector.addDefault("Do nothing", new DoNothing());
 		autonSelector.addObject("Move to zone", new MoveToZone(drivePID));
 		autonSelector.addObject("Set up for noodle", new SetUpNoodling(drivePID, stacker));
-		autonSelector.addObject("Take our can", new TakeOurCan(drivePID, stacker));
+		autonSelector.addObject("Take our can", new TakeOurCan(drivePID, stacker)); //Set to def for test
 		autonSelector.addObject("Take our tote", new TakeOurTote(drivePID, stacker));
 		autonSelector.addObject("Take our tote and can", new TakeOurToteAndCan(drivePID, stacker));
+		autonSelector.addObject("Take our tote and can straight", new TakeOurToteAndCanStraight(drivePID, stacker));
+//		autonSelector.addObject("Take 3 totes", new TakeThreeTotes(drivePID, stacker));
     	
 		System.out.println("Done.");
     }
@@ -121,7 +123,7 @@ public class Robot extends IterativeRobot {
 	//Called each time the robot enters autonomous.
     public void autonomousInit(){
 		System.out.println("Autonomous Enabled");
-		System.out.printf("AUTO: Waiting for %.2f seconds.", autonDelay);
+		System.out.printf("AUTO: Waiting for %.2f seconds. \n", autonDelay);
 		
 		Timer delayTimer = new Timer();
 		delayTimer.start();
@@ -133,19 +135,23 @@ public class Robot extends IterativeRobot {
 		
 		selectedAuto = (AutonomousRoutine) autonSelector.getSelected();
 		selectedAuto.routineInit();
-		
     }
 
 	//Called at ~50Hz while the robot is in autonomous.
     public void autonomousPeriodic(){    	
     	if(!selectedAuto.isDone()){
     		selectedAuto.routinePeriodic();
+    		stacker.doAutoLoop();
     	}
+    	sendSmartDashInfo();
+    	printSensorInfo();
     }
 
     //Called once each time the robot enters tele-op mode.
     public void teleopInit(){
-		System.out.println("Tele-op Enabled");    	
+		System.out.println("Tele-op Enabled"); 
+		
+		toteRoller.startToteRoller();
     }
 
 	//Called at ~50Hz while the robot is enabled.
@@ -163,7 +169,6 @@ public class Robot extends IterativeRobot {
     		drive.setSpeedMultiplier(Constants.lowDriveSpeedMutlipler.getDouble());
     	}
     	    	
-    	//TODO: Add backup from stack button.
     	drive.doArcadeDrive(driverGamepad, 1, 0, driverGamepad.getButtonHeld(XboxController.X_BUTTON));
     	
     	//Operator
@@ -175,19 +180,19 @@ public class Robot extends IterativeRobot {
     		gripper.setGripperExpansion(false);
     	}
     	
-    	//Elevator Postions
+    	//Elevator Positions
     	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
     		//stacker.addToStack();
     		stacker.setDesiredPostition(Stacker.StackerPositions.oneUp);
     	}
     	if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.carry);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.floor);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.up);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.START_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.manualControl);
@@ -240,7 +245,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Elevator", elevator.getElevatorPosition());
     	SmartDashboard.putBoolean("Tote Toller", toteRoller.getStatus());
     	SmartDashboard.putBoolean("Compressor On", (compressor.getCompressorCurrent() > 0.0));
-    	SmartDashboard.putNumber("Heading", (((drive.getGyroAngle() % 360) + 360) % 360));
+    	SmartDashboard.putNumber("Heading", ((((drive.getGyroAngle() * (90.0 / 122.0)) % 360) + 360) % 360));
     	
     	SmartDashboard.putNumber("Pressure", pressureTransducer.getPsi());
     }
@@ -249,7 +254,7 @@ public class Robot extends IterativeRobot {
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
     						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
-    						"Gyro:             " + drive.getGyroAngle() + "\n");
+    						"Gyro:             " + drive.getGyroAngle() * (122.0 / 90.0) + "\n");
     }
     
 }
