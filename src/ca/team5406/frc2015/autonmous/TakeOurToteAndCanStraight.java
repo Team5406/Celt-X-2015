@@ -66,7 +66,7 @@ public class TakeOurToteAndCanStraight extends AutonomousRoutine {
 			case 5:
 				if(drivePID.turnToAngle()){
 					drivePID.initDriveToPos(9000);
-					drivePID.setSpeedLimit(0.6);
+					drivePID.setSpeedLimit(0.4);
 					super.autonState++;
 				}
 				break;

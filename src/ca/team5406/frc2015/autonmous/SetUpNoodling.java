@@ -53,17 +53,18 @@ public class SetUpNoodling extends AutonomousRoutine {
 				if(drivePID.driveToPos()){
 					super.autonState++;
 					liftTimer.reset();
+					liftTimer.start();
 					stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
 				}
 				break;
 			case 4:
 				if(stacker.getStackerPosition() == Stacker.StackerPositions.floorClosed || liftTimer.get() > 2){
 					super.autonState++;
-					stacker.setDesiredPostition(Stacker.StackerPositions.oneUpClosed);
+					stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
 				}
 				break;
 			case 5:
-				if(stacker.getStackerPosition() == Stacker.StackerPositions.oneUpClosed || liftTimer.get() > 3){
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed || liftTimer.get() > 3){
 					liftTimer.stop();
 					stacker.stopElevator();
 					super.autonState++;

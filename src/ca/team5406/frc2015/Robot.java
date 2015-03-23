@@ -189,7 +189,7 @@ public class Robot extends IterativeRobot {
     		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.floor);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.Y_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
@@ -254,7 +254,7 @@ public class Robot extends IterativeRobot {
     	riologPrinter.print("Left Encoder:     " + drive.getLeftEncoder() + "\n" + 
     						"Right Encoder:    " + drive.getRightEncoder() + "\n" +
     						"Elevator Encoder: " + elevator.getElevatorPosition() + "\n" +
-    						"Gyro:             " + drive.getGyroAngle() * (122.0 / 90.0) + "\n");
+    						"Gyro:             " + drive.getGyroAngle() * (90.0 / 128.0) + "\n");
     }
     
 }
