@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
 	private Gripper gripper;
 	private Elevator elevator;
 	private Stacker stacker;
+	private CanHolder holder;
 
 	private ToteRoller toteRoller;
 	
@@ -54,8 +55,9 @@ public class Robot extends IterativeRobot {
     	drivePID = new DrivePID(drive);
     	gripper = new Gripper();
     	elevator = new Elevator();
-    	stacker = new Stacker(elevator, gripper);
+    	stacker = new Stacker(elevator, gripper, holder);
     	toteRoller = new ToteRoller();
+    	holder = new CanHolder();
     	
     	pressureTransducer = new PressureTransducer(Constants.pressureTransducer.getInt());
     	gripper.setGripperExpansion(false);
@@ -164,6 +166,12 @@ public class Robot extends IterativeRobot {
     	}
     	else if(driverGamepad.getButtonHeld(XboxController.B_BUTTON)){
     		drive.setSpeedMultiplier(Constants.midDriveSpeedMutlipler.getDouble());
+    	}
+    	else if(driverGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
+    		holder.setPosition(true);
+    	}
+    	else if(driverGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
+    		holder.setPosition(false);
     	}
     	else{
     		drive.setSpeedMultiplier(Constants.lowDriveSpeedMutlipler.getDouble());

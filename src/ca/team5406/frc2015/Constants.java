@@ -79,5 +79,7 @@ public class Constants {
 	public static Constant elevatorBrake = new Constant("elevatorBrake", 1);
 	public static Constant gripperContraction = new Constant("gripperContraction", 3);
 	public static Constant gripperExpansion = new Constant("gripperExpansion", 2);
+	public static Constant canHolderContraction = new Constant("canHolderContraction", 4);
+	public static Constant canHolderExpansion = new Constant("canHolderExpansion", 5);
 	
 }

@@ -6,6 +6,7 @@ public class Stacker {
 
 	private Elevator elevator;
 	private Gripper gripper;
+	private CanHolder holder;
 	
 	public static enum StackerPositions{
 		floorOpen,
@@ -22,6 +23,7 @@ public class Stacker {
 		manualControl,
 		elevatorMoving,
 		nothing;
+		
 	}
 
 	private StackerPositions currentStackerPosition = StackerPositions.elevatorMoving;
@@ -29,9 +31,10 @@ public class Stacker {
 	private StackerPositions nextStackerPosition = StackerPositions.elevatorMoving;
 	private int stackerState = 0;
 	
-	public Stacker(Elevator elevator, Gripper gripper){
+	public Stacker(Elevator elevator, Gripper gripper, CanHolder holder){
 		this.elevator = elevator;
 		this.gripper = gripper;
+		this.holder = holder;
 		desiredStackerPosition = StackerPositions.floorClosed;
 		currentStackerPosition = StackerPositions.floorClosed;
 		nextStackerPosition = StackerPositions.elevatorMoving;
@@ -146,6 +149,7 @@ public class Stacker {
 					default:
 						break;
 					case 0:
+						
 						if(elevator.setElevatorPosition(Constants.elevatorUpPreset.getInt())){
 							stackerState++;
 						}
@@ -165,12 +169,14 @@ public class Stacker {
 					default:
 						break;
 					case 0:
+						holder.setPosition(false);
 						gripper.setGripperExpansion(false);
 						Timer.delay(0.25);//Terrible way of doing this but I'm lazy right now.
 						stackerState++;
 						break;
 					case 1:
 						if(elevator.setElevatorPosition(Constants.elevatorUpPreset.getInt())){
+							holder.setPosition(true);
 							stackerState++;
 						}
 						break;
