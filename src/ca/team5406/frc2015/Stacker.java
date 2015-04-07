@@ -169,14 +169,12 @@ public class Stacker {
 					default:
 						break;
 					case 0:
-						holder.setPosition(false);
 						gripper.setGripperExpansion(false);
 						Timer.delay(0.25);//Terrible way of doing this but I'm lazy right now.
 						stackerState++;
 						break;
 					case 1:
 						if(elevator.setElevatorPosition(Constants.elevatorUpPreset.getInt())){
-							holder.setPosition(true);
 							stackerState++;
 						}
 						break;
