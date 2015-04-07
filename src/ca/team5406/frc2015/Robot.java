@@ -190,7 +190,6 @@ public class Robot extends IterativeRobot {
     	
     	//Elevator Positions
     	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
-    		//stacker.addToStack();
     		stacker.setDesiredPostition(Stacker.StackerPositions.oneUp);
     	}
     	if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
