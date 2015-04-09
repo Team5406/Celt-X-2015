@@ -167,11 +167,12 @@ public class Robot extends IterativeRobot {
     	else if(driverGamepad.getButtonHeld(XboxController.B_BUTTON)){
     		drive.setSpeedMultiplier(Constants.midDriveSpeedMutlipler.getDouble());
     	}
-    	else if(driverGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
-    		holder.setPosition(true);
+    	else if(driverGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){    		
+    			holder.setPosition(false);
     	}
     	else if(driverGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
-    		holder.setPosition(false);
+    		if(elevator.getBrakePosition())
+    			holder.setPosition(true);
     	}
     	else{
     		drive.setSpeedMultiplier(Constants.lowDriveSpeedMutlipler.getDouble());
@@ -186,13 +187,12 @@ public class Robot extends IterativeRobot {
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
     		gripper.setGripperExpansion(false);
-    	}
-    	
+    	}    	
     	//Elevator Positions
     	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.oneUp);
     	}
-    	if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
+    	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.A_BUTTON)){
@@ -225,13 +225,11 @@ public class Robot extends IterativeRobot {
     	}
     	else{
     		stacker.doAutoLoop();
-    	}
-    	
+    	}   	
     	//Manual Elevator Encoder Reset
     	if(operatorGamepad.getButtonOnce(XboxController.RIGHT_STICK) && operatorGamepad.getButtonOnce(XboxController.LEFT_STICK)){
     		elevator.resetEncoder();
-    	}    	
-    	
+    	}   	
     	//Tote Roller
     	if(operatorGamepad.getButtonOnce(XboxController.BACK_BUTTON)){
     		toteRoller.toggleState();

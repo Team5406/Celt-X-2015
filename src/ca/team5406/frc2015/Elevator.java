@@ -98,7 +98,9 @@ public class Elevator {
 		elevatorMotorA.set(speed);
 		elevatorMotorB.set(speed);
 	}
-	
+	public boolean getBrakePosition(){
+		return brake;
+	}
 	public void presetElevatorEncoder(int pos){
 		elevatorEncoder.set(pos);
 	}
