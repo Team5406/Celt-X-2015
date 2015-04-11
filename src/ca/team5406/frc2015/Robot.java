@@ -55,9 +55,9 @@ public class Robot extends IterativeRobot {
     	drivePID = new DrivePID(drive);
     	gripper = new Gripper();
     	elevator = new Elevator();
+    	holder = new CanHolder(elevator, gripper);
     	stacker = new Stacker(elevator, gripper, holder);
     	toteRoller = new ToteRoller();
-    	holder = new CanHolder();
     	
     	pressureTransducer = new PressureTransducer(Constants.pressureTransducer.getInt());
     	gripper.setGripperExpansion(false);
@@ -167,15 +167,15 @@ public class Robot extends IterativeRobot {
     	else if(driverGamepad.getButtonHeld(XboxController.B_BUTTON)){
     		drive.setSpeedMultiplier(Constants.midDriveSpeedMutlipler.getDouble());
     	}
-    	else if(driverGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){    		
-    			holder.setPosition(false);
-    	}
-    	else if(driverGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
-    		if(elevator.getBrakePosition())
-    			holder.setPosition(true);
-    	}
     	else{
     		drive.setSpeedMultiplier(Constants.lowDriveSpeedMutlipler.getDouble());
+    	}
+    	
+    	if(driverGamepad.getButtonOnce(XboxController.LEFT_BUMPER)){
+    		holder.setDesiredOpen(false);
+    	}
+    	else if(driverGamepad.getButtonOnce(XboxController.RIGHT_BUMPER)){
+    		holder.setDesiredOpen(true);
     	}
     	    	
     	drive.doArcadeDrive(driverGamepad, 1, 0, driverGamepad.getButtonHeld(XboxController.X_BUTTON));
@@ -190,7 +190,7 @@ public class Robot extends IterativeRobot {
     	}    	
     	//Elevator Positions
     	if(operatorGamepad.getButtonOnce(XboxController.X_BUTTON)){
-    		stacker.setDesiredPostition(Stacker.StackerPositions.oneUp);
+    		stacker.setDesiredPostition(Stacker.StackerPositions.lowCarry);
     	}
     	else if(operatorGamepad.getButtonOnce(XboxController.B_BUTTON)){
     		stacker.setDesiredPostition(Stacker.StackerPositions.carryClosed);
@@ -239,6 +239,7 @@ public class Robot extends IterativeRobot {
     	driverGamepad.updateButtons();
     	operatorGamepad.updateButtons();
     	toteRoller.doToteRoller();
+    	holder.doAutoLoop();
     	sendSmartDashInfo();
     	printSensorInfo();
     }

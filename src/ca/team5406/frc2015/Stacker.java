@@ -22,7 +22,8 @@ public class Stacker {
 		oneUp,
 		manualControl,
 		elevatorMoving,
-		nothing;
+		nothing,
+		lowCarry;
 		
 	}
 
@@ -46,6 +47,8 @@ public class Stacker {
 	}
 	
 	public void setDesiredPostition(StackerPositions desiredPosition){
+		holder.setDesiredOpen(true);
+		holder.setPosition(true);
 		desiredStackerPosition = desiredPosition;
 		currentStackerPosition = StackerPositions.elevatorMoving;
 		stackerState = 0;
@@ -87,7 +90,6 @@ public class Stacker {
 	}
 	
 	public void doAutoLoop(){
-		
 		switch(desiredStackerPosition){
 			default:
 				break;
@@ -288,6 +290,20 @@ public class Stacker {
 						break;
 				}
 				break;
+			case lowCarry:
+				switch(stackerState){
+				default:
+					break;
+				case 0:
+					if(elevator.setElevatorPosition(Constants.elevatorLowCarryPreset.getInt())){
+						stackerState++;
+					}
+					break;
+				case 1:
+					currentStackerPosition = StackerPositions.lowCarry;
+					finishMoving();
+					break;
+				}
 		}
 	}
 	

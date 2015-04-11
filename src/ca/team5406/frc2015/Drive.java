@@ -101,6 +101,11 @@ public class Drive {
 		return gyro.getAngle();
 	}
 	
+	public boolean getRobotMoving(){
+		return Math.abs(leftDriveA.get()) > 0.05 && Math.abs(leftDriveB.get()) > 0.05 
+			&& Math.abs(rightDriveA.get()) > 0.05 && Math.abs(rightDriveB.get()) > 0.05;
+	}
+	
 	public void resetGyro(){
 		gyro.reset();
 	}

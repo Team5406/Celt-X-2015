@@ -41,9 +41,10 @@ public class Constants {
 	public static Constant elevatorUpPreset = new Constant("elevatorUpPreset", 10100);
 	public static Constant elevatorCarryPreset = new Constant("elevatorCarryPreset", 2500);
 	public static Constant elevatorOneUpPreset = new Constant("elevatorOneUpPreset", 3000);
+	public static Constant elevatorLowCarryPreset = new Constant("elevatorLowCarryPreset", 1500);
 
 	//Speeds
-	public static Constant rollerSpeed = new Constant("rollerSpeed", -0.5);
+	public static Constant rollerSpeed = new Constant("rollerSpeed", -0.65);
 	public static Constant highDriveSpeedMutlipler = new Constant("highDriveSpeedMutlipler", 1.0);
 	public static Constant midDriveSpeedMutlipler = new Constant("midDriveSpeedMutlipler", 0.7);
 	public static Constant lowDriveSpeedMutlipler = new Constant("lowDriveSpeedMutlipler", 0.5);

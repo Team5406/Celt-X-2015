@@ -52,6 +52,7 @@ public class Elevator {
 			if(upSpeed > 0.7) upSpeed = 0.7;
 			
 			if(upPID.isDone(currentPosition, Constants.elevatorUpPidDeadband.getInt())){
+				setElevatorSpeed(0.0);
 				setBrake(true);
 				return true;
 			}
@@ -74,12 +75,14 @@ public class Elevator {
 			
 			setElevatorSpeed(downSpeed);
 			if(downPID.isDone(currentPosition, Constants.elevatorDownPidDeadband.getInt())){
+				setElevatorSpeed(0.0);
 				setBrake(true);
 				return true;
 			}
 			else return false;
 		}
 		else{
+			setElevatorSpeed(0.0);
 			setBrake(true);
 			return true;
 		}
@@ -97,10 +100,7 @@ public class Elevator {
 	public void setElevatorSpeed(double speed){
 		elevatorMotorA.set(speed);
 		elevatorMotorB.set(speed);
-	}
-	public boolean getBrakePosition(){
-		return brake;
-	}
+	}	
 	public void presetElevatorEncoder(int pos){
 		elevatorEncoder.set(pos);
 	}
@@ -110,6 +110,9 @@ public class Elevator {
 	}
 	public void resetEncoder(){
 		elevatorEncoder.reset();
+	}
+	public boolean getElevatorMoving(){
+		return Math.abs(elevatorMotorA.get()) > 0.1 && Math.abs(elevatorMotorB.get()) > 0.1;	
 	}
 	
 	public void resetPidConstants(){
@@ -125,4 +128,3 @@ public class Elevator {
 	
 }
 	
-
