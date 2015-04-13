@@ -37,7 +37,7 @@ public class SetUpNoodling extends AutonomousRoutine {
 				super.autonState++;
 				break;
 			case 1:
-				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed || liftTimer.get() > 1.0){
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed){
 					liftTimer.stop();
 					drivePID.initTurnToAngle(-12);
 					super.autonState++;
@@ -58,18 +58,19 @@ public class SetUpNoodling extends AutonomousRoutine {
 				}
 				break;
 			case 4:
-				if(stacker.getStackerPosition() == Stacker.StackerPositions.floorClosed || liftTimer.get() > 2){
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.floorClosed || liftTimer.get() > 2.0){
+					stacker.setDesiredPostition(Stacker.StackerPositions.upClosed);
+					liftTimer.reset();
 					super.autonState++;
-					//.setDesiredPostition(Stacker.StackerPositions.upClosed);
 				}
 				break;
 			case 5:
-//				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed || liftTimer.get() > 3){
-				liftTimer.stop();
-				stacker.stopElevator();
-				super.autonState++;
-				routineEnd();
-//				}
+				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed || liftTimer.get() > 1.0){
+					liftTimer.stop();
+					stacker.stopElevator();
+					super.autonState++;
+					routineEnd();
+				}
 				break;			
 		}		
 	}
