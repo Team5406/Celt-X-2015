@@ -3,18 +3,16 @@ package ca.team5406.frc2015.autonmous;
 import ca.team5406.frc2015.*;
 import edu.wpi.first.wpilibj.Timer;
 
-public class SetUpNoodling extends AutonomousRoutine {
-	
+public class SetUpForNoodleRight extends AutonomousRoutine{
 	private DrivePID drivePID;
 	private Stacker stacker;
 	
 	private Timer liftTimer;
-	
 	/*
-	 * This auto mode will take our can and get ready to be noodled on the left of ds.
+	 * this auto will take our can and set up for noodle to the right of the ds
 	 */
-	
-	public SetUpNoodling(DrivePID drivePID, Stacker stacker){
+
+	public SetUpForNoodleRight(DrivePID drivePID, Stacker stacker){
 		this.drivePID = drivePID;
 		this.stacker = stacker;
 	}
@@ -24,7 +22,7 @@ public class SetUpNoodling extends AutonomousRoutine {
 		super.routineInit();
 		//stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
 		stacker.setDesiredPostition(Stacker.StackerPositions.floorOpen);
-		System.out.println("AUTO: Getting ready for noodle.");
+		System.out.println("AUTO: Getting ready for noodle right.");
 	}
 	
 	public void routinePeriodic(){
@@ -39,13 +37,13 @@ public class SetUpNoodling extends AutonomousRoutine {
 			case 1:
 				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed){
 					liftTimer.stop();
-					drivePID.initTurnToAngle(-12);
+					drivePID.initTurnToAngle(15);
 					super.autonState++;
 				}
 				break;
 			case 2:
 				if(drivePID.turnToAngle()){
-					drivePID.initDriveToPos(2500);
+					drivePID.initDriveToPos(3000);
 					super.autonState++;
 				}
 				break;
@@ -72,9 +70,9 @@ public class SetUpNoodling extends AutonomousRoutine {
 					routineEnd();
 				}
 				break;			
-		}		
+		}	
 	}
-	
+
 	public void routineEnd(){
 		super.isDone = true;
 		System.out.println("AUTO: Done Auto Routine");
