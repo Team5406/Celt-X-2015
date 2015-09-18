@@ -11,7 +11,7 @@ public class SetUpNoodling extends AutonomousRoutine {
 	private Timer liftTimer;
 	
 	/*
-	 * This auto mode will take our can and get ready to be noodled on the left of ds.
+	 * This auto mode will take our can and get ready to be noodled.
 	 */
 	
 	public SetUpNoodling(DrivePID drivePID, Stacker stacker){
@@ -22,8 +22,8 @@ public class SetUpNoodling extends AutonomousRoutine {
 	public void routineInit(){
 		liftTimer = new Timer();
 		super.routineInit();
-		//stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
-		stacker.setDesiredPostition(Stacker.StackerPositions.floorOpen);
+		stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
+		stacker.setDesiredPostition(Stacker.StackerPositions.oneUpOpen);
 		System.out.println("AUTO: Getting ready for noodle.");
 	}
 	
