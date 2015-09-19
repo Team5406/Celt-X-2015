@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot {
 		autonSelector.addObject("Take our tote", new TakeOurTote(drivePID, stacker));
 		autonSelector.addObject("Take our tote and can", new TakeOurToteAndCan(drivePID, stacker));
 		autonSelector.addObject("Take our tote and can straight", new TakeOurToteAndCanStraight(drivePID, stacker));
-		autonSelector.addObject("Take 3 totes", new TakeThreeTotes(drivePID, stacker, holder));
+//		autonSelector.addObject("Take 3 totes", new TakeThreeTotes(drivePID, stacker));
     	
 		System.out.println("Done.");
     }
