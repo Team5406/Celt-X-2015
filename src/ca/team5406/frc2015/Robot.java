@@ -7,6 +7,12 @@ import ca.team5406.util.Functions;
 import ca.team5406.util.RegulatedPrinter;
 import ca.team5406.util.controllers.XboxController;
 import ca.team5406.util.sensors.PressureTransducer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
