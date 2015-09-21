@@ -49,7 +49,6 @@ public class Elevator {
 			setBrake(false);
 			setElevatorSpeed(upSpeed);
 			
-			if(upSpeed > 0.7) upSpeed = 0.7;
 			
 			if(upPID.isDone(currentPosition, Constants.elevatorUpPidDeadband.getInt())){
 				setElevatorSpeed(0.0);
