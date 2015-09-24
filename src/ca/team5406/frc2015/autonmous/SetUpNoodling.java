@@ -45,7 +45,7 @@ public class SetUpNoodling extends AutonomousRoutine {
 				break;
 			case 2:
 				if(drivePID.turnToAngle()){
-					drivePID.initDriveToPos(2500);
+					drivePID.initDriveToPos(-2500);
 					super.autonState++;
 				}
 				break;
