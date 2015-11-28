@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Controller extends Joystick {
 
-	int numButtons = 10;
+	int numButtons = 13;
 	boolean[] previousButtonState = new boolean[numButtons + 1];
 	
 	public Controller(int port) {

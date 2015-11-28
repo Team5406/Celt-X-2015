@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class TakeOurCan extends AutonomousRoutine {
 	
 	private DrivePID drivePID;
+	private Drive drive;
 	private Stacker stacker;
 	private Timer liftTimer;
 	
@@ -13,8 +14,9 @@ public class TakeOurCan extends AutonomousRoutine {
 	 * This auto mode will take our can and move into the auto zone.
 	 */
 	
-	public TakeOurCan(DrivePID drivePID, Stacker stacker){
+	public TakeOurCan(DrivePID drivePID, Stacker stacker, Drive drive){
 		this.drivePID = drivePID;
+		this.drive = drive;
 		this.stacker = stacker;
 	}
 	
@@ -24,8 +26,8 @@ public class TakeOurCan extends AutonomousRoutine {
 		liftTimer = new Timer();
 		
 		stacker.resetElevatorEncoder();
-		stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
-		stacker.setDesiredPostition(Stacker.StackerPositions.oneUpOpen);
+//		stacker.presetElevatorEncoder(Constants.elevatorOneUpPreset.getInt());
+//		stacker.setDesiredPostition(Stacker.StackerPositions.oneUpOpen);
 		System.out.println("AUTO: Taking our can");
 	}
 	
@@ -42,12 +44,16 @@ public class TakeOurCan extends AutonomousRoutine {
 			case 1:
 				if(stacker.getStackerPosition() == Stacker.StackerPositions.upClosed || liftTimer.get() > 1){
 					drivePID.initDriveToPos(-11000);
+					liftTimer.reset();
+					drive.setPowerLeftRight(-0.5, -0.5);
+					
 					super.autonState++;
 				}
 				break;
 			case 2:
-				if(drivePID.driveToPos()){
-					super.autonState++;
+				if(liftTimer.get() >= .6){
+					super.autonState= 20;
+					drive.setPowerLeftRight(0, 0);
 					liftTimer.reset();
 					stacker.setDesiredPostition(Stacker.StackerPositions.floorClosed);
 				}

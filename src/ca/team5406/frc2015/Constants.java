@@ -64,12 +64,12 @@ public class Constants {
 	public static Constant toteStopperVictor = new Constant("toteStopperVictor", 6);
 	
 	//Digital
-	public static Constant leftDriveEncA = new Constant("leftDriveEncA", 0);
-	public static Constant leftDriveEncB = new Constant("leftDriveEncB", 1);
-	public static Constant rightDriveEncA = new Constant("rightDriveEncA", 2);
-	public static Constant rightDriveEncB = new Constant("rightDriveEncB", 3);
-	public static Constant elevatorEncA = new Constant("elevatorEncA", 4);
-	public static Constant elevatorEncB = new Constant("elevatorEncB", 5);
+	public static Constant leftDriveEncA = new Constant("leftDriveEncA", 4);
+	public static Constant leftDriveEncB = new Constant("leftDriveEncB", 5);
+	public static Constant rightDriveEncA = new Constant("rightDriveEncA", 6);
+	public static Constant rightDriveEncB = new Constant("rightDriveEncB", 7);
+	public static Constant elevatorEncA = new Constant("elevatorEncA", 0);
+	public static Constant elevatorEncB = new Constant("elevatorEncB", 1);
 	
 	//Analog
 	public static Constant gyro = new Constant("gyro", 1);
